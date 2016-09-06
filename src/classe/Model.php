@@ -13,7 +13,7 @@ class Model
 	}
 
 	/*
-	*	INSERT / UPDATE FUNCTION
+	*	INSERT / UPDATE / DELETE FUNCTION
 	*/
 
 	public function insert($values)
@@ -25,9 +25,29 @@ class Model
 		}
 		$col = implode(',', $table);
 		$int = substr($int, 0, -1);
-		var_dump($val);
 		$pdo = $this->app->db->prepare("INSERT INTO $this->name($col) VALUES($int)");
 		$pdo->execute($val);
+	}
+
+	public function update($id, $values)
+	{
+		foreach ($values as $key => $v) {
+			$table[] = $key . " = ?";
+			$val[] = $v;
+		}
+		$val[] = $id;
+		$col = implode(',', $table);
+		$pdo = $this->app->db->prepare("UPDATE $this->name SET $col WHERE id = ?");
+		$pdo->execute($val);
+	}
+
+	public function delete($id)
+	{
+		$pdo = $this->app->db->prepare("DELETE FROM $this->name WHERE id = :id");
+		$pdo->execute(array(
+				'id' => $id
+			));
+
 	}
 
 	/*
