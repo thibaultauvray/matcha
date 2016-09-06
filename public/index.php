@@ -22,8 +22,12 @@ require __DIR__ . '/../src/classe/Router.php';
 
 spl_autoload_register('MyAutoload');
 function MyAutoload($className) { 
-      if (file_exists($className . '.php')) { 
-          require_once __DIR__ . '../src/Controller/' . $className . '.php'; 
+      if (file_exists( __DIR__ . '/../src/Controller/' . $className . '.php')) { 
+          require_once __DIR__ . '/../src/Controller/' . $className . '.php'; 
+          return true; 
+      } 
+      if (file_exists( __DIR__ . '/../src/Model/' . $className . '.php')) { 
+          require_once __DIR__ . '/../src/Model/' . $className . '.php'; 
           return true; 
       } 
       return false; 

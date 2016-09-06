@@ -1,5 +1,8 @@
 <?php
 
-class User
+class Users extends Model
+{
+	
+}
 
 ?>
