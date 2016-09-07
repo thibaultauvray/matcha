@@ -1,3 +1,6 @@
 /vendor/
 /logs/*
+/helloSave
+.*
+!/.gitignore
 !/logs/README.md

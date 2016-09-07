@@ -1,0 +1,18 @@
+body{
+	font-family: 'Open Sans';
+}
+
+.btn{
+	background-image: none;
+	border: 0;
+	border-radius: 0;
+	color: white;
+}
+
+.btn-default{
+	background-color: #F48FB1;
+}
+
+input{
+	border-radius: 0 !important;
+}

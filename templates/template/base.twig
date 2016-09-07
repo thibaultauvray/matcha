@@ -1,20 +1,44 @@
-<html>
+
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html lang="fr" is_ie6 lt_ie7 lt_ie8 lt_ie9 lt_ie10 isIE"><![endif]-->
+<!--[if IE 7 ]><html lang="fr" is_ie7 lt_ie8 lt_ie9 lt_ie10 isIE"><![endif]-->
+<!--[if IE 8 ]><html lang="fr" is_ie8 lt_ie9 lt_ie10 isIE"><![endif]-->
+<!--[if IE 9 ]><html lang="fr" is_ie9 lt_ie10 isIE"><![endif]-->
+<!--[if gt IE 9]><html lang="fr" is_ie10 is_ie11 isIE"><![endif]-->
+<!--[if !IE]><!--><html lang=fr><!--<![endif]-->
 <head>
-	{% block head %}
-		<meta charset="UTF-8">
-		<title>{% block title %}ft_matcha {% endblock %}</title>
-		{% block meta %}
-			{% block css %}
-				{% include 'template/css.twig' %}
-			{% endblock %}
-		{% endblock %}
-	{% endblock %}
+
+{{ include('template/meta.twig') }}
+
+{% include 'template/css.twig' %}
+
+{% block metaHeader %}
+{% endblock %}
+{% block stylesheet %}
+{% endblock %}
 </head>
-<body>
-	{% block body %}
-		{% block header %}
-			<h1>header</h1>	
-		{% endblock %}
-	{% endblock %}
+<body data-route="">
+{% spaceless %}
+<!-- Header -->
+{% block header %}
+  {% block content_header %}
+    {% include 'template/header.twig' %}
+  {% endblock %}
+{% endblock %}
+
+<!-- !Header -->
+{% block body %}
+{% endblock %}
+<!-- Footer -->
+{% block footer %}
+  {% include 'template/footer.twig' %}
+{% endblock %}
+<div class="md-overlay"></div>
+
+
+{% include('template/javascript.twig') %}
+{% block javascripts %}
+{% endblock %}
+{% endspaceless %}
 </body>
 </html>
