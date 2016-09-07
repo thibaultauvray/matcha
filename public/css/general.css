@@ -1,7 +1,14 @@
 body{
 	font-family: 'Open Sans';
+	background-image: url('../img/bg.png');
 }
 
+li{
+	list-style-type: none;
+}
+.noPadding{
+	padding: 0;
+}
 .btn{
 	background-image: none;
 	border: 0;

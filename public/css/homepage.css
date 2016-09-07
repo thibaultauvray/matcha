@@ -1,0 +1,23 @@
+.toAdopt ul li{
+	margin-bottom: 20px;
+}
+
+.toAdopt h2{
+	text-align: center;
+	position: relative;
+	z-index: 1;
+}
+
+.toAdopt h2 span{
+	background-image: url('../img/bg.png');
+	padding: 0 15px;
+}
+.toAdopt h2:before {
+    	border-top: 2px solid #dfdfdf;
+        content:"";
+        margin: 0 auto; /* this centers the line to the full width specified */
+        position: absolute; /* positioning must be absolute here, and relative positioning must be applied to the parent */
+        top: 50%; left: 0; right: 0; bottom: 0;
+        width: 100%;
+        z-index: -1;
+ }
