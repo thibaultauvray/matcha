@@ -28,6 +28,17 @@ $container['db'] = function($c) {
 
 };
 
+// Flash
+$container['flash'] = function () {
+    return new \Slim\Flash\Messages();
+};
+
+// Vlaidator FORM
+$container['validator'] = function($c)
+{
+    return new Validator($_POST, $c);
+};
+
 // monolog
 $container['logger'] = function ($c) {
     $settings = $c->get('settings')['logger'];

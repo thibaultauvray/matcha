@@ -32,6 +32,8 @@ function MyAutoload($className) {
       } 
       return false; 
 }
+require __DIR__ . '/../src/classe/Validator.php';
+
 // Class controller
 require __DIR__ . '/../src/classe/Controller.php';
 require __DIR__ . '/../src/classe/Model.php';
