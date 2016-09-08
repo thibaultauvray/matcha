@@ -13,7 +13,7 @@ $container['view'] = function ($c) {
         $c['router'],
         $c['request']->getUri()
     ));
-
+    $view->getEnvironment()->addGlobal('flash', $c['flash']);
     return $view;
 };
 

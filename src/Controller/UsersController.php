@@ -15,8 +15,13 @@ class UsersController extends Controller
 		$validator->check('passwd', array('required', 'isPasswd'));
 		$validator->check('lastname', array('required', 'visible'));
 		$validator->check('name', array('required', 'visible'));
-		var_dump($this->getMessages());
-		return $this->app->view->render($this->response, 'views/users/register.twig', array('OK' => 'MDR'));
+			echo $this->app->router->pathFor('register');
+		
+		if(empty($this->app->flash->getMessages()))
+		{
+			echo $this->app->router->pathFor('register');
+		}
+		return $this->response->withRedirect($this->app->router->pathFor('register'));
 	}
 }
 

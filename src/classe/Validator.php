@@ -24,25 +24,24 @@ class Validator
 			{
 				case 'required':
 					if (!$var)
-						$this->error[$name][] = 'Ce champs est requis';
+						$this->app->flash->addMessage($name, 'Ce champs est requis');
 					break;
 				case 'isMail':
 					if (!filter_var($var, FILTER_VALIDATE_EMAIL)) 
 					{
-						$this->error[$name][] = 'Mail non correct';
+						$this->app->flash->addMessage($name, 'Mail non correct');
 					}
 					break;
 				case 'visible':
 					if (strlen($var) > 30)
-						$this->error[$name][] = 'Ce champs est trop long, voyons';
+						$this->app->flash->addMessage($name, 'Ce champs est trop longs, voyons !');
 					break;
 				case 'isPasswd':
 					if (strlen($var) > 6)
-						$this->error[$name][] = 'Mot de passe pas securisé';
+						$this->app->flash->addMessage($name, 'Mot de passe non sécurisée');
 					break;
 			}
 		}
-		$this->app->flash->addMessage('Test', 'This is a message');
 	}
 
 
