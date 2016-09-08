@@ -28,6 +28,10 @@ $container['db'] = function($c) {
 
 };
 
+$container['PagesController'] = function ($c) {
+    return new PagesController($c);
+};
+
 // Flash
 $container['flash'] = function () {
     return new \Slim\Flash\Messages();

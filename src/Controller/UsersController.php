@@ -1,13 +1,14 @@
 <?php
 
+
 class UsersController extends Controller
 {
-	public function register()
+	public function register($request, $response, $args)
 	{
-		return $this->app->view->render($this->response, 'views/users/register.twig');
+		return $this->app->view->render($response, 'views/users/register.twig');
 	}
 
-	public function postRegister()
+	public function postRegister($request, $response, $args)
 	{
 		$validator = $this->app->validator;
 		$validator->check('nickname', array('required'));
@@ -15,13 +16,10 @@ class UsersController extends Controller
 		$validator->check('passwd', array('required', 'isPasswd'));
 		$validator->check('lastname', array('required', 'visible'));
 		$validator->check('name', array('required', 'visible'));
-			echo $this->app->router->pathFor('register');
-		
 		if(empty($this->app->flash->getMessages()))
 		{
-			echo $this->app->router->pathFor('register');
 		}
-		return $this->response->withRedirect($this->app->router->pathFor('register'));
+		 return $response->withStatus(302)->withHeader('Location', $this->app->router->pathFor('register'));
 	}
 }
 

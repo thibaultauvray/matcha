@@ -18,7 +18,8 @@ $settings = require __DIR__ . '/../src/settings.php';
 $app = new \Slim\App($settings);
 
 // Class router
-require __DIR__ . '/../src/classe/Router.php';
+// require __DIR__ . '/../src/classe/Router.php';
+require __DIR__ . '/../src/classe/Validator.php';
 
 spl_autoload_register('MyAutoload');
 function MyAutoload($className) { 
@@ -32,8 +33,6 @@ function MyAutoload($className) {
       } 
       return false; 
 }
-require __DIR__ . '/../src/classe/Validator.php';
-
 // Class controller
 require __DIR__ . '/../src/classe/Controller.php';
 require __DIR__ . '/../src/classe/Model.php';

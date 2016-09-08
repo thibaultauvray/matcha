@@ -1,18 +1,18 @@
 <?php
 
-class Controller
-{
-	protected $app;
-	protected $container;
-	protected $request;
-	protected $response;
 
-	public function __construct($request, $response, $app)
-	{
-		$this->app = $app;
-		$this->response = $response;
-		$this->request = $request;
-		
-	}
-}
-?>
+    class Controller {
+
+        protected $app;
+        protected $view;
+        protected $flash;
+        protected $router;
+
+        public function __construct($container) {
+            $this->app = $container;
+            $this->view = $this->app->view;
+            $this->flash = $this->app->flash;
+            $this->router = $this->app->router;
+        }
+    }
+    ?>
