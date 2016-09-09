@@ -11,52 +11,52 @@
                     <div class="form-group">
                         <label class="col-sm-2" for="nickname">Pseudo</label>
                         <div class="col-sm-10">
-                            <input class="form-control" type="text" id="nickname" name="nickname" placeholder="Votre pseudo">
+                            <input class="form-control" type="text" id="nickname" name="nickname" placeholder="Votre pseudo" value="{{ form.nickname }}">
                         </div>
 
                     </div>
-                    {% if flash.getMessage('nickname').0 %}
+                    {% if error.nickname %}
                         <div class="alert alert-danger">
-                            {% for message in flash.getMessage('nickname') %}
-                                {{ message }} <br>
+                            {% for errors in error.nickname %}
+                                {{ errors }} <br>
                             {% endfor %}
                         </div>
                      {% endif %}
                     <div class="form-group">
                         <label class="col-sm-2" for="mail">Mail</label>
                         <div class="col-sm-10">
-                            <input class="form-control" type="mail" id="mail" name="mail" placeholder="Votre adresse email">
+                            <input class="form-control" type="mail" id="mail" name="mail" placeholder="Votre adresse email" value="{{ form.mail }}">
                         </div>
                     </div>
-                    {% if flash.getMessage('mail').0 %}
+                    {% if error.mail %}
                         <div class="alert alert-danger">
-                            {% for message in flash.getMessage('mail') %}
-                                {{ message }} <br>
+                            {% for errors in error.mail %}
+                                {{ errors }} <br>
                             {% endfor %}
                         </div>
                      {% endif %}
                     <div class="form-group">
                         <label class="col-sm-2" for="name">Nom</label>
                         <div class="col-sm-10">
-                         <input class="form-control" type="text" id="name" name="name" placeholder="Votre nom">
+                         <input class="form-control" type="text" id="name" name="name" placeholder="Votre nom" value="{{ form.name }}">
                         </div>
                     </div>
-                    {% if flash.getMessage('name').0 %}
+                    {% if error.name %}
                         <div class="alert alert-danger">
-                            {% for message in flash.getMessage('name') %}
-                                {{ message }} <br>
+                            {% for errors in error.name %}
+                                {{ errors }} <br>
                             {% endfor %}
                         </div>
                      {% endif %}
                     <div class="form-group">
                         <label class="col-sm-2" for="lastname">Prénom</label>
                         <div class="col-sm-10">
-                            <input class="form-control" type="text" id="lastname" name="lastname" placeholder="Votre prénom">
+                            <input class="form-control" type="text" id="lastname" name="lastname" placeholder="Votre prénom" value="{{ form.lastname }}">
                         </div>
                     </div>
-                    {% if flash.getMessage('lastname').0 %}
+                    {% if error.lastname %}
                         <div class="alert alert-danger">
-                            {% for message in flash.getMessage('lastname') %}
+                            {% for message in error.lastname %}
                                 {{ message }} <br>
                             {% endfor %}
                         </div>
@@ -67,9 +67,9 @@
                             <input class="form-control" type="password" id="passwd" name="passwd" placeholder="Votre mot de passe(+ de 6 caractere)">
                         </div>
                     </div>
-                    {% if flash.getMessage('passwd').0 %}
+                    {% if error.passwd %}
                         <div class="alert alert-danger">
-                            {% for message in flash.getMessage('passwd') %}
+                            {% for message in error.passwd %}
                                 {{ message }} <br>
                             {% endfor %}
                         </div>

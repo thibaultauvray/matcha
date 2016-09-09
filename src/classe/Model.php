@@ -75,6 +75,19 @@ class Model
 		$pdo->execute();
 		return $pdo->fetch();
 	}
+
+	/*
+	*  USEFULL FUNCTION
+	*/
+
+	public function isUnique($col, $value)
+	{
+		$pdo = $this->app->db->prepare("SELECT $col FROM $this->name WHERE $col = ?");
+		$pdo->execute(array($value));
+		if (empty($pdo->fetchAll()))
+			return true;
+		return false;
+	}
 }
 
 ?>

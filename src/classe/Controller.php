@@ -14,5 +14,12 @@
             $this->flash = $this->app->flash;
             $this->router = $this->app->router;
         }
+
+        public function isLogged()
+        {
+        	if (isset($_SESSION['login']) && !empty($SESSION['login']))
+        		return true;
+        	return false;
+        }
     }
     ?>
