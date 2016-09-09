@@ -21,6 +21,7 @@ $app = new \Slim\App($settings);
 // require __DIR__ . '/../src/classe/Router.php';
 require __DIR__ . '/../src/classe/Validator.php';
 
+
 spl_autoload_register('MyAutoload');
 function MyAutoload($className) { 
       if (file_exists( __DIR__ . '/../src/Controller/' . $className . '.php')) { 

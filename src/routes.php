@@ -1,12 +1,11 @@
 <?php
 // Routes
 
-// $router = new Router($app);
-
-// $router->get('/mvc', 'Pages@index');
-// $router->get('/', 'Pages@index')->setName('homepage');
-// $router->get('/register', 'Users@register')->setName('register');
-// $router->post('/register', 'Users@postRegister')->setName('postRegister');
+// Homepage
 $app->get('/', 'PagesController:index')->setName('homepage');
+
+// User
+$app->get('/signout', 'UsersController:signout')->setName('signout');
 $app->get('/register', 'UsersController:register')->setName('register');
 $app->post('/register', 'UsersController:postRegister')->setName('postRegister');
+$app->get('/edit/{id}', 'UsersController:editProfil')->setName('editProfil');

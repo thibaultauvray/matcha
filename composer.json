@@ -17,7 +17,8 @@
         "slim/php-view": "^2.0",
         "monolog/monolog": "^1.17",
         "slim/twig-view": "^2.1",
-        "slim/flash": "^0.1.0"
+        "slim/flash": "^0.1.0",
+        "slim/views": "^0.1.3"
     },
     "require-dev": {
         "phpunit/phpunit": ">=4.8 < 6.0"

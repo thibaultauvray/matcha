@@ -27,6 +27,7 @@ class Model
 		$int = substr($int, 0, -1);
 		$pdo = $this->app->db->prepare("INSERT INTO $this->name($col) VALUES($int)");
 		$pdo->execute($val);
+		return $this->app->db->lastInsertId();
 	}
 
 	public function update($id, $values)

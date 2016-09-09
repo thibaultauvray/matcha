@@ -14,6 +14,9 @@ $container['view'] = function ($c) {
         $c['request']->getUri()
     ));
     $view->getEnvironment()->addGlobal('flash', $c['flash']);
+    $view->getEnvironment()->addGlobal('baseUrl', $_SERVER['HTTP_HOST']);
+    $view->getEnvironment()->addGlobal('app', $c['controller']);
+    $view->getEnvironment()->addGlobal('session', $_SESSION);
     return $view;
 };
 
@@ -28,7 +31,7 @@ $container['db'] = function($c) {
 
 };
 
-$container['PagesController'] = function ($c) {
+$container['controller'] = function ($c) {
     return new PagesController($c);
 };
 

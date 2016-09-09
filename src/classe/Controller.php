@@ -17,9 +17,16 @@
 
         public function isLogged()
         {
-        	if (isset($_SESSION['login']) && !empty($SESSION['login']))
+        	if (isset($_SESSION['login']) && !empty($_SESSION['login']))
         		return true;
         	return false;
+        }
+
+        public function getUserId()
+        {
+        	if (isset($_SESSION['login']) && !empty($SESSION['login']))
+        		return ($_SESSION['login']['id']);
+    		return false;
         }
     }
     ?>

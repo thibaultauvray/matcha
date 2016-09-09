@@ -5,6 +5,15 @@ class UsersController extends Controller
 {
 
 	/*
+	* 	SIGN IN / SIGN OUT ACTION 
+	*/
+
+	public function signout($request, $response, $args)
+	{
+		session_destroy();
+		return $response->withStatus(302)->withHeader('Location', $this->app->router->pathFor('homepage'));
+	}
+	/*
 	*	Register action
 	*/
 
@@ -26,7 +35,9 @@ class UsersController extends Controller
 			$_POST['passwd'] = hash('whirlpool', $_POST['passwd']);
 			$user = new Users($this->app);
 			$_SESSION['login'] = $_POST;
-			var_dump($_SESSION['login']);
+			$id = $user->insert($_POST);
+			$_SESSION['login']['id'] = $id;
+			return $response->withStatus(302)->withHeader('Location', $this->app->router->pathFor('editProfil', array('id' => $id)));
 		}
 		 return $this->app->view->render($response, 'views/users/register.twig', array('error' => $validator->error,
 		 																			   'form'  => $_POST));
@@ -36,7 +47,11 @@ class UsersController extends Controller
 	*   Users Profil management
 	*/
 
-	
+	public function editProfil($request, $response, $args)
+	{
+		return $this->app->view->render($response, 'views/users/edit.twig');
+	}
+
 }
 
 ?>
