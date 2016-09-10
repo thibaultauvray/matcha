@@ -13,6 +13,17 @@ class UsersController extends Controller
 		session_destroy();
 		return $response->withStatus(302)->withHeader('Location', $this->app->router->pathFor('homepage'));
 	}
+
+	public function signin($request, $response, $args)
+	{
+		$em = new Users($this->app);
+		if (!$em->checkLog($_POST))
+		{
+			$this->app->flash->addMessage('error', 'Utilisateur non trouve');
+		}
+		return $response->withStatus(302)->withHeader('Location', $this->app->router->pathFor('homepage'));
+
+	}
 	/*
 	*	Register action
 	*/
@@ -30,7 +41,7 @@ class UsersController extends Controller
 		$validator->check('passwd', array('required', 'isPasswd'));
 		$validator->check('lastname', array('required', 'visible'));
 		$validator->check('name', array('required', 'visible'));
-		if(empty($this->app->flash->getMessages()))
+		if(empty($validator->error))
 		{
 			$_POST['passwd'] = hash('whirlpool', $_POST['passwd']);
 			$user = new Users($this->app);
