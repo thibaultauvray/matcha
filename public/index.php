@@ -19,7 +19,6 @@ $app = new \Slim\App($settings);
 
 // Class router
 // require __DIR__ . '/../src/classe/Router.php';
-require __DIR__ . '/../src/classe/Validator.php';
 
 
 spl_autoload_register('MyAutoload');
@@ -30,6 +29,10 @@ function MyAutoload($className) {
       } 
       if (file_exists( __DIR__ . '/../src/Model/' . $className . '.php')) { 
           require_once __DIR__ . '/../src/Model/' . $className . '.php'; 
+          return true; 
+      } 
+      if (file_exists( __DIR__ . '/../src/classe/' . $className . '.php')) { 
+          require_once __DIR__ . '/../src/classe/' . $className . '.php'; 
           return true; 
       } 
       return false; 

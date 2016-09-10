@@ -60,7 +60,20 @@ class UsersController extends Controller
 
 	public function editProfil($request, $response, $args)
 	{
-		return $this->app->view->render($response, 'views/users/edit.twig');
+		return $this->app->view->render($response, 'views/users/edit.twig', array('args' => $args ));
+	}
+
+	public function postEditProfil($request, $response, $args)
+	{
+		$validator = $this->app->validator;
+
+		$validator->check('age', array('required'));
+
+		$uploadFile = new Upload($request->getUploadedFiles()['image']);
+		$uploadFile->upload();
+	 	return $this->app->view->render($response, 'views/users/edit.twig', array(	'args' => $args,
+	 																				'error' => $validator->error,
+																					 'form'  => $_POST));
 	}
 
 }

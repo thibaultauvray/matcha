@@ -1,5 +1,67 @@
 {% extends "template/base.twig" %}
 
 {% block body %}
+<div class="container">
+	<h2 class="line"><span>Completer votre profil</span></h2>
+	<div class="row  form form-register">
+        <form class="form-horizontal" method="post" action="{{ path_for('postEditProfil', { 'id': args.id  }) }}" enctype="multipart/form-data">
+            <div class="form-group">
+                <label class="col-sm-2" for="age">Votre age</label>
+                <div class="col-sm-10">
+                    <input class="form-control" type="number" id="age" name="age" placeholder="Votre age" value="{{ form.age }}">
+                </div>
 
+            </div>
+            {% if error.age %}
+                <div class="alert alert-danger">
+                    {% for errors in error.age %}
+                        {{ errors }} <br>
+                    {% endfor %}
+                </div>
+             {% endif %}
+            <div class="form-group">
+                <label class="col-sm-2" for="sexe">Sexe</label>
+                <div class="col-sm-10">
+                    <select name="sexe">
+						  <option value="m" {% if form.sexe == 'm' %}selected{% endif %}>Masculin</option> 
+						  <option value="f" {% if form.sexe == 'f' %}selected{% endif %}>Feminin</option>
+					</select>
+                </div>
+            </div>
+            {% if error.sexe %}
+                <div class="alert alert-danger">
+                    {% for errors in error.sexe %}
+                        {{ errors }} <br>
+                    {% endfor %}
+                </div>
+             {% endif %}
+            <div class="form-group">
+                <label class="col-sm-2" for="orientation">Orientation</label>
+                <div class="col-sm-10">
+                 <select name="orientation">
+						  <option value="hetero" {% if form.sexe == 'hetero' %}selected{% endif %}>Heterosexuel</option> 
+						  <option value="homosexuel" {% if form.sexe == 'homosexuel' %}selected{% endif %}>Homosexuel</option>
+						  <option value="bisexuel" {% if form.sexe == 'bisexuel' %}selected{% endif %}>Bisexuel</option>
+					</select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2" for="interet">Centre d'interet</label>
+                <div class="col-sm-10">
+                    <input class="form-control" type="text" id="interet" name="interet" placeholder="Separe par des virgules(par exemple: tracteur, brouette...)" value="{{ form.interet }}">
+                </div>
+            </div>
+            <div class="form-group">
+            	<label class="col-sm-2" for="image">Images</label>
+            	<div class="col-sm-10">
+            		<input id='image' name="image[]" type="file" multiple="multiple" /><span>5 images (jpg, png, bmp) max. La premiere image sera votre image de profil (Vous pourrez le modifier plus tard)</span>
+            	</div>
+            </div>
+            
+           
+             <button type="submit" class="btn btn-default">Submit</button>
+        </form>
+    </div>
+
+</div>
 {% endblock %}

@@ -2,17 +2,17 @@
 	margin-bottom: 20px;
 }
 
-.toAdopt h2{
+h2.line{
 	text-align: center;
 	position: relative;
 	z-index: 1;
 }
 
-.toAdopt h2 span{
+h2.line span{
 	background-image: url('../img/bg.png');
 	padding: 0 15px;
 }
-.toAdopt h2:before {
+h2.line:before {
     	border-top: 2px solid #dfdfdf;
         content:"";
         margin: 0 auto; /* this centers the line to the full width specified */
