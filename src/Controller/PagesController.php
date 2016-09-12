@@ -4,7 +4,7 @@ class PagesController extends Controller
 {
 	public function index($request, $response, $args)
 	{
-		var_dump($this->app->flash->getMessages());
+		var_dump($_SESSION['login']);
 
 		$em = new Users($this->app);
 		$pod = $em->delete(2);

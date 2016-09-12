@@ -7,6 +7,10 @@ Class Upload{
 
 	private $files;
 
+	public $baseUrl;
+
+	public $error;
+
 	public function __construct($files)
 	{
 		$this->files = $files;
@@ -23,17 +27,21 @@ Class Upload{
 			{
 				$name = uniqid();
 				$uploaddir = __DIR__ . "/../../public/img/";
-				$uploadfile = $uploaddir . basename($name);
-				echo $file->getFile();
+				$onlyType = explode("/", $file->getType())[1];
+				$uploadfile = $uploaddir . basename($name) . "." . $onlyType;
 				if (move_uploaded_file($file->getFile(), $uploadfile)) {
-				    echo "Le fichier est valide, et a été téléchargé
-				           avec succès. Voici plus d'informations :\n";
+					$this->baseUrl[] = basename($name) . "." . $onlyType;
 				} else {
-				    echo "Attaque potentielle par téléchargement de fichiers.
-				          Voici plus d'informations :\n";
+					$this->error[] = "Une erreur inconnu est arrivé";
 				}
 			}
+			else
+			{
+				$this->error[] = "Fichier trop lourd ou non pris en charge (jpg, bmp, png)";
+			}
 		}
+		if ($this->error)
+			$this->error = array_unique($this->error);
 	}
 }
 ?>

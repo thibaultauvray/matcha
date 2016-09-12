@@ -2,6 +2,7 @@
 
 {% block body %}
 <div class="container">
+
 	<h2 class="line"><span>Completer votre profil</span></h2>
 	<div class="row  form form-register">
         <form class="form-horizontal" method="post" action="{{ path_for('postEditProfil', { 'id': args.id  }) }}" enctype="multipart/form-data">
@@ -57,6 +58,13 @@
             		<input id='image' name="image[]" type="file" multiple="multiple" /><span>5 images (jpg, png, bmp) max. La premiere image sera votre image de profil (Vous pourrez le modifier plus tard)</span>
             	</div>
             </div>
+            {% if flash.getMessage('error') %}
+            	{% for error in flash.getMessage('error') %}
+					    <div class="alert alert-danger">
+					        {{ error }}
+					    </div>
+			    {% endfor %}
+			{% endif %}
             
            
              <button type="submit" class="btn btn-default">Submit</button>

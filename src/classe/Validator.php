@@ -38,6 +38,10 @@ class Validator
 					if (strlen($var) < 6)
 						$this->error[$name][] = "Mot de passe non sécurisée";
 					break;
+				case 'isNumeric';
+					if (!is_numeric($var))
+						$this->error[$name][] = "Pas un age valide";
+					break;
 				case 'isUnique':
 					$user = new Users($this->app);
 					if ($user->isUnique($name, $var) == false)

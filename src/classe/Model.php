@@ -42,6 +42,14 @@ class Model
 		$pdo->execute($val);
 	}
 
+	public function deleteSpecial($col, $id)
+	{
+		$pdo = $this->app->db->prepare("DELETE FROM $this->name WHERE $col = :id");
+		$pdo->execute(array(
+				'id' => $id
+			));
+	}
+
 	public function delete($id)
 	{
 		$pdo = $this->app->db->prepare("DELETE FROM $this->name WHERE id = :id");
