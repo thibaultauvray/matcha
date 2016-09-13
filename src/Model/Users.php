@@ -13,18 +13,32 @@ class Users extends Model
 		return $us;
 	}
 
-	public function getInfo($id)
+	public function getStringInterest($id)
 	{
-		$pdo = $this->app->db->prepare("SELECT * FROM users u 
+		$pdo = $this->app->db->prepare("SELECT ui.interest FROM users u 
+										INNER JOIN usersInterest ui ON ui.id_users = u.id
+										WHERE u.id = ? ");
+		$pdo->execute(array($id));
+		foreach ($pdo->fetchAll() as $k => $v)
+			$arr[] = $v['interest'];
+		return implode(',', $arr);
+	}
+
+	public function getCountImage($id)
+	{
+		$pdo = $this->app->db->prepare("SELECT ui.url FROM users u 
 										INNER JOIN usersImage ui ON u.id = ui.id_users
 										WHERE u.id = ? ");
 		$pdo->execute(array($id));
-		$arr['img'] = $pdo->fetchAll();
-		$pdo = $this->app->db->prepare("SELECT * FROM users u 
-										INNER JOIN usersInterest ui ON u.id = ui.id_users
+		return count($pdo->fetchAll());
+	}
+
+	public function getImage($id)
+	{
+		$pdo = $this->app->db->prepare("SELECT ui.url FROM users u 
+										INNER JOIN usersImage ui ON u.id = ui.id_users
 										WHERE u.id = ? ");
 		$pdo->execute(array($id));
-		$arr['interet'] = $pdo->fetchAll();
 		return $pdo->fetchAll();
 	}
 }

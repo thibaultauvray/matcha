@@ -66,12 +66,13 @@ class UsersController extends Controller
 	public function editProfil($request, $response, $args)
 	{
 		$users = new Users($this->app);
-		$user = $users->getInfo($args['id']);
-
-		var_dump($user);
-
+		$user = $users->findById($args['id']);
+		$userImage = $users->getImage($args['id']);
+		$userInterest = $users->getStringInterest($args['id']);
 		return $this->app->view->render($response, 'views/users/edit.twig', array('args' => $args,
-																				  'user' => $user ));
+																				  'user' => $user,
+																				  'interest' => $userInterest,
+																				  'usersImage' => $userImage ));
 	}
 
 	public function updateUsers($id, $form, $image, $baseUrl = NULL)
@@ -81,15 +82,14 @@ class UsersController extends Controller
 		$userInteret = new UsersInterest($this->app);
 		if ($image == true)
 		{
-			$profil = true;
-			
-			foreach ($uploadFile->baseUrl as $url) {
+			$profil = 1;
+			foreach ($baseUrl as $url) {
 				$userImage->insert(array(
 					'url' => $url,
 					'isprofil' => $profil,
 					'id_users' => $id 						
 					));
-				$profil = false;
+				$profil = 0;
 			}
 		}
 		$interest = explode(',', $form['interet']);
@@ -106,32 +106,29 @@ class UsersController extends Controller
 
 	public function postEditProfil($request, $response, $args)
 	{
+
 		$validator = $this->app->validator;
 		$validator->check('age', array('isNumeric'));
 		if (empty($validator->error) && $_FILES['image']['size'][0] > 0)
 		{
+			$users = new Users($this->app);
+			$count = $users->getCountImage($args['id']);
 			$uploadFile = new Upload($request->getUploadedFiles()['image']);
-			$uploadFile->upload();
-			if (!empty($uploadFile->error))
-			{
-				foreach ($uploadFile->error as $error) {
-					$this->app->flash->addMessage('error', $error);
-				}
+			$uploadFile->upload($count);
+			$this->updateUsers($args['id'], $_POST, true, $uploadFile->baseUrl);
+			foreach ($uploadFile->error as $error) {
+				$this->app->flash->addMessage('error', $error);
 			}
-			else
-			{
-				$this->updateUsers($args['id'], $_POST, true, $uploadFile->baseUrl);
-			}
-				
+			return $response->withStatus(302)->withHeader('Location', $this->app->router->pathFor('editProfil', array('id' => $args['id'])));
 		}
 		else if(empty($validator->error) && $_FILES['image']['size'][0] <= 0)
 		{
 			$this->updateUsers($args['id'], $_POST, false);
+			return $response->withStatus(302)->withHeader('Location', $this->app->router->pathFor('editProfil', array('id' => $args['id'])));
 
 		}
-	 	return $this->app->view->render($response, 'views/users/edit.twig', array(	'args' => $args,
-	 																				'error' => $validator->error,
-																					 'form'  => $_POST));
+		return $response->withStatus(302)->withHeader('Location', $this->app->router->pathFor('editProfil', array('id' => $args['id'])));
+
 	}
 
 }

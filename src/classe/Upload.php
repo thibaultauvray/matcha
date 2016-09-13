@@ -16,12 +16,8 @@ Class Upload{
 		$this->files = $files;
 	}
 
-	public function upload()
+	public function upload($count)
 	{
-		if (count($this->files) > 5)
-		{
-			return "Trop de fichiers";
-		}
 		foreach ($this->files as $file) {
 			if (in_array($file->getType(), $this->extension) && $file->getSize() < 500000)
 			{
@@ -29,9 +25,14 @@ Class Upload{
 				$uploaddir = __DIR__ . "/../../public/img/";
 				$onlyType = explode("/", $file->getType())[1];
 				$uploadfile = $uploaddir . basename($name) . "." . $onlyType;
-				if (move_uploaded_file($file->getFile(), $uploadfile)) {
+				if (move_uploaded_file($file->getFile(), $uploadfile) && $count <= 4) {
 					$this->baseUrl[] = basename($name) . "." . $onlyType;
-				} else {
+					$count++;
+				} else if ($count >= 5) {
+					$this->error[] = "Trop d'image (max 5)";
+				}
+				else
+				{
 					$this->error[] = "Une erreur inconnu est arrivé";
 				}
 			}

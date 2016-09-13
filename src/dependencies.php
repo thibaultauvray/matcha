@@ -17,9 +17,14 @@ $container['view'] = function ($c) {
     $view->getEnvironment()->addGlobal('baseUrl', $_SERVER['HTTP_HOST']);
     $view->getEnvironment()->addGlobal('app', $c['controller']);
     $view->getEnvironment()->addGlobal('session', $_SESSION);
+    $view->getEnvironment()->addGlobal('baseURL', $c['baseURL']);
     return $view;
 };
 
+$container['baseURL'] = function($c)
+{
+    return new baseURL();
+};
 // Connecting DB
 $container['db'] = function($c) {
 	$db = $c['settings']['db'];

@@ -62,6 +62,16 @@ class Model
 	/*
 	*	FIND FUNCTIONS
 	*/
+
+	public function findById($id)
+	{
+		$pdo = $this->app->db->prepare("SELECT * FROM $this->name WHERE id = :id");
+		$pdo->execute(array(
+				'id'	=> $id
+			));
+		return $pdo->fetch();
+		
+	}
 	public function find($col, $id)
 	{
 		$pdo = $this->app->db->prepare("SELECT * FROM $this->name WHERE $col = :id");
