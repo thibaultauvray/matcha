@@ -21,6 +21,8 @@ class Users extends Model
 		$pdo->execute(array($id));
 		foreach ($pdo->fetchAll() as $k => $v)
 			$arr[] = $v['interest'];
+		if (empty($arr))
+			return false;
 		return implode(',', $arr);
 	}
 

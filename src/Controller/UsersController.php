@@ -131,6 +131,41 @@ class UsersController extends Controller
 
 	}
 
+	/*
+	* 	AJAX CALL
+	*	// Verification ID SESSION
+	*/
+
+	public function updateZipCode($request, $response, $args)
+	{
+		$usersLocation = new UsersLocation($this->app);
+		$id = $usersLocation->find('id_users', $_POST['id']);
+		if (empty($id))
+		{
+			$usersLocation->insert(array('id_users' => $_POST['id'],
+										 'longitude' => $_POST['longitude'],
+										 'latitude' => $_POST['latitude'],
+										 'zipCode' => $_POST['zip'])
+			);
+		}
+		else
+		{
+			$usersLocation->update($id[0]['id'], array('id_users' => $_POST['id'],
+										 'longitude' => $_POST['longitude'],
+										 'latitude' => $_POST['latitude'],
+										 'zipCode' => $_POST['zip'])
+			);
+		}
+	}
+
+	public function getId($request, $response, $args)
+	{
+		$body = array('id' => $_SESSION['login']['id']);
+		$response->withHeader('Content-type', 'application/json');
+		$response->withJson($body);
+		return $response;
+	}
+
 }
 
 ?>

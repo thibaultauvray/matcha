@@ -23,6 +23,12 @@ class Model
 			$int = $int . "?,";
 			$val[] = $v;
 		}
+		$int = $int . "?,";
+		$int = $int . "?,";
+		$table[] = "created_at";
+		$table[] = "updated_at";
+		$val[] = date("d/m/Y H:i:s");
+		$val[] = date("d/m/Y H:i:s");
 		$col = implode(',', $table);
 		$int = substr($int, 0, -1);
 		$pdo = $this->app->db->prepare("INSERT INTO $this->name($col) VALUES($int)");
@@ -36,6 +42,8 @@ class Model
 			$table[] = $key . " = ?";
 			$val[] = $v;
 		}
+		$table[] = "updated_at = ?";
+		$val[] = date("d/m/Y H:i:s");
 		$val[] = $id;
 		$col = implode(',', $table);
 		$pdo = $this->app->db->prepare("UPDATE $this->name SET $col WHERE id = ?");

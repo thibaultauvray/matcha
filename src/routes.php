@@ -12,3 +12,7 @@ $app->post('/register', 'UsersController:postRegister')->setName('postRegister')
 
 $app->get('/edit/{id}', 'UsersController:editProfil')->setName('editProfil');
 $app->post('/edit/{id}', 'UsersController:postEditProfil')->setName('postEditProfil');
+
+// AJax call 
+$app->post('/updateZipCode', 'UsersController:updateZipCode')->setName('updateZipCode');
+$app->get('/getId', 'UsersController:getId')->setName('getId');
