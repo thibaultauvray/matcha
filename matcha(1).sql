@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  localhost
--- Généré le :  Mer 14 Septembre 2016 à 16:16
+-- Généré le :  Ven 16 Septembre 2016 à 14:54
 -- Version du serveur :  5.7.11
 -- Version de PHP :  7.0.0
 
@@ -45,7 +45,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `mail`, `nickname`, `name`, `lastname`, `passwd`, `gender`, `orientation`, `age`, `created_at`, `updated_at`) VALUES
-(6, 'tauvray@student.42.fr', 'Frosties', 'thibault', 'auvray', '4925da7da7a56260baf1c37925a8fa24e46ad8b107dcd21f44e39e4751bae1304fc70de7acb847ffa96126bb372de005f5320f1ede6f9df07c7d53f9c160f022', NULL, NULL, NULL, '14/09/2016 16:15:50', '14/09/2016 16:15:50');
+(6, 'tauvray@student.42.fr', 'Frosties', 'thibault', 'auvray', '4925da7da7a56260baf1c37925a8fa24e46ad8b107dcd21f44e39e4751bae1304fc70de7acb847ffa96126bb372de005f5320f1ede6f9df07c7d53f9c160f022', NULL, NULL, NULL, '14/09/2016 16:15:50', '14/09/2016 16:15:50'),
+(7, 'ta@ta.fr', 'Frosties', 'thibault', 'auvray', '4925da7da7a56260baf1c37925a8fa24e46ad8b107dcd21f44e39e4751bae1304fc70de7acb847ffa96126bb372de005f5320f1ede6f9df07c7d53f9c160f022', 'm', 'hetero', 25, '16/09/2016 12:55:17', '16/09/2016 14:42:26');
 
 -- --------------------------------------------------------
 
@@ -80,18 +81,9 @@ INSERT INTO `usersImage` (`id`, `url`, `isprofil`, `id_users`, `created_at`, `up
 CREATE TABLE `usersInterest` (
   `id` int(11) NOT NULL,
   `interest` varchar(255) NOT NULL,
-  `id_users` int(11) NOT NULL
+  `created_at` varchar(255) NOT NULL,
+  `updated_at` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Contenu de la table `usersInterest`
---
-
-INSERT INTO `usersInterest` (`id`, `interest`, `id_users`) VALUES
-(5, 'taa', 5),
-(6, ' dsadas', 5),
-(7, ' dsadasd', 5),
-(8, ' dsads', 5);
 
 -- --------------------------------------------------------
 
@@ -116,6 +108,20 @@ CREATE TABLE `usersLocation` (
 INSERT INTO `usersLocation` (`id`, `longitude`, `latitude`, `zipCode`, `id_users`, `created_at`, `updated_at`) VALUES
 (4, 2.31844, 48.8967, '75017', 6, '14/09/2016 16:15:51', '14/09/2016 16:16:16');
 
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `users_usersInterest`
+--
+
+CREATE TABLE `users_usersInterest` (
+  `id` int(11) NOT NULL,
+  `id_users` int(11) NOT NULL,
+  `id_interest` int(11) NOT NULL,
+  `created_at` varchar(255) NOT NULL,
+  `updated_at` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 --
 -- Index pour les tables exportées
 --
@@ -138,14 +144,21 @@ ALTER TABLE `usersImage`
 -- Index pour la table `usersInterest`
 --
 ALTER TABLE `usersInterest`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_users` (`id_users`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Index pour la table `usersLocation`
 --
 ALTER TABLE `usersLocation`
   ADD PRIMARY KEY (`id`),
+  ADD KEY `id_users` (`id_users`);
+
+--
+-- Index pour la table `users_usersInterest`
+--
+ALTER TABLE `users_usersInterest`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_interest` (`id_interest`),
   ADD KEY `id_users` (`id_users`);
 
 --
@@ -156,7 +169,7 @@ ALTER TABLE `usersLocation`
 -- AUTO_INCREMENT pour la table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT pour la table `usersImage`
 --
@@ -166,12 +179,17 @@ ALTER TABLE `usersImage`
 -- AUTO_INCREMENT pour la table `usersInterest`
 --
 ALTER TABLE `usersInterest`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 --
 -- AUTO_INCREMENT pour la table `usersLocation`
 --
 ALTER TABLE `usersLocation`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT pour la table `users_usersInterest`
+--
+ALTER TABLE `users_usersInterest`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
 --
 -- Contraintes pour les tables exportées
 --
@@ -183,16 +201,17 @@ ALTER TABLE `usersImage`
   ADD CONSTRAINT `users-usersimage` FOREIGN KEY (`id_users`) REFERENCES `users` (`id`);
 
 --
--- Contraintes pour la table `usersInterest`
---
-ALTER TABLE `usersInterest`
-  ADD CONSTRAINT `users_interest` FOREIGN KEY (`id_users`) REFERENCES `users` (`id`);
-
---
 -- Contraintes pour la table `usersLocation`
 --
 ALTER TABLE `usersLocation`
   ADD CONSTRAINT `userS_location` FOREIGN KEY (`id_users`) REFERENCES `users` (`id`);
+
+--
+-- Contraintes pour la table `users_usersInterest`
+--
+ALTER TABLE `users_usersInterest`
+  ADD CONSTRAINT `userS_usersinterest` FOREIGN KEY (`id_interest`) REFERENCES `usersInterest` (`id`),
+  ADD CONSTRAINT `users_users` FOREIGN KEY (`id_users`) REFERENCES `users` (`id`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

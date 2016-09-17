@@ -29,6 +29,16 @@
 					<p class="forget"><a href="{{ path_for('register') }}">Inscription ?</a></p>
 				{% endif %}
 			</div>
+			{% if app.isLogged %}
+				<ul>
+
+					<li><a href="{{ path_for('viewProfil', { 'id' : session.login.id }) }}">Mon profil</a> </li>
+					<li><a href="{{ path_for('editProfil', { 'id' : session.login.id }) }}">Editer mon profil</a></li>
+					<li></li>
+					<li></li>
+					<li></li>
+				</ul>
+			{% endif %}
 		</div>
 	</div>
 </div>

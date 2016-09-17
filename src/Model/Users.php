@@ -13,10 +13,21 @@ class Users extends Model
 		return $us;
 	}
 
+	public function getInterest($id)
+	{
+		$pdo = $this->app->db->prepare("SELECT * FROM users u 
+										INNER JOIN users_usersInterest uui ON uui.id_users = u.id
+										INNER JOIN usersInterest ui ON uui.id_interest = ui.id
+										WHERE u.id = ? ");
+		$pdo->execute(array($id));
+		return $pdo->fetchAll();
+	}
+
 	public function getStringInterest($id)
 	{
 		$pdo = $this->app->db->prepare("SELECT ui.interest FROM users u 
-										INNER JOIN usersInterest ui ON ui.id_users = u.id
+										INNER JOIN users_usersInterest uui ON uui.id_users = u.id
+										INNER JOIN usersInterest ui ON uui.id_interest = ui.id
 										WHERE u.id = ? ");
 		$pdo->execute(array($id));
 		foreach ($pdo->fetchAll() as $k => $v)
@@ -43,6 +54,12 @@ class Users extends Model
 		$pdo->execute(array($id));
 		return $pdo->fetchAll();
 	}
+
+	public function updatedLocation($id)
+	{
+
+	}
+
 }
 
 ?>

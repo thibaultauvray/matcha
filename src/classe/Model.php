@@ -80,6 +80,16 @@ class Model
 		return $pdo->fetch();
 		
 	}
+
+	public function findOne($col, $id)
+	{
+		$pdo = $this->app->db->prepare("SELECT * FROM $this->name WHERE $col = :id");
+		$pdo->execute(array(
+				'id'	=> $id
+			));
+		return $pdo->fetch();
+	}
+
 	public function find($col, $id)
 	{
 		$pdo = $this->app->db->prepare("SELECT * FROM $this->name WHERE $col = :id");
