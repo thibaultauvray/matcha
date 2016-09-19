@@ -1,11 +1,16 @@
 {% extends "template/base.twig" %}
 
+{% block javascript %}
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places"></script>
+    <script src="{{ baseURl }}/js/edit.js"></script>
+
+{% endblock %}
 {% block body %}
 <div class="container">
 
 	<h2 class="line"><span>Completer votre profil</span></h2>
 	<div class="row  form form-register">
-        <form class="form-horizontal" method="post" action="{{ path_for('postEditProfil', { 'id': args.id  }) }}" enctype="multipart/form-data">
+        <form id="editForm" class="form-horizontal" method="post" action="{{ path_for('postEditProfil', { 'id': args.id  }) }}" enctype="multipart/form-data">
             <div class="form-group">
                 <label class="col-sm-2" for="age">Votre age</label>
                 <div class="col-sm-10">
@@ -50,9 +55,13 @@
             <div class="form-group">
                 <label class="col-sm-2" for="ville">Ville</label>
                 <div class="col-sm-10">
-                    <input class="form-control" type="text" id="Ville" name="ville" value="{{ location.city }}">
+                    <input class="form-control" id="city" type="text" id="Ville" name="ville" value="{{ location.city }}">
                 </div>
             </div>
+
+<div id="lat"></div>
+<div id="long"></div>
+
 
             <div class="form-group">
                 <label class="col-sm-2" for="interet">Centre d'interet</label>
