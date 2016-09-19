@@ -50,6 +50,20 @@ class Model
 		$pdo->execute($val);
 	}
 
+    public function updateLink($colonne, $id, $values)
+    {
+        foreach ($values as $key => $v) {
+            $table[] = $key . " = ?";
+            $val[] = $v;
+        }
+        $table[] = "updated_at = ?";
+        $val[] = date("d/m/Y H:i:s");
+        $val[] = $id;
+        $col = implode(',', $table);
+        $pdo = $this->app->db->prepare("UPDATE $this->name SET $col WHERE $colonne = ?");
+        $pdo->execute($val);
+    }
+
 	public function deleteSpecial($col, $id)
 	{
 		$pdo = $this->app->db->prepare("DELETE FROM $this->name WHERE $col = :id");

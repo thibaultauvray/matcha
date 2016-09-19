@@ -55,6 +55,15 @@ class Users extends Model
 		return $pdo->fetchAll();
 	}
 
+    public function getCity($id)
+    {
+        $pdo = $this->app->db->prepare("SELECT l.city FROM users u
+                                    INNER JOIN usersLocation l ON l.id_users = u.id
+                                    WHERE u.id = ?");
+        $pdo->execute(array($id));
+        return $pdo->fetch();
+    }
+
 	public function updatedLocation($id)
 	{
 

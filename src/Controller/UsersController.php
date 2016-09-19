@@ -162,6 +162,21 @@ class UsersController extends Controller
 	* 	AJAX CALL
 	*	// Verification ID SESSION
 	*/
+    public function updateLocationProfil($request, $reponse, $args)
+    {
+        $usersLocation = new UsersLocation($this->app);
+
+        $usersLocation->updateLink('id_users', $_SESSION['login']['id'], array('city' => $_POST['city'],
+                                                                               'latitude' => $_POST['lat'],
+                                                                               'longitude' => $_POST['lng'],
+                                                                               'zipCode' => $_POST['zipCode']));
+    }
+
+    public function flashProfil($request, $response, $args)
+    {
+        $this->app->flash->addMessage('error', 'Utilisateur non trouve');
+
+    }
 
 	public function updateLocation($request, $response, $args)
 	{
@@ -185,6 +200,7 @@ class UsersController extends Controller
 		$response->withJson($body);
 		return $response;
 	}
+
 
 	public function updateZipCode($request, $response, $args)
 	{
@@ -222,6 +238,16 @@ class UsersController extends Controller
 		$response->withJson($body);
 		return $response;
 	}
+
+    public function getCity($request, $response, $args)
+    {
+        $users = new Users($this->app);
+        $city = $users->getCity($_SESSION['login']['id']);
+        $body = array('city' => $city['city']);
+        $response->withHeader('Content-type', 'application/json');
+        $response->withJson($body);
+        return $response;
+    }
 
 }
 
