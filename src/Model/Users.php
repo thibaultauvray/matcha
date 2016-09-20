@@ -55,6 +55,15 @@ class Users extends Model
 		return $pdo->fetchAll();
 	}
 
+    public function getImageProfil($id)
+    {
+        $pdo = $this->app->db->prepare("SELECT ui.url FROM users u 
+										INNER JOIN usersImage ui ON u.id = ui.id_users
+										WHERE u.id = ? AND ui.isprofil = 1");
+        $pdo->execute(array($id));
+        return $pdo->fetch();
+    }
+
     public function getCity($id)
     {
         $pdo = $this->app->db->prepare("SELECT l.city FROM users u

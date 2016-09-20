@@ -1,0 +1,30 @@
+{% extends "template/base.twig" %}
+
+{% block body %}
+
+    <div class="profil-background">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-offset-2 col-sm-2 ">
+                    <div class="profile-encart">
+                        <div class="profile">
+                            <img src="/img/{{ imgProfil.url }}" alt="">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-8 encart tablem">
+                    <div class="tablecell">
+                        <h2>Marcel</h2>
+                    </div>
+                    <div class="age-city">
+                        <span class="white glyphicon glyphicon-calendar"></span>
+                        <span class="age pink">{{ users.age }} ans</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+    </div>
+
+{% endblock %}

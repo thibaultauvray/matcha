@@ -24,3 +24,4 @@ $app->get('/getId', 'UsersController:getId')->setName('getId');
 $app->get('/updateLocation', 'UsersController:updateLocation')->setName('updateLocation');
 $app->get('/getCity', 'UsersController:getCity')->setName('getCity');
 $app->post('/updateLocationProfil', 'UsersController:updateLocationProfil')->setName('updateLocationProfil');
+$app->get('/users/updateLocation/{id}', 'UsersController:updateUsersLocation')->setName('updateUsersLocation');

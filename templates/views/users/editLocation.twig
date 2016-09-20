@@ -1,0 +1,22 @@
+{% extends "template/base.twig" %}
+
+{% block javascript %}
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places"></script>
+    <script src="{{ baseURl }}/js/edit.js"></script>
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <form id="editForm" class="form-horizontal" method="post" action="{{ path_for('postEditProfil', { 'id': args.id  }) }}" enctype="multipart/form-data">
+        <div class="form-group">
+            <label class="col-sm-2" for="ville">Ville</label>
+            <div class="col-sm-10">
+                <input class="form-control" id="city" type="text" id="Ville" name="ville" value="{{ location.city }}">
+            </div>
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+    </form>
+    <a href="{{ refere }}" id="prev">Retour</a>
+
+</div>
+{% endblock %}

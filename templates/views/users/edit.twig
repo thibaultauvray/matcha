@@ -1,10 +1,5 @@
 {% extends "template/base.twig" %}
 
-{% block javascript %}
-    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places"></script>
-    <script src="{{ baseURl }}/js/edit.js"></script>
-
-{% endblock %}
 {% block body %}
 <div class="container">
 
@@ -51,15 +46,6 @@
 					</select>
                 </div>
             </div>
-            
-            <div class="form-group">
-                <label class="col-sm-2" for="ville">Ville</label>
-                <div class="col-sm-10">
-                    <input class="form-control" id="city" type="text" id="Ville" name="ville" value="{{ location.city }}">
-                </div>
-            </div>
-
-
 
             <div class="form-group">
                 <label class="col-sm-2" for="interet">Centre d'interet</label>
@@ -78,6 +64,7 @@
             		<input id='image' name="image[]" type="file" multiple="multiple" /><span>5 images (jpg, png, bmp) max. La premiere image sera votre image de profil (Vous pourrez le modifier plus tard)</span>
             	</div>
             </div>
+            <a href="{{ path_for('updateUsersLocation', { 'id' : session.login.id }) }}">Changer sa location</a>
             {% if flash.getMessage('error') %}
             	{% for error in flash.getMessage('error') %}
 					    <div class="alert alert-danger">
