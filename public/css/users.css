@@ -1,74 +1,143 @@
-.profil-background
-{
-    background-color: #2c333a;
-    height:           275px;
-    color:            rgb(248, ​ 193, ​ 207);
+.profil-background {
+	background-color: #2C333A;
+	height:           275px;
+	color:            rgb(248, ​ 193, ​ 207);
 }
 
-.profil-background h2
-{
-    color:          white;
-    font-size:      3.2rem;
-    font-weight:    600;
-    line-height:    46px;
-    margin-top:     -20px;
-    position:       absolute;
-    text-transform: uppercase;
-    top:            100px;
-    margin-left:    30px;
+.profil-background h2 {
+	color:          white;
+	font-size:      3.2rem;
+	font-weight:    600;
+	line-height:    46px;
+	margin-top:     -20px;
+	position:       absolute;
+	text-transform: uppercase;
+	top:            100px;
+	margin-left:    30px;
 }
 
-.profil-background .profile-encart
-{
-    padding-top: 30px;
-    height:      275px;
-    position:    relative;
+.profil-background .profile-encart {
+	padding-top: 30px;
+	height:      275px;
+	position:    relative;
 }
 
-.profil-background .profile
-{
-    border:     11px solid rgba(255, 255, 255, 0.7);
-    box-sizing: border-box;
-    content:    "";
-    height:     202px;
-    left:       -1px;
-    position:   absolute;
-    top:        -1px;
-    width:      202px;
-    z-index:    1;
+.profil-background .profile {
+	border:     11px solid rgba(255, 255, 255, 0.7);
+	box-sizing: border-box;
+	content:    "";
+	height:     202px;
+	left:       -1px;
+	position:   absolute;
+	top:        -1px;
+	width:      202px;
+	z-index:    1;
 }
 
-.profil-background .profile
-{
-    border-radius: 100%;
-    height:        200px;
-    width:         200px;
-    margin-bottom: 12px;
-    overflow:      hidden;
-    position:      relative;
-    z-index:       1;
+.profil-background .profile {
+	border-radius: 100%;
+	height:        200px;
+	width:         200px;
+	margin-bottom: 12px;
+	overflow:      hidden;
+	position:      relative;
+	z-index:       1;
 }
 
-.profil-background .encart
-{
-    height: 230px;
+.profil-background .encart {
+	height: 230px;
 }
 
-.profil-background .profile img
-{
-    height:    200px;
-    left:      50%;
-    position:  absolute;
-    top:       0;
-    transform: translate(-50%, 0px);
+.profil-background .profile img {
+	height:    200px;
+	left:      50%;
+	position:  absolute;
+	top:       0;
+	transform: translate(-50%, 0px);
 }
 
-.profil-background .age-city
-{
-    font-size: 2.2rem;
+.profil-background .age-city {
+	font-size: 2.2rem;
 }
 
-.white
-{
-    color: white;
+.profil-background .age-city {
+	left:     47px;
+	position: absolute;
+	top:      131px;
+}
+
+.profil-background .age-city .age {
+	margin-right: 5px;
+}
+
+.profil-background .age-city .glyphicon {
+	margin-right: 10px;
+	font-weight:  600;
+}
+
+.profil-background .pop {
+	font-size:   19px;
+	font-weight: bold;
+	margin-left: 52px;
+	text-align:  center;
+}
+
+.profil-background .interet {
+	font-size:      20px;
+	left:           50px;
+	font-weight:    400;
+	letter-spacing: -0.5px;
+	position:       relative;
+	top:            9px;
+}
+
+.profil-background .pop .glyphicon {
+	font-size: 8px;
+	position:  relative;
+	top:       -1px;
+}
+
+.main-user .encart-map{
+	width: 310px;
+	border-bottom: 4px solid #ffe6ec;
+	padding-bottom: 15px;
+	padding-left: 15px;
+	width: 310px;
+}
+
+.main-user .fullDetails{
+	padding: 15px;
+	width: 860px;
+	display: inline-block;
+}
+
+.main-user .det{
+	font-size: 1.4rem;
+}
+
+.main-user .fullDetails h3{
+	margin: 0;
+	color: #F48FB1;
+	text-transform: uppercase;
+	font-size: 1.4rem;
+}
+
+.main-user .fullDetails .br{
+	border-left:1px solid #dfe2e5;
+}
+
+.main-user .fullDetails h2{
+	margin-top: 0;
+}
+
+.main-user .map {
+	width: 280px;
+	height: 280px;
+	margin-top: 15px;
+
+
+}
+
+.main-user .map .gmnoprint {
+	display: none;
 }

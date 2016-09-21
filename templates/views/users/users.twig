@@ -1,5 +1,50 @@
 {% extends "template/base.twig" %}
 
+{% block javascript %}
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+
+    <script type="text/javascript">
+
+        $(document).ready(function (e)
+        {
+            var latlng = new google.maps.LatLng({{ location.latitude }}, {{ location.longitude }});
+            var image = '../../img/pin.png';
+
+
+            var options = {
+
+                center: latlng,
+                disableDefaultUI: true,
+                zoom: 12,
+                draggable: false,
+                scrollwhell: true,
+                disableDoubleClickZoom: true,
+                mapTypeId: google.maps.MapTypeId.ROADMAP,
+                styles: [{"featureType":"administrative.country","elementType":"geometry.stroke","stylers":[{"lightness":-5},{"color":"#b0b0b0"},{"weight":1.7}]},{"featureType":"administrative.province","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"landscape","elementType":"geometry","stylers":[{"color":"#FFB3B3"},{"lightness":26}]},{"featureType":"poi","elementType":"geometry","stylers":[{"color":"#FFB3B3"}]},{"featureType":"road.highway","elementType":"all","stylers":[{"color":"#FFB3B3"}]},{"featureType":"road.arterial","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"road.local","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"transit","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"water","elementType":"geometry","stylers":[{"color":"#FFB3B3"},{"lightness":66}]}]
+
+
+            };
+
+
+            //constructeur de la carte qui prend en paramêtre le conteneur HTML
+
+            //dans lequel la carte doit s'afficher et les options
+
+            var carte = new google.maps.Map(document.getElementById("map"), options);
+            var marqueur = new google.maps.Marker({
+
+                position: new google.maps.LatLng({{ location.latitude }}, {{ location.longitude }}),
+                icon: image,
+
+                map: carte
+
+            });
+        });
+
+
+    </script>
+{% endblock %}
+
 {% block body %}
 
     <div class="profil-background">
@@ -10,21 +55,90 @@
                         <div class="profile">
                             <img src="/img/{{ imgProfil.url }}" alt="">
                         </div>
+                        <p class="pop pink">150 PTS <span class="glyphicon glyphicon-menu-right"></span></p>
                     </div>
                 </div>
                 <div class="col-sm-8 encart tablem">
                     <div class="tablecell">
-                        <h2>Marcel</h2>
+                        <h2>{{ users.nickname }}</h2>
                     </div>
-                    <div class="age-city">
-                        <span class="white glyphicon glyphicon-calendar"></span>
-                        <span class="age pink">{{ users.age }} ans</span>
+                    <div class="age-city tablem">
+                        <div class="age pink floatl">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                            <span class="age">{{ users.age }} ans</span>
+                        </div>
+                        <div class="city pink floatr">
+                            <span class="pink glyphicon glyphicon-map-marker"></span>
+                            <span class="city">{{ location.city }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="interet white">
+                    <p>
+                        {% for interest in interet %}
+                            #{{ interest.interest }}
+                        {% endfor %}
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="container bgwhite nopadding">
+        <div class="main-user">
+            <div class="encart-map floatl">
+                <div id="map" class="map">
+
+                </div>
+            </div>
+            <div class="fullDetails">
+                <h2 class="detail line"><span>Details</span></h2>
+                <div class="col-sm-4">
+                    <div class="det">
+                        <div class="det">
+                            <h3>Orientation</h3>
+                            <p>Marron</p>
+                        </div>
+                        <h3>Yeux</h3>
+                        <p>Marron</p>
+                    </div>
+                    <div class="det">
+                        <h3>Style</h3>
+                        <p>Marron</p>
+                    </div>
+                </div>
+                <div class="col-sm-4 br">
+                    <div class="det">
+                        <div class="det">
+                            <h3>Orientation</h3>
+                            <p>Marron</p>
+                        </div>
+                        <h3>Yeux</h3>
+                        <p>Marron</p>
+                    </div>
+                    <div class="det">
+                        <h3>Style</h3>
+                        <p>Marron</p>
+                    </div>
+
+                </div>
+                <div class="col-sm-4 br">
+                    <div class="det">
+                        <div class="det">
+                            <h3>Profession</h3>
+                            <p>Marron</p>
+                        </div>
+                        <h3>Université</h3>
+                        <p>Marron</p>
+                    </div>
+                    <div class="det">
+                        <h3>Hobbies</h3>
+                        <p>Marron</p>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="container">
+        <div class="clearfix"></div>
     </div>
 
 {% endblock %}

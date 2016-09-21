@@ -11,6 +11,7 @@ class UsersController extends Controller
     public function signout($request, $response, $args)
     {
         session_destroy();
+
         return $response->withStatus(302)->withHeader('Location', $this->app->router->pathFor('homepage'));
     }
 
@@ -25,6 +26,7 @@ class UsersController extends Controller
         {
             $_SESSION['login'] = $us;
         }
+
         return $response->withStatus(302)->withHeader('Location', $this->app->router->pathFor('homepage'));
 
     }
@@ -53,10 +55,12 @@ class UsersController extends Controller
             $_SESSION['login'] = $_POST;
             $id = $user->insert($_POST);
             $_SESSION['login']['id'] = $id;
+
             return $response->withStatus(302)->withHeader('Location', $this->app->router->pathFor('editProfil', array('id' => $id)));
         }
+
         return $this->app->view->render($response, 'views/users/register.twig', array('error' => $validator->error,
-            'form' => $_POST));
+                                                                                      'form'  => $_POST));
     }
 
     /*
@@ -72,20 +76,22 @@ class UsersController extends Controller
         $userImage = $users->getImage($args['id']);
         $userInterest = $users->getStringInterest($args['id']);
         var_dump($userInterest);
-        return $this->app->view->render($response, 'views/users/edit.twig', array('args' => $args,
-            'user' => $user,
-            'interest' => $userInterest,
-            'usersImage' => $userImage,
-            'location' => $location));
+
+        return $this->app->view->render($response, 'views/users/edit.twig', array('args'       => $args,
+                                                                                  'user'       => $user,
+                                                                                  'interest'   => $userInterest,
+                                                                                  'usersImage' => $userImage,
+                                                                                  'location'   => $location));
     }
 
     public function updateUsersLocation($request, $response, $args)
     {
         $usersLocation = new UsersLocation($this->app);
         $location = $usersLocation->findOne('id_users', $args['id']);
-        return $this->app->view->render($response, 'views/users/editLocation.twig', array('args' => $args,
-            'location' => $location,
-            'refere' => $_SERVER['HTTP_REFERER']));
+
+        return $this->app->view->render($response, 'views/users/editLocation.twig', array('args'     => $args,
+                                                                                          'location' => $location,
+                                                                                          'refere'   => $_SERVER['HTTP_REFERER']));
 
     }
 
@@ -93,12 +99,20 @@ class UsersController extends Controller
     {
         $id = $args['id'];
         $usersLocation = new UsersLocation($this->app);
+
         $users = new Users($this->app);
 
+        $interest = $users->getInterest($id);
+        $location = $usersLocation->findOne('id_users', $id);
         $user = $users->findById($id);
         $imagePics = $users->getImageProfil($id);
-        return $this->app->view->render($response, 'views/users/users.twig', array('users' => $user,
-            'imgProfil' => $imagePics));
+
+        var_dump($location);
+
+        return $this->app->view->render($response, 'views/users/users.twig', array('users'     => $user,
+                                                                                   'imgProfil' => $imagePics,
+                                                                                   'location'  => $location,
+                                                                                   'interet'   => $interest));
     }
 
     public function updateUsers($id, $form, $image, $baseUrl = NULL)
@@ -116,7 +130,7 @@ class UsersController extends Controller
                 else
                     $bool = 0;
                 $userImage->insert(array(
-                    'url' => $url,
+                    'url'      => $url,
                     'isprofil' => $bool,
                     'id_users' => $id
                 ));
@@ -135,21 +149,21 @@ class UsersController extends Controller
                 if (empty($id_interest))
                 {
                     $id_int = $userInteret->insert(array('interest' => $int));
-                    $userInt->insert(array('id_users' => $_SESSION['login']['id'],
-                        'id_interest' => $id_int));
+                    $userInt->insert(array('id_users'    => $_SESSION['login']['id'],
+                                           'id_interest' => $id_int));
                 } else
                 {
                     if (empty($userInt->interestExist($_SESSION['login']['id'], $id_interest['id'])))
                     {
-                        $userInt->insert(array('id_users' => $_SESSION['login']['id'],
-                            'id_interest' => $id_interest['id']));
+                        $userInt->insert(array('id_users'    => $_SESSION['login']['id'],
+                                               'id_interest' => $id_interest['id']));
                     }
                 }
             }
         }
-        $user->update($id, array('age' => $form['age'],
-            'gender' => $form['sexe'],
-            'orientation' => $form['orientation']));
+        $user->update($id, array('age'         => $form['age'],
+                                 'gender'      => $form['sexe'],
+                                 'orientation' => $form['orientation']));
     }
 
     public function postEditProfil($request, $response, $args)
@@ -167,13 +181,16 @@ class UsersController extends Controller
             {
                 $this->app->flash->addMessage('error', $error);
             }
+
             return $response->withStatus(302)->withHeader('Location', $this->app->router->pathFor('editProfil', array('id' => $args['id'])));
         } else if (empty($validator->error) && $_FILES['image']['size'][0] <= 0)
         {
             $this->updateUsers($args['id'], $_POST, false);
+
             return $response->withStatus(302)->withHeader('Location', $this->app->router->pathFor('editProfil', array('id' => $args['id'])));
 
         }
+
         return $response->withStatus(302)->withHeader('Location', $this->app->router->pathFor('editProfil', array('id' => $args['id'])));
 
     }
@@ -186,10 +203,10 @@ class UsersController extends Controller
     {
         $usersLocation = new UsersLocation($this->app);
 
-        $usersLocation->updateLink('id_users', $_SESSION['login']['id'], array('city' => $_POST['city'],
-            'latitude' => $_POST['lat'],
-            'longitude' => $_POST['lng'],
-            'zipCode' => $_POST['zipCode']));
+        $usersLocation->updateLink('id_users', $_SESSION['login']['id'], array('city'      => $_POST['city'],
+                                                                               'latitude'  => $_POST['lat'],
+                                                                               'longitude' => $_POST['lng'],
+                                                                               'zipCode'   => $_POST['zipCode']));
     }
 
     public function flashProfil($request, $response, $args)
@@ -217,6 +234,7 @@ class UsersController extends Controller
         }
         $response->withHeader('Content-type', 'application/json');
         $response->withJson($body);
+
         return $response;
     }
 
@@ -232,19 +250,19 @@ class UsersController extends Controller
         }
         if (empty($id))
         {
-            $usersLocation->insert(array('id_users' => $_POST['id'],
-                    'longitude' => $_POST['longitude'],
-                    'latitude' => $_POST['latitude'],
-                    'zipCode' => $_POST['zip'],
-                    'city' => $city)
+            $usersLocation->insert(array('id_users'  => $_POST['id'],
+                                         'longitude' => $_POST['longitude'],
+                                         'latitude'  => $_POST['latitude'],
+                                         'zipCode'   => $_POST['zip'],
+                                         'city'      => $city)
             );
         } else
         {
-            $usersLocation->update($id[0]['id'], array('id_users' => $_POST['id'],
-                    'longitude' => $_POST['longitude'],
-                    'latitude' => $_POST['latitude'],
-                    'zipCode' => $_POST['zip'],
-                    'city' => $city)
+            $usersLocation->update($id[0]['id'], array('id_users'  => $_POST['id'],
+                                                       'longitude' => $_POST['longitude'],
+                                                       'latitude'  => $_POST['latitude'],
+                                                       'zipCode'   => $_POST['zip'],
+                                                       'city'      => $city)
             );
         }
     }
@@ -254,6 +272,7 @@ class UsersController extends Controller
         $body = array('id' => $_SESSION['login']['id']);
         $response->withHeader('Content-type', 'application/json');
         $response->withJson($body);
+
         return $response;
     }
 
@@ -264,6 +283,7 @@ class UsersController extends Controller
         $body = array('city' => $city['city']);
         $response->withHeader('Content-type', 'application/json');
         $response->withJson($body);
+
         return $response;
     }
 

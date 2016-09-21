@@ -1,59 +1,69 @@
-body
-{
-    font-family:      'Open Sans';
-    background-image: url('../img/bg.png');
+body {
+	font-family:      'Open Sans';
+	background-image: url('../img/bg.png');
+	color:#2c333a;
 }
 
-li
-{
-    list-style-type: none;
+.nopadding{
+	padding: 0;
+}
+li {
+	list-style-type: none;
 }
 
-.noPadding
-{
-    padding: 0;
+.noPadding {
+	padding: 0;
 }
 
-.btn
-{
-    background-image: none;
-    border:           0;
-    border-radius:    0;
-    color:            white;
+.btn {
+	background-image: none;
+	border:           0;
+	border-radius:    0;
+	color:            white;
 }
 
-.btn-default
-{
-    background-color: #F48FB1;
+.btn-default {
+	background-color: #F48FB1;
 }
 
-input
-{
-    border-radius: 0 !important;
+input {
+	border-radius: 0 !important;
 }
 
-.tablem
-{
-    display: table;
+.tablem {
+	display: table;
 }
 
-.tablecell
-{
-    display: table-cell;s
+.tablecell {
+	display: table-cell;
 }
 
-.pink
-{
-    color: #f8c1cf;
+.pink {
+	color: #F8C1CF;
 }
 
-.icon{
-    width: 52px;
-    height: 52px;
-    display: inline-block;
+.white {
+	color: white;
 }
 
-.icon-calendar
-{
-    background-image: url('/img/ressources/calendar.png');
+.floatl {
+	float: left;
+}
+
+.floatr {
+	float: right;
+}
+
+.icon {
+	width:   52px;
+	height:  52px;
+	display: inline-block;
+}
+
+.icon-calendar {
+	background-image: url('/img/ressources/calendar.png');
+}
+
+.bgwhite{
+	background: white;
 }
