@@ -23,6 +23,14 @@ class Users extends Model
 		return $pdo->fetchAll();
 	}
 
+	public function getUsers($id)
+    {
+        $pdo = $this->app->prepare("SELECT * FROM users u WHERE id = ?");
+        $pdo->execute(array($id));
+
+        return $pdo->fetch();
+    }
+
 	public function getStringInterest($id)
 	{
 		$pdo = $this->app->db->prepare("SELECT ui.interest FROM users u 
@@ -73,6 +81,32 @@ class Users extends Model
         return $pdo->fetch();
     }
 
+    public function getOrientation($user)
+    {
+        $gender = $user['gender'];
+
+        if($gender == "m" && $user['orientation'] == "hetero")
+        {
+
+        }
+    }
+
+    /*
+     *  SUGGESTION
+     */
+
+    public function findSuggest($id)
+    {
+        $pdo = $this->app->db;
+
+        $users = $this->getUsers($id);
+        $users->getOrientation($user);
+        if ($users['orientation'] == "hetero")
+            $genderWant = "";
+        $users = $pdo->prepare("SELECT * FROM users u
+                                INNER JOIN usersLocation l ON l.id_users = u.id");
+
+    }
 	public function updatedLocation($id)
 	{
 

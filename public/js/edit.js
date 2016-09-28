@@ -19,15 +19,19 @@ $(document).ready(function()
                     if(data.results.length && data.results[0].geometry)
                     {
                         var arrayCity = data.results[0].formatted_address.split(",");
+                        console.log(arrayCity);
                         if (arrayCity.length == 3)
                         {
-                            var zipCode = arrayCity[1].split(" ")[1];
-                            var city = arrayCity[1].split(" ")[2];
-                            if (zipCode.slice(0,2) == "75")
+                            var city = arrayCity[1];
+                            console.log(city.indexOf("Paris"));
+                            if (city.indexOf("Paris") != -1)
                             {
-                                var arron = zipCode.slice(3,5);
-                                var city = city + " " + arron;
+                                var arron = arrayCity[0].slice(0,2);
+                                var city = "Paris " + arron;
+                                console.log("CITY" + city);
+
                             }
+
                         }
                         else if(arrayCity.length == 2)
                         {
@@ -52,7 +56,7 @@ $(document).ready(function()
                                 {
                                     url: "/updateLocationProfil",
                                     type: "POST",
-                                    data: {city: city, lng: lng, lat: lat, zipCode: zipCode},
+                                    data: {city: city, lng: lng, lat: lat},
                                     success: function (data) {
                                         $('#city').val(city);
                                         $('.alert').remove();

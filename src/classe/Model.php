@@ -13,6 +13,16 @@ class Model
 	}
 
 	/*
+	 *  SPECIAL SQL
+	 */
+
+    public function addition($id, $col, $int)
+    {
+        $pdo = $this->app->db->prepare("UPDATE $this->name SET $col = $col + $int WHERE id = ?");
+        $pdo->execute(array($id));
+	}
+
+	/*
 	*	INSERT / UPDATE / DELETE FUNCTION
 	*/
 

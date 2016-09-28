@@ -29,5 +29,14 @@
         		return ($_SESSION['login']['id']);
     		return false;
         }
+
+        public function upPopularity($id, $int)
+        {
+            $user = new Users($this->app);
+
+            if ($id == $this->getUserId())
+                return false;
+            $user->addition($id, "popularity", $int);
+        }
     }
     ?>

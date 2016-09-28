@@ -1,26 +1,30 @@
-.toAdopt ul li{
+.toAdopt ul li {
 	margin-bottom: 20px;
 }
 
-h2.line{
-	text-align: center;
-	position: relative;
-	z-index: 1;
-	font-style: italic;
+h2.line {
+	text-align:     center;
+	position:       relative;
+	z-index:        1;
+	font-style:     italic;
 	text-transform: uppercase;
-	font-size: 2.2rem;
+	font-size:      2.2rem;
 }
 
-h2.line span{
+h2.line span {
 	background: white;
-	padding: 0 15px;
+	padding:    0 15px;
 }
+
 h2.line:before {
-    	border-top: 1px solid #afb6bd;
-        content:"";
-        margin: 0 auto; /* this centers the line to the full width specified */
-        position: absolute; /* positioning must be absolute here, and relative positioning must be applied to the parent */
-        top: 50%; left: 0; right: 0; bottom: 0;
-        width: 100%;
-        z-index: -1;
- }
+	border-top: 1px solid #AFB6BD;
+	content:    "";
+	margin:     0 auto; /* this centers the line to the full width specified */
+	position:   absolute; /* positioning must be absolute here, and relative positioning must be applied to the parent */
+	top:        50%;
+	left:       0;
+	right:      0;
+	bottom:     0;
+	width:      100%;
+	z-index:    -1;
+}

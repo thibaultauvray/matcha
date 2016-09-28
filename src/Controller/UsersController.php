@@ -88,7 +88,10 @@ class UsersController extends Controller
     {
         $usersLocation = new UsersLocation($this->app);
         $location = $usersLocation->findOne('id_users', $args['id']);
-
+        if(!$location)
+        {
+            $usersLocation->insert(array('id_users' => $args['id']));
+        }
         return $this->app->view->render($response, 'views/users/editLocation.twig', array('args'     => $args,
                                                                                           'location' => $location,
                                                                                           'refere'   => $_SERVER['HTTP_REFERER']));
@@ -99,9 +102,10 @@ class UsersController extends Controller
     {
         $id = $args['id'];
         $usersLocation = new UsersLocation($this->app);
-
         $users = new Users($this->app);
 
+        $this->upPopularity($id, 5);
+//        $user = $user->findSuggest($id); // TODO
         $interest = $users->getInterest($id);
         $location = $usersLocation->findOne('id_users', $id);
         $user = $users->findById($id);
@@ -205,8 +209,7 @@ class UsersController extends Controller
 
         $usersLocation->updateLink('id_users', $_SESSION['login']['id'], array('city'      => $_POST['city'],
                                                                                'latitude'  => $_POST['lat'],
-                                                                               'longitude' => $_POST['lng'],
-                                                                               'zipCode'   => $_POST['zipCode']));
+                                                                               'longitude' => $_POST['lng']));
     }
 
     public function flashProfil($request, $response, $args)
