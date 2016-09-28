@@ -25,11 +25,12 @@ class Users extends Model
 
 	public function getUsers($id)
     {
-        $pdo = $this->app->prepare("SELECT * FROM users u WHERE id = ?");
+        $pdo = $this->app->db->prepare("SELECT * FROM users u WHERE id = ?");
         $pdo->execute(array($id));
 
         return $pdo->fetch();
     }
+
 
 	public function getStringInterest($id)
 	{
@@ -99,12 +100,60 @@ class Users extends Model
     {
         $pdo = $this->app->db;
 
+        SET @lat = 0.000 ; SET @long = 0.000; SET @myGender = 'm'; SET @myOrientation = 'hetero'; SET @myUserId = 7;
+
+SELECT u.*,(ABS(@long - ul.longitude) + ABS(@lat - ul.latitude)) AS distance,  COUNT(up.id_interest) as commonInterest
+FROM users u
+INNER JOIN users_usersInterest ui ON ui.id_users = u.id
+LEFT JOIN (SELECT id_interest FROM `users_usersInterest` WHERE id_users = @myUserId) up on up.id_interest = ui.id_interest
+INNER JOIN usersLocation ul ON ul.id_users = u.id
+WHERE u.gender LIKE (CASE @myGender
+                     WHEN 'f' THEN (
+                        CASE @myOrientation
+                           WHEN 'hetero' THEN 'm'
+                           WHEN 'homosexuel' THEN 'f'
+                           ELSE '%%'
+                         END)
+                     WHEN 'm' THEN (
+                        CASE @myOrientation
+                           WHEN 'hetero' THEN 'f'
+                           WHEN 'homosexuel' THEN 'm'
+                           ELSE '%%'
+                        END)
+               END)
+AND u.orientation LIKE (CASE @myOrientation
+                        WHEN 'bisexuel' THEN '%%'
+                        ELSE @myOrientation
+                        END)
+
+GROUP BY u.id, ui.id_users, distance
+ORDER BY distance ASC, commonInterest DESC
+
         $users = $this->getUsers($id);
-        $users->getOrientation($user);
-        if ($users['orientation'] == "hetero")
-            $genderWant = "";
-        $users = $pdo->prepare("SELECT * FROM users u
-                                INNER JOIN usersLocation l ON l.id_users = u.id");
+        var_dump($users['orientation']);
+//        $users = $pdo->prepare("SELECT DISTINCT u.*, (ABS(@long - ul.longitude) + ABS(@lat - ul.latitude)) AS distance
+//FROM users u
+//INNER JOIN usersLocation ul ON ul.id_users = u.id
+//WHERE u.gender LIKE (CASE @myGender
+//                     WHEN 'f' THEN (
+//                     	CASE @myOrientation
+//                           WHEN 'hetero' THEN 'm'
+//                           WHEN 'homosexuel' THEN 'f'
+//                           ELSE '%%'
+//                         END)
+//                     WHEN 'm' THEN (
+//                     	CASE @myOrientation
+//                           WHEN 'hetero' THEN 'f'
+//                           WHEN 'homosexuel' THEN 'm'
+//                           ELSE '%%'
+//                        END)
+//				   END)
+//AND u.orientation LIKE (CASE @myOrientation
+//                        WHEN 'bisexuel' THEN '%%'
+//                        ELSE @myOrientation
+//                        END)
+//
+//ORDER BY distance ASC");
 
     }
 	public function updatedLocation($id)

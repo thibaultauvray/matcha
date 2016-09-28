@@ -105,7 +105,7 @@ class UsersController extends Controller
         $users = new Users($this->app);
 
         $this->upPopularity($id, 5);
-//        $user = $user->findSuggest($id); // TODO
+        $user = $users->findSuggest($id);
         $interest = $users->getInterest($id);
         $location = $usersLocation->findOne('id_users', $id);
         $user = $users->findById($id);

@@ -1,0 +1,87 @@
+SET @lat = 0.000 ; SET @long = 0.000; SET @myGender = 'm'; SET @myOrientation = 'bisexuel';
+
+SELECT u.*, (ABS(@long - ul.longitude) + ABS(@lat - ul.latitude)) AS distance
+FROM users u
+INNER JOIN usersLocation ul ON u.id = ul.id_users
+WHERE u.gender LIKE (CASE @myGender
+                     WHEN 'f' THEN (
+                     	CASE @myOrientation
+                           WHEN 'hetero' THEN 'm'
+                           WHEN 'homosexuel' THEN 'f'
+                           ELSE '%%'
+                         END)
+                     WHEN 'm' THEN (
+                     	CASE @myOrientation
+                           WHEN 'hetero' THEN 'f'
+                           WHEN 'homosexuel' THEN 'm'
+                           ELSE '%%'
+                        END)
+				   END)
+AND u.orientation LIKE (CASE @myOrientation
+                        WHEN 'bisexuel' THEN '%%'
+                        ELSE @myOrientation
+                        END)
+ORDER BY distance ASC
+
+
+
+
+
+SET @lat = 0.000 ; SET @long = 0.000; SET @myGender = 'm'; SET @myOrientation = 'bisexuel'; SET @myUserId = 6;
+
+SELECT DISTINCT u.*, (ABS(@long - ul.longitude) + ABS(@lat - ul.latitude)) AS distance
+FROM users u
+INNER JOIN usersLocation ul ON ul.id_users = u.id
+INNER JOIN users_usersInterest uui ON uui.id_users = u.id
+INNER JOIN users_usersInterest uui2 ON uui2.id_users = @myUserId
+WHERE u.gender LIKE (CASE @myGender
+                     WHEN 'f' THEN (
+                     	CASE @myOrientation
+                           WHEN 'hetero' THEN 'm'
+                           WHEN 'homosexuel' THEN 'f'
+                           ELSE '%%'
+                         END)
+                     WHEN 'm' THEN (
+                     	CASE @myOrientation
+                           WHEN 'hetero' THEN 'f'
+                           WHEN 'homosexuel' THEN 'm'
+                           ELSE '%%'
+                        END)
+				   END)
+AND u.orientation LIKE (CASE @myOrientation
+                        WHEN 'bisexuel' THEN '%%'
+                        ELSE @myOrientation
+                        END)
+ORDER BY distance ASC
+
+
+SET @lat = 0.000 ; SET @long = 0.000; SET @myGender = 'f'; SET @myOrientation = 'homosexuel'; SET @myUserId = 6;
+
+SELECT DISTINCT u.*, (ABS(@long - ul.longitude) + ABS(@lat - ul.latitude)) AS distance,
+COUNT(
+SELECT uui.id_interest FROM users_usersInterest tamere WHERE tamere.id_users = u.id AND uui.id_interest IN (
+SELECT uui.id_interest FROM users_usersInterest tamere2 WHERE tamere2.id_users = @myUserId)
+) AS commonInterests
+FROM users u
+INNER JOIN usersLocation ul ON ul.id_users = u.id
+INNER JOIN users_usersInterest uui ON uui.id_users = u.id
+INNER JOIN users_usersInterest uui2 ON uui2.id_users = @myUserId
+WHERE u.gender LIKE (CASE @myGender
+                     WHEN 'f' THEN (
+                     	CASE @myOrientation
+                           WHEN 'hetero' THEN 'm'
+                           WHEN 'homosexuel' THEN 'f'
+                           ELSE '%%'
+                         END)
+                     WHEN 'm' THEN (
+                     	CASE @myOrientation
+                           WHEN 'hetero' THEN 'f'
+                           WHEN 'homosexuel' THEN 'm'
+                           ELSE '%%'
+                        END)
+				   END)
+AND u.orientation LIKE (CASE @myOrientation
+                        WHEN 'bisexuel' THEN '%%'
+                        ELSE @myOrientation
+                        END)
+ORDER BY distance ASC, commonInterests DESC
