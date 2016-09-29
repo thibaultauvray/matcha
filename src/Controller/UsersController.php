@@ -88,10 +88,11 @@ class UsersController extends Controller
     {
         $usersLocation = new UsersLocation($this->app);
         $location = $usersLocation->findOne('id_users', $args['id']);
-        if(!$location)
+        if (!$location)
         {
             $usersLocation->insert(array('id_users' => $args['id']));
         }
+
         return $this->app->view->render($response, 'views/users/editLocation.twig', array('args'     => $args,
                                                                                           'location' => $location,
                                                                                           'refere'   => $_SERVER['HTTP_REFERER']));
@@ -105,18 +106,18 @@ class UsersController extends Controller
         $users = new Users($this->app);
 
         $this->upPopularity($id, 5);
-        $user = $users->findSuggest($id);
+        $userSuggest = $users->findSuggest($id);
         $interest = $users->getInterest($id);
         $location = $usersLocation->findOne('id_users', $id);
         $user = $users->findById($id);
         $imagePics = $users->getImageProfil($id);
 
-        var_dump($location);
 
         return $this->app->view->render($response, 'views/users/users.twig', array('users'     => $user,
                                                                                    'imgProfil' => $imagePics,
                                                                                    'location'  => $location,
-                                                                                   'interet'   => $interest));
+                                                                                   'interet'   => $interest,
+                                                                                   'suggest'   => $userSuggest));
     }
 
     public function updateUsers($id, $form, $image, $baseUrl = NULL)

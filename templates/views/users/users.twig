@@ -183,8 +183,19 @@
                             quaerat quidem quisquam similique totam ullam unde.</p>
                     </div>
                 </div>
-            </div>
 
+            </div>
+            <div class="suggest">
+                {% for sug in suggest %}
+                    <div class="encart-users">
+                        <a href="{{ path_for('viewProfil', { 'id' : sug.id }) }}">
+                            <img src="{{ sug.url }}" alt="">
+                            
+                        </a>
+                        {{ sug.nickname }}
+                    </div>
+                {% endfor %}
+            </div>
         </div>
 
     </div>
