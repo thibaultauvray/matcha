@@ -141,7 +141,7 @@ class Users extends Model
         $lat = $users['latitude'];
         $long = $users['longitude'];
 
-        $sql = "SELECT u.*, img.url, (ABS($lat - ul.longitude) + ABS($long  - ul.latitude)) AS distance,  COUNT(up.id_interest) as commonInterest
+        $sql = "SELECT u.*, ul.city, img.url, (ABS($ong - ul.longitude) + ABS($lat  - ul.latitude)) AS distance,  COUNT(up.id_interest) as commonInterest
         FROM users u
         LEFT JOIN users_usersInterest ui ON ui.id_users = u.id
         LEFT JOIN (SELECT id_interest FROM `users_usersInterest` WHERE id_users = $id) up on up.id_interest = ui.id_interest
@@ -149,7 +149,8 @@ class Users extends Model
         LEFT JOIN usersImage img ON img.id_users = u.id AND img.isprofil = 1
         WHERE u.gender LIKE (CASE '$gender'
                              WHEN 'f' THEN (
-                                CASE '$orientation'
+                                CASE '$orientation'" .
+            "
                                    WHEN 'hetero' THEN 'm'
                                    WHEN 'homosexuel' THEN 'f'
                                    ELSE '%%'
@@ -162,8 +163,9 @@ class Users extends Model
                                 END)
                        END)
         AND u.id <> $id
-        GROUP BY u.id, ui.id_users, distance, img.id
+        GROUP BY u.id, ui.id_users, distance, img.id, ul.city
         ORDER BY distance ASC, commonInterest DESC";
+        echo $sql;
         $usersL = $pdo->prepare($sql);
         $usersL->execute();
         $listUsers = $usersL->fetchAll();

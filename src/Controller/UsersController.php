@@ -120,6 +120,7 @@ class UsersController extends Controller
                                                                                    'suggest'   => $userSuggest));
     }
 
+
     public function updateUsers($id, $form, $image, $baseUrl = NULL)
     {
         $user = new Users($this->app);
@@ -240,6 +241,19 @@ class UsersController extends Controller
         $response->withJson($body);
 
         return $response;
+    }
+
+
+    /*
+     * View suggest
+     */
+    public function viewSuggest($request, $response, $args)
+    {
+        $users = new Users($this->app);
+        $id = $args['id'];
+        $userSuggest = $users->findSuggest($id);
+
+        return $this->app->view->render($response, 'views/users/suggest.twig', array('suggest' => $userSuggest));
     }
 
 

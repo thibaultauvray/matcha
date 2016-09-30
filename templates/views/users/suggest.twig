@@ -1,0 +1,151 @@
+{% extends "template/base.twig" %}
+
+{%  block javascript %}
+    <script type="application/javascript">
+        $(document).ready(function()
+        {
+            $("#croi").change(function(){
+                    $("#tri").trigger("change");
+            });
+            $("#tri").change(function()
+            {
+                function sort_age(a, b){
+                    if($("#croi").val() == "croi")
+                    {
+                        return ($(b).data('age')) < ($(a).data('age')) ? 1 : -1;
+                    }
+                    else
+                    {
+                        return ($(b).data('age')) > ($(a).data('age')) ? 1 : -1;
+                    }
+                }
+                function sort_local(a, b){
+                    if($("#croi").val() == "croi")
+                    {
+                        return ($(b).data('localisation')) < ($(a).data('localisation')) ? 1 : -1;
+                    }
+                    else
+                    {
+                        return ($(b).data('localisation')) > ($(a).data('localisation')) ? 1 : -1;
+                    }
+                }
+                function sort_pop(a, b){
+                    if($("#croi").val() == "croi")
+                    {
+                        return ($(b).data('popularity')) < ($(a).data('popularity')) ? 1 : -1;
+                    }
+                    else
+                    {
+                        return ($(b).data('popularity')) > ($(a).data('popularity')) ? 1 : -1;
+                    }
+                }
+
+                function sort_tags(a, b){
+                    if($("#croi").val() == "croi")
+                    {
+                        return ($(b).data('tags')) < ($(a).data('tags')) ? 1 : -1;
+                    }
+                    else
+                    {
+                        return ($(b).data('tags')) > ($(a).data('tags')) ? 1 : -1;
+                    }
+                }
+                function sort_def(a, b)
+                {
+                    if ($("#croi").val() == "croi")
+                    {
+                        return ($(b).data('index')) < ($(a).data('index')) ? 1 : -1;
+                    }
+                    else
+                    {
+                        return ($(b).data('index')) > ($(a).data('index')) ? 1 : -1;
+                    }
+                }
+
+                if($(this).val() == "age")
+                    $(".listusers .encart-users").sort(sort_age).appendTo('.listusers');
+                else if ($(this).val() == "localisation")
+                    $(".listusers .encart-users").sort(sort_local).appendTo('.listusers');
+                else if ($(this).val() == "popularite")
+                    $(".listusers .encart-users").sort(sort_pop).appendTo('.listusers')
+                else if ($(this).val() == "tags")
+                    $(".listusers .encart-users").sort(sort_tags).appendTo('.listusers');
+                else if ($(this).val() == "default")
+                    $(".listusers .encart-users").sort(sort_def).appendTo('.listusers');
+
+            });
+
+            function filterAge(value1, value2)
+            {
+                $(".listusers .encart-users").each(function()
+                {
+                    console.log($(this).data("age"));
+                })
+            }
+
+            $( "#age-range" ).slider({
+                range: true,
+                min: 18,
+                max: 99,
+                values: [ 18, 99 ],
+                slide: function( event, ui ){
+                    filterAge(ui.values[0], ui.values[1] );
+                    $( "#amount" ).val( ui.values[ 0 ] + " - " + ui.values[ 1 ] );
+                }
+            });
+            $( "#amount" ).val($( "#age-range" ).slider( "values", 0 ) +
+                    " - " + $( "#age-range" ).slider( "values", 1 ) );
+        });
+    </script>
+
+
+{% endblock %}
+
+
+{% block body %}
+
+<div class="container">
+    <div class="suggest">
+        <div class="tri">
+            <label for="tri">Trier par</label>
+            <select name="tri" id="tri">
+                <option value="default">Defaut</option>
+                <option value="age">Age</option>
+                <option value="localisation">Localisation</option>
+                <option value="popularite">Popularite</option>
+                <option value="tags">Tags</option>
+            </select>
+            <label for="croi">Croissant</label>
+            <select name="croi" id="croi">
+                <option value="croi">Croissant</option>
+                <option value="de">Decroissant</option>
+
+            </select>
+        </div>
+        <div class="filter row">
+            <div class="age col-sm-3">
+                <p>Age : <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;"> </p>
+                <div id="age-range"></div>
+            </div>
+        </div>
+        <div class="listusers">
+        {% for sug in suggest %}
+            <div class="encart-users clearfix" data-index="{{ loop.index }}" data-age="{{ sug.age }}" data-localisation="{{ sug.distance }}" data-popularity="{{ sug.popularity }}" data-tags="{{ sug.commonInterest }}">
+                <a href="{{ path_for('viewProfil', { 'id' : sug.id }) }}" >
+                            <span class="infos">
+                                <span class="infos-content">
+                                    <span class="name">{{ sug.nickname }}</span>
+                                    <span> {{ sug.age }} ans</span>
+                                    <span>{{ sug.city }}</span>
+                                    <span>{{ sug.commonInterest }} passions communes</span>
+                                </span>
+                            </span>
+                    <img width="250" height="250" src="/img/{% if sug.url is null %}default.jpg{% else %}{{ sug.url }}{% endif %}" alt="">
+                </a>
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

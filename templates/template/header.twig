@@ -31,14 +31,17 @@
 			</div>
 			{% if app.isLogged %}
 				<ul>
-
 					<li><a href="{{ path_for('viewProfil', { 'id' : session.login.id }) }}">Mon profil</a> </li>
 					<li><a href="{{ path_for('editProfil', { 'id' : session.login.id }) }}">Editer mon profil</a></li>
-					<li></li>
-					<li></li>
-					<li></li>
+					<li><a href="{{ path_for('viewSuggest', {'id' :  session.login.id }) }}">Suggestion</a></li>
+
 				</ul>
 			{% endif %}
+			<div class="subheader">
+				<ul>
+				</ul>
+			</div>
 		</div>
+
 	</div>
 </div>

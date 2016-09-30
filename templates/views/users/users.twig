@@ -1,7 +1,8 @@
 {% extends "template/base.twig" %}
 
 {% block javascript %}
-    <script type="text/javascript" src="http://maps.google.com/maps/api/js?key=AIzaSyCIO-L9UwM1CtEbOao5Hdw_ueidLFQyzE0"></script>
+    <script type="text/javascript"
+            src="http://maps.google.com/maps/api/js?key=AIzaSyCIO-L9UwM1CtEbOao5Hdw_ueidLFQyzE0"></script>
 
     <script type="text/javascript">
 
@@ -91,7 +92,8 @@
                         <div class="profile">
                             <img src="/img/{{ imgProfil.url }}" alt="">
                         </div>
-                        <p class="pop pink">{{ users.popularity }} PTS <span class="glyphicon glyphicon-menu-right"></span></p>
+                        <p class="pop pink">{{ users.popularity }} PTS <span
+                                    class="glyphicon glyphicon-menu-right"></span></p>
                     </div>
                 </div>
                 <div class="col-sm-8 encart tablem">
@@ -185,17 +187,7 @@
                 </div>
 
             </div>
-            <div class="suggest">
-                {% for sug in suggest %}
-                    <div class="encart-users">
-                        <a href="{{ path_for('viewProfil', { 'id' : sug.id }) }}">
-                            <img src="{{ sug.url }}" alt="">
-                            
-                        </a>
-                        {{ sug.nickname }}
-                    </div>
-                {% endfor %}
-            </div>
+
         </div>
 
     </div>

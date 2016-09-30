@@ -108,12 +108,12 @@
 
 .main-user .fullDetails {
 	padding-top: 15px;
-	width:   860px;
-	display: inline-block;
+	width:       860px;
+	display:     inline-block;
 }
 
-.main-user .details-encart{
-	padding-left: 15px;
+.main-user .details-encart {
+	padding-left:  15px;
 	padding-right: 15px;
 }
 
@@ -128,13 +128,14 @@
 	font-size:      1.4rem;
 }
 
-.main-user .description{
-	border-bottom: 4px solid #ffe6ec;
-	border-top: 4px solid #ffe6ec;
-	display: inline-block;
-	margin-top: 15px;
-	padding-top: 15px;
+.main-user .description {
+	border-bottom: 4px solid #FFE6EC;
+	border-top:    4px solid #FFE6EC;
+	display:       inline-block;
+	margin-top:    15px;
+	padding-top:   15px;
 }
+
 .main-user .fullDetails .br {
 	border-left: 1px solid #DFE2E5;
 }
@@ -148,6 +149,55 @@
 	height:     280px;
 	margin-top: 15px;
 
+}
+
+.suggest .encart-users {
+	display:  block;
+	float:    left;
+	position: relative;
+}
+
+.encart-users .infos {
+	background-color: rgba(28, 34, 40, 0.85);
+	color:            #FFFFFF;
+	display:          table !important;
+	height:           250px;
+	left:             0;
+	opacity:          0;
+	position:         absolute;
+	top:              0;
+	transition:       opacity 0.4s ease 0s;
+	width:            250px;
+}
+
+.encart-users a:hover .infos{
+	opacity:1;
+}
+
+.encart-users span{
+	display: block;
+	font-size: 1.5rem;
+	line-height: 1.4rem;
+	margin-bottom: 7px;
+	text-align: center;
+}
+.infos-content span.name{
+	font-size: 1.6rem;
+	font-weight:bold;
+	text-transform: uppercase;
+}
+
+.infos-content{
+	display: table-cell !important;
+	vertical-align: middle;
+}
+
+.encart-users .infos {
+	font-size: 1.3rem;
+	line-height: 1.4rem;
+	text-align: center;
+	display:        table-cell;
+	vertical-align: middle;
 }
 
 .main-user .map .gmnoprint {

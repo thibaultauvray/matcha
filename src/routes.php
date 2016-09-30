@@ -18,6 +18,10 @@ $app->post('/edit/{id}', 'UsersController:postEditProfil')->setName('postEditPro
 
 $app->get('/edit/location/{id}', 'UsersController:editLocation')->setName('editLocation');
 
+// Suggestion recherche
+
+$app->get('/user/view/suggest/{id}', 'UsersController:viewSuggest')->setName('viewSuggest');
+
 // AJax call 
 $app->post('/updateZipCode', 'UsersController:updateZipCode')->setName('updateZipCode');
 $app->get('/getId', 'UsersController:getId')->setName('getId');
