@@ -75,13 +75,44 @@
 
             });
 
-            function filterAge(value1, value2)
+            function isInteret(interet, interetUser)
             {
-                $(".listusers .encart-users").each(function()
+                bool = true;
+                $.each(interetUser, function(index, value)
                 {
-                    console.log($(this).data("age"));
-                })
+                    if($.inArray(value.trim(), interet) !== -1)
+                    {
+                        if(bool != false)
+                            bool = true;
+                    }
+                    else
+                    {
+                        bool = false
+                    }
+                });
+                return bool;
             }
+
+            $(".filter").on('input', function()
+            {
+                age1 = $("#amount").val().split('-')[0].trim();
+                age2 = $("#amount").val().split('-')[1].trim();
+                loca = $("#filterLoca").val().toLowerCase();
+                interetUser = $('#filterTags').val().split(',');
+                $(".listusers .encart-users").each(function(){
+                    interet = $(this).data("tag-list").split(',');
+                    city = $(this).data('city').toLowerCase()
+                    console.log( isInteret(interet, interetUser));
+                    if(($(this).data("age") < age1 || $(this).data("age") > age2) || city.indexOf(loca) == -1 || isInteret(interet, interetUser) == false)
+                    {
+                        $(this).hide('1000');
+                    }
+                    else
+                    {
+                        $(this).show('1000');
+                    }
+                });
+            })
 
             $( "#age-range" ).slider({
                 range: true,
@@ -89,7 +120,8 @@
                 max: 99,
                 values: [ 18, 99 ],
                 slide: function( event, ui ){
-                    filterAge(ui.values[0], ui.values[1] );
+                    $(".filter").trigger("input");
+//                    filterAge(ui.values[0], ui.values[1] );
                     $( "#amount" ).val( ui.values[ 0 ] + " - " + ui.values[ 1 ] );
                 }
             });
@@ -116,21 +148,24 @@
                 <option value="tags">Tags</option>
             </select>
             <label for="croi">Croissant</label>
-            <select name="croi" id="croi">
+            <select class="filter" name="croi" id="croi">
                 <option value="croi">Croissant</option>
                 <option value="de">Decroissant</option>
-
             </select>
+            <label for="filterLoca">Localisation</label>
+            <input class="filter" type="text" id="filterLoca">
+            <label for="filterTags">Centre d'interet</label>
+            <input type="text" class="filter" id="filterTags">
         </div>
         <div class="filter row">
             <div class="age col-sm-3">
-                <p>Age : <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;"> </p>
+                <p>Age : <input class="filter" type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;"> </p>
                 <div id="age-range"></div>
             </div>
         </div>
         <div class="listusers">
         {% for sug in suggest %}
-            <div class="encart-users clearfix" data-index="{{ loop.index }}" data-age="{{ sug.age }}" data-localisation="{{ sug.distance }}" data-popularity="{{ sug.popularity }}" data-tags="{{ sug.commonInterest }}">
+            <div class="encart-users clearfix" data-index="{{ loop.index }}" data-tag-list="{{ sug.interestString }}" data-age="{{ sug.age }}" data-city="{{ sug.city }}" data-localisation="{{ sug.distance }}" data-popularity="{{ sug.popularity }}" data-tags="{{ sug.commonInterest }}">
                 <a href="{{ path_for('viewProfil', { 'id' : sug.id }) }}" >
                             <span class="infos">
                                 <span class="infos-content">

@@ -130,6 +130,15 @@ class Users extends Model
         return $listUsers;
     }
 
+    public function addInteretList($listUser)
+    {
+        foreach ( $listUser as $key => $value)
+        {
+            $listUser[$key]['interestString'] = $this->getStringInterest($value['id_users']);
+        }
+        return $listUser;
+    }
+
     public function findSuggest($id)
     {
         $pdo = $this->app->db;
@@ -141,7 +150,7 @@ class Users extends Model
         $lat = $users['latitude'];
         $long = $users['longitude'];
 
-        $sql = "SELECT u.*, ul.city, img.url, (ABS($ong - ul.longitude) + ABS($lat  - ul.latitude)) AS distance,  COUNT(up.id_interest) as commonInterest
+        $sql = "SELECT u.*, u.id AS id_users, ul.city, img.url, (ABS($ong - ul.longitude) + ABS($lat  - ul.latitude)) AS distance,  COUNT(up.id_interest) as commonInterest
         FROM users u
         LEFT JOIN users_usersInterest ui ON ui.id_users = u.id
         LEFT JOIN (SELECT id_interest FROM `users_usersInterest` WHERE id_users = $id) up on up.id_interest = ui.id_interest
@@ -165,11 +174,11 @@ class Users extends Model
         AND u.id <> $id
         GROUP BY u.id, ui.id_users, distance, img.id, ul.city
         ORDER BY distance ASC, commonInterest DESC";
-        echo $sql;
         $usersL = $pdo->prepare($sql);
         $usersL->execute();
         $listUsers = $usersL->fetchAll();
         $listUsers = $this->removeOrientation($listUsers, $users);
+        $listUsers = $this->addInteretList($listUsers);
         return $listUsers;
     }
 
