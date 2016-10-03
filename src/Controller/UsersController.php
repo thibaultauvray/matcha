@@ -40,6 +40,19 @@ class UsersController extends Controller
         return $this->app->view->render($response, 'views/users/register.twig');
     }
 
+    public function search($request, $response, $args)
+    {
+        $users = new Users($this->app);
+        $id = $this->getUserId();
+        $userSuggest = $users->findSearch($_POST['terms'], $id);
+        $route = $request->getAttribute('route');
+        $name = $route->getName();
+
+        return $this->app->view->render($response, 'views/users/suggest.twig', array('suggest'   => $userSuggest,
+                                                                                     'routeName' => $name,
+                                                                                     'data'      => $_POST['terms']));
+    }
+
     public function postRegister($request, $response, $args)
     {
         $validator = $this->app->validator;

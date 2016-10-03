@@ -18,6 +18,7 @@ $container['view'] = function ($c) {
     $view->getEnvironment()->addGlobal('app', $c['controller']);
     $view->getEnvironment()->addGlobal('session', $_SESSION);
     $view->getEnvironment()->addGlobal('baseURL', $c['baseURL']);
+
     return $view;
 };
 

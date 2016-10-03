@@ -21,6 +21,8 @@ $app->get('/edit/location/{id}', 'UsersController:editLocation')->setName('editL
 // Suggestion recherche
 
 $app->get('/user/view/suggest/{id}', 'UsersController:viewSuggest')->setName('viewSuggest');
+$app->post('/user/search', 'UsersController:search')->setName('search');
+$app->get('/user/search', 'UsersController:search')->setName('search');
 
 // AJax call 
 $app->post('/updateZipCode', 'UsersController:updateZipCode')->setName('updateZipCode');

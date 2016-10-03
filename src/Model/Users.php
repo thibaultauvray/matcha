@@ -158,8 +158,7 @@ class Users extends Model
         LEFT JOIN usersImage img ON img.id_users = u.id AND img.isprofil = 1
         WHERE u.gender LIKE (CASE '$gender'
                              WHEN 'f' THEN (
-                                CASE '$orientation'" .
-            "
+                                CASE '$orientation'
                                    WHEN 'hetero' THEN 'm'
                                    WHEN 'homosexuel' THEN 'f'
                                    ELSE '%%'
@@ -180,6 +179,26 @@ class Users extends Model
         $listUsers = $this->removeOrientation($listUsers, $users);
         $listUsers = $this->addInteretList($listUsers);
         return $listUsers;
+    }
+
+    public function findSearch($string, $id)
+    {
+        $pdo = $this->app->db;
+        $usersL = $pdo->prepare("SELECT u.*, u.id AS id_users, ul.city, img.url, COUNT(up.id_interest) as commonInterest
+        FROM users u
+        LEFT JOIN users_usersInterest ui ON ui.id_users = u.id
+        LEFT JOIN (SELECT id_interest FROM `users_usersInterest` WHERE id_users = $id) up on up.id_interest = ui.id_interest
+        LEFT JOIN usersLocation ul ON ul.id_users = u.id
+        LEFT JOIN usersImage img ON img.id_users = u.id AND img.isprofil = 1
+        WHERE (u.nickname LIKE :terms OR u.name LIKE :terms OR u.lastname LIKE :terms)
+        AND u.id != $id
+        GROUP BY u.id, ui.id_users,img.id, ul.city");
+        $usersL->execute(array('terms' => '%'.$string.'%'));
+        $usersL = $usersL->fetchAll();
+        $usersL = $this->addInteretList($usersL);
+
+        return $usersL;
+
     }
 
     public function updatedLocation($id)

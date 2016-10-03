@@ -67,3 +67,7 @@ input {
 .bgwhite{
 	background: white;
 }
+
+.header ul li{
+	float: left;
+}

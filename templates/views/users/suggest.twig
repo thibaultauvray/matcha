@@ -1,7 +1,7 @@
 {% extends "template/base.twig" %}
 
-{%  block javascript %}
-    <script src="{{ baseURl }}/js/suggest.js" type="application/javascript"></script>
+{% block javascript %}
+    <script src="{{ baseURl }}/js/search.js" type="application/javascript"></script>
 
 
 {% endblock %}
@@ -9,44 +9,66 @@
 
 {% block body %}
 
-<div class="container">
-    <div class="suggest">
-        <div class="tri">
-            <label for="tri">Trier par</label>
-            <select name="tri" id="tri">
-                <option value="default">Defaut</option>
-                <option value="age">Age</option>
-                <option value="localisation">Localisation</option>
-                <option value="popularite">Popularite</option>
-                <option value="tags">Tags</option>
-            </select>
-            <label for="croi">Croissant</label>
-            <select class="filter" name="croi" id="croi">
-                <option value="croi">Croissant</option>
-                <option value="de">Decroissant</option>
-            </select>
-            <label for="filterLoca">Localisation</label>
-            <input class="filter" type="text" id="filterLoca">
-            <label for="filterTags">Centre d'interet</label>
-            <input type="text" class="filter" id="filterTags">
-            <label for=""></label>
-        </div>
-        <div class="filter row">
-            <div class="age col-sm-3">
-                <p>Age : <input class="filter" type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;"> </p>
-                <div id="age-range"></div>
+    <div class="container">
+        <div class="suggest">
+            {% if routeName is defined and routeName == "search" %}
+                <div class="search">
+                    <form action="{{ path_for('search') }}" method="POST">
+                        <input type="text" id="terms" name="terms" value="{{ data }}">
+                    </form>
+                </div>
+            {% endif %}
+            <div class="tri">
+                <label for="tri">Trier par</label>
+                <select name="tri" id="tri">
+                    <option value="default">Defaut</option>
+                    <option value="age">Age</option>
+                    <option value="localisation">Localisation</option>
+                    <option value="popularite">Popularite</option>
+                    <option value="tags">Tags</option>
+                </select>
+                <label for="croi">Croissant</label>
+                <select class="filter" name="croi" id="croi">
+                    <option value="croi">Croissant</option>
+                    <option value="de">Decroissant</option>
+                </select>
+                <label for="filterLoca">Localisation</label>
+                <input class="filter" type="text" id="filterLoca">
+                <label for="filterTags">Centre d'interet</label>
+                <input type="text" class="filter" id="filterTags">
+                {% if routeName is defined and routeName == "search" %}
+                    <div class="gender">
+                        <input class="filter" type="checkbox" id="m" name="gender" value="m" checked> <label for="m">Homme</label>
+                        <input class="filter" type="checkbox" id="f" name="gender" value="f" checked> <label for="f">Femme</label>
+                    </div>
+                    <div class="orien">
+                        <input type="checkbox" class="filter" id="homo" name="orien" value="homo" checked><label for="homo">Homosexuel</label>
+                        <input type="checkbox" class="filter" id="bi" name="orien" value="bi" checked><label for="bi">Bisexuel</label>
+                        <input type="checkbox" class="filter" id="hetero" name="orien" value="hetero" checked><label for="hetero">Heterosexuel</label>
+                    </div>
+                {% endif %}
             </div>
-        </div>
-        <div class="filter row">
-            <div class="age col-sm-3">
-                <p>Popularite : <input class="filter" type="text" id="popularity" readonly style="border:0; color:#f6931f; font-weight:bold;"> </p>
-                <div id="pop-range"></div>
+            <div class="filter row">
+                <div class="age col-sm-3">
+                    <p>Age : <input class="filter" type="text" id="amount" readonly
+                                    style="border:0; color:#f6931f; font-weight:bold;"></p>
+                    <div id="age-range"></div>
+                </div>
             </div>
-        </div>
-        <div class="listusers">
-        {% for sug in suggest %}
-            <div class="encart-users clearfix" data-index="{{ loop.index }}" data-tag-list="{{ sug.interestString }}" data-age="{{ sug.age }}" data-city="{{ sug.city }}" data-localisation="{{ sug.distance }}" data-popularity="{{ sug.popularity }}" data-tags="{{ sug.commonInterest }}">
-                <a href="{{ path_for('viewProfil', { 'id' : sug.id }) }}" >
+            <div class="filter row">
+                <div class="age col-sm-3">
+                    <p>Popularite : <input class="filter" type="text" id="popularity" readonly
+                                           style="border:0; color:#f6931f; font-weight:bold;"></p>
+                    <div id="pop-range"></div>
+                </div>
+            </div>
+            <div class="listusers">
+                {% for sug in suggest %}
+                    <div class="encart-users clearfix" data-index="{{ loop.index }}" data-orien="{{ sug.orientation }}"
+                         data-sex="{{ sug.gender }}" data-tag-list="{{ sug.interestString }}" data-age="{{ sug.age }}"
+                         data-city="{{ sug.city }}" data-localisation="{{ sug.distance }}"
+                         data-popularity="{{ sug.popularity }}" data-tags="{{ sug.commonInterest }}">
+                        <a href="{{ path_for('viewProfil', { 'id' : sug.id }) }}">
                             <span class="infos">
                                 <span class="infos-content">
                                     <span class="name">{{ sug.nickname }}</span>
@@ -55,12 +77,14 @@
                                     <span>{{ sug.commonInterest }} passions communes</span>
                                 </span>
                             </span>
-                    <img width="250" height="250" src="/img/{% if sug.url is null %}default.jpg{% else %}{{ sug.url }}{% endif %}" alt="">
-                </a>
+                            <img width="250" height="250"
+                                 src="/img/{% if sug.url is null %}default.jpg{% else %}{{ sug.url }}{% endif %}"
+                                 alt="">
+                        </a>
+                    </div>
+                {% endfor %}
             </div>
-        {% endfor %}
         </div>
     </div>
-</div>
 
 {% endblock %}
