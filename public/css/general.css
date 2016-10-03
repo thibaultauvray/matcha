@@ -27,7 +27,7 @@ li {
 }
 
 input {
-	border-radius: 0 !important;
+	border-radius: 0;
 }
 
 .tablem {
@@ -68,6 +68,3 @@ input {
 	background: white;
 }
 
-.header ul li{
-	float: left;
-}
