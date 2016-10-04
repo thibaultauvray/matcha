@@ -1,6 +1,5 @@
 <?php
 
-
 class UsersController extends Controller
 {
 
@@ -265,6 +264,7 @@ class UsersController extends Controller
         $users = new Users($this->app);
         $id = $args['id'];
         $userSuggest = $users->findSuggest($id);
+
 
         return $this->app->view->render($response, 'views/users/suggest.twig', array('suggest' => $userSuggest));
     }

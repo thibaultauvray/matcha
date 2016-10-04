@@ -8,21 +8,16 @@
 
 }
 
-.header h1 a{
+.header h1 a {
 	color: #F48FB1;
 }
 
-header .title a:hover{
+header .title a:hover {
 	text-decoration: none;
 }
 
 .connex {
 
-}
-
-.connex input {
-	margin-right: 10px;
-	height:       27px;
 }
 
 .connex .isConnected {
@@ -76,6 +71,24 @@ header .title a:hover{
 	font-weight: bold;
 }
 
+.connex .form-con .passwordInput {
+	position: relative;
+}
+
+.connex .form-con input {
+	height:        27px;
+	float:         left;
+	border-radius: 0;
+	border:        none;
+
+}
+
+.connex .form-con .form-group input {
+	margin-right: 10px;
+	width:        150px;
+
+}
+
 .connex .isConnected {
 	float: right;
 }
@@ -88,10 +101,16 @@ header .title a:hover{
 }
 
 .connex .forget {
-	color:           white;
-	font-style:      italic;
-	text-decoration: underline;
-	padding-top:     5px;
+	color:        white;
+	float:        right;
+	font-style:   italic;
+	margin-right: 55px;
+	padding-top:  5px;
+	font-size:    12px;
+}
+
+.connex .forget:last-child {
+	margin-right: 33px;
 }
 
 .title {
@@ -107,11 +126,35 @@ header .title a:hover{
 	font-size: 29px;
 }
 
-.icon-menu a{
-	color:#fff;
+.icon-menu a {
+	color: #FFFFFF;
 }
 
-.icon-menu a span{
+.icon-menu a span {
 	line-height: 0;
-	top: -3px;
+	top:         -3px;
+}
+
+.notif > li:first-child{
+	margin-right: 20px;
+}
+
+.notif-list .glyphicon{
+	color: white;
+	top: -5px;
+}
+
+.notif > li {
+	float: left;
+}
+
+.notif-list > ul > li > a {
+	color: #FFFFFF;
+	padding-left: 7px;
+	padding-right: 7px;
+}
+
+.notif-list img {
+	border: 1px solid #f48fb1;
+	margin-right: 10px;
 }

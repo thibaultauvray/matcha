@@ -143,3 +143,4 @@ $(document).ready(function()
     $( "#amount" ).val($( "#age-range" ).slider( "values", 0 ) +
         " - " + $( "#age-range" ).slider( "values", 1 ) );
 });
+

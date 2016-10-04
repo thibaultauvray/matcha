@@ -1,6 +1,6 @@
 body {
 	font-family:      'Open Sans';
-	/*background-image: url('../img/bg.png');*/
+	background-image: url('../img/bg.png');
 	color:#2c333a;
 }
 
@@ -9,6 +9,21 @@ body {
 }
 li {
 	list-style-type: none;
+}
+
+.main-container{
+	background: #FFFFFF;
+	box-shadow: 0 0 15px rgba(83, 25, 39, 0.1);
+}
+
+input {
+	color: #8a8a8a;
+	border: 1px solid #FFFFFF;
+}
+
+input:focus {
+	border-color: #F48FB1;
+
 }
 
 .noPadding {

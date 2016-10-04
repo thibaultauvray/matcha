@@ -1,12 +1,28 @@
 <div class="bg_header">
     <div class="container">
         <div class="header">
-            <div class="col-sm-2">
+            <div class="{% if app.isLogged %}col-sm-2{% else %}col-sm-6{% endif %}">
                 <h1 class="title"><a href="{{ path_for('homepage') }}">Matcha</a></h1>
             </div>
+            {% if app.isLogged %}
             <div class="col-sm-2">
-                <ul class="icon-menu">
-                    <li><a href="{{ path_for('viewSuggest', {'id' :  session.login.id }) }}"><span class="glyphicon glyphicon-map-marker"></span></a></li>
+                <ul class="icon-menu notif">
+                    <li><a href="{{ path_for('viewSuggest', {'id' :  session.login.id }) }}"><span
+                                    class="glyphicon glyphicon-map-marker"></span></a></li>
+                    <li><div class="dropdown notif-list">
+                            <span class="pink dropdown-toggle" type="button" id="dropdownMenu1"
+                                            data-toggle="dropdown"
+                                            aria-haspopup="true" aria-expanded="true">
+                                <span class="glyphicon glyphicon-envelope"></span>
+						</span>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                {% for notif in app.getNotification  %}
+                                    <li><a href=""><img width=50 height=50 src="http://{{ baseUrl }}/img/{{ notif.url }}" alt="">{{ notif.nickname }} {{ notif.message }}</a></li>
+                                {% endfor %}
+
+                            </ul>
+                        </div>
+                    </li>
                 </ul>
             </div>
             <div class="col-sm-5">
@@ -15,53 +31,56 @@
                     <button type="submit" class="glyphicon glyphicon-search submit-search"></button>
                 </form>
             </div>
-            <div class="connex col-sm-3">
+            {% endif %}
+            <div class="connex {% if app.isLogged %}col-sm-3{% else %}col-sm-6{% endif %}">
                 <div class="isConnected">
                     {% if app.isLogged %}
-                    <div class="dropdown">
-                        Bienvenue <span class="pink dropdown-toggle" type="button" id="dropdownMenu1"
-                                        data-toggle="dropdown"
-                                        aria-haspopup="true" aria-expanded="true">
+                        <div class="dropdown">
+                            Bienvenue <span class="pink dropdown-toggle" type="button" id="dropdownMenu1"
+                                            data-toggle="dropdown"
+                                            aria-haspopup="true" aria-expanded="true">
 							{{ session.login.nickname }}
-                            <span class="caret"></span>
+                                <span class="caret"></span>
 						</span>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                            <li><a href="{{ path_for('viewProfil', { 'id' : session.login.id }) }}">Mon profil</a></li>
-                            <li><a href="{{ path_for('editProfil', { 'id' : session.login.id }) }}">Editer mon
-                                    profil</a></li>
-                            <li><a href="{{ path_for('signout') }}">Se deconnecter</a></li>
-                        </ul>
-                    </div>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                <li><a href="{{ path_for('viewProfil', { 'id' : session.login.id }) }}">Mon profil</a>
+                                </li>
+                                <li><a href="{{ path_for('editProfil', { 'id' : session.login.id }) }}">Editer mon
+                                        profil</a></li>
+                                <li><a href="{{ path_for('signout') }}">Se deconnecter</a></li>
+                            </ul>
+                        </div>
 
-                </div>
-                {% else %}
-                    <div class="form-con">
-                        <form class="form-inline" method="POST" action="{{ path_for('signin') }}">
-                            <div class="form-group">
-                                <label class="sr-only" for="exampleInputEmail3">Email address</label>
-                                <input type="mail" name="mail" class="form-control" id="exampleInputEmail3"
-                                       placeholder="Email">
-                            </div>
-                            <div class="form-group">
-                                <label class="sr-only" for="exampleInputPassword3">Password</label>
-                                <input type="password" name="passwd" class="form-control" id="exampleInputPassword3"
-                                       placeholder="Password">
-                            </div>
-                            {% if flash.getMessage('error').0 %}
-                                <div class="alert alert-success">
-                                    {{ flash.getMessage('error').0 }}
+                    {% else %}
+                        <div class="form-con">
+                            <form class="form-inline" method="POST" action="{{ path_for('signin') }}">
+                                <div class="form-group">
+                                    <label class="sr-only" for="exampleInputEmail3">Email address</label>
+                                    <input type="mail" name="mail" class="form-control" id="exampleInputEmail3"
+                                           placeholder="Email">
                                 </div>
-                            {% endif %}
-                            <button type="submit" class="btn btn-default">OK</button>
-                        </form>
-                        <p class="forget">mot de passe oublié ?</p>
-                        <p class="forget"><a href="{{ path_for('register') }}">Inscription ?</a></p>
-                    </div>
-                {% endif %}
+                                <div class="form-group passwordInput">
+                                    <label class="sr-only" for="exampleInputPassword3">Password</label>
+                                    <input type="password" name="passwd" class="form-control" id="exampleInputPassword3"
+                                           placeholder="Password">
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-default">OK</button>
+                                </div>
+                                {% if flash.getMessage('error').0 %}
+                                    <div class="alert alert-success">
+                                        {{ flash.getMessage('error').0 }}
+                                    </div>
+                                {% endif %}
+                            </form>
+                            <p class="forget"><a href="">mot de passe oublié ?</a></p>
+                            <p class="forget"><a href="{{ path_for('register') }}">Inscription ?</a></p>
+                        </div>
+                    {% endif %}
+                </div>
             </div>
         </div>
     </div>
-
 </div>
 <div class="subheader">
     <div class="container">

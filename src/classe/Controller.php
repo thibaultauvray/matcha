@@ -23,6 +23,16 @@
         	return false;
         }
 
+        public function getNotification()
+        {
+            $users = new Notification($this->app);
+
+            $id = $this->getUserId();
+            $notifications = $users->getNotification($id);
+            return $notifications;
+
+        }
+
         public function getUserId()
         {
         	if (isset($_SESSION['login']) && !empty($_SESSION['login']))

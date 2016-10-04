@@ -3,6 +3,7 @@
 {% block javascript %}
     <script type="text/javascript"
             src="http://maps.google.com/maps/api/js?key=AIzaSyCIO-L9UwM1CtEbOao5Hdw_ueidLFQyzE0"></script>
+    <script src="{{ baseURl }}/js/like.js" type="application/javascript"></script>
 
     <script type="text/javascript">
 
@@ -99,6 +100,7 @@
                 <div class="col-sm-8 encart tablem">
                     <div class="tablecell">
                         <h2>{{ users.nickname }}</h2>
+                        <button id="like">Like <span class="glyphicon glyphicon-heart"></span></button>
                     </div>
                     <div class="age-city tablem">
                         <div class="age pink floatl">
@@ -118,7 +120,7 @@
                         {% endfor %}
                     </p>
                 </div>
-
+        <span id="idView" class="hidden">{{ users.id }}</span>
             </div>
         </div>
     </div>
