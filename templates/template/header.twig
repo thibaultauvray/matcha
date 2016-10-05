@@ -17,7 +17,7 @@
 						</span>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
                                 {% for notif in app.getNotification  %}
-                                    <li><a href=""><img width=50 height=50 src="http://{{ baseUrl }}/img/{{ notif.url }}" alt="">{{ notif.nickname }} {{ notif.message }}</a></li>
+                                    <li><a href="{{ notif.href }}"><img width=50 height=50 src="http://{{ baseUrl }}/img/{{ notif.url }}" alt="">{{ notif.nickname }} {{ notif.message }}</a></li>
                                 {% endfor %}
 
                             </ul>
