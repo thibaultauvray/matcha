@@ -30,7 +30,23 @@
             $id = $this->getUserId();
             $notifications = $users->getNotification($id);
             return $notifications;
+        }
+        public function noProfilPic()
+        {
+            $id = $this->getUserId();
 
+            $img = new UsersImage($this->app);
+            $img = $img->getProfilPic($id);
+            return $img;
+        }
+
+        public function getCountUnreadNotif()
+        {
+            $notif = new Notification($this->app);
+
+            $id = $this->getUserId();
+            $nb = $notif->getCountUnreadNotif($id);
+            return $nb;
         }
 
         public function getUserId()

@@ -135,13 +135,50 @@ header .title a:hover {
 	top:         -3px;
 }
 
-.notif > li:first-child{
+.notif > li:first-child {
 	margin-right: 20px;
 }
 
-.notif-list .glyphicon{
+.notif-list .glyphicon {
 	color: white;
-	top: -5px;
+	top:   -5px;
+}
+
+#unread:before {
+	border-color: #FF4081 transparent transparent;
+	border-style: solid;
+	border-width: 3px 2.5px 0;
+	height:       0;
+	width:        0;
+	bottom:       -3px;
+	content:      "";
+	height:       0;
+	left:         50%;
+	position:     absolute;
+	transform:    translate(-50%, 0px);
+	width:        0;
+}
+
+.notif-list #unread {
+	background-color: #FF4081;
+	border-color:     #FF4081 transparent transparent;
+	border-radius:    2px;
+	border-style:     solid;
+	border-width:     4px 1.5px 0;
+	color:            #FFFFFF;
+	display:          inline-block;
+	font-size:        1.2rem;
+	font-weight:      bold;
+	height:           17px;
+	left:             50%;
+	line-height:      0.7em;
+	min-width:        12px;
+	padding:          0 5px;
+	position:         absolute;
+	top:              -22px;
+	transform:        translate(-50%, 0px);
+	white-space:      nowrap;
+	z-index:          1;
 }
 
 .notif > li {
@@ -149,12 +186,12 @@ header .title a:hover {
 }
 
 .notif-list > ul > li > a {
-	color: #FFFFFF;
-	padding-left: 7px;
+	color:         #FFFFFF;
+	padding-left:  7px;
 	padding-right: 7px;
 }
 
 .notif-list img {
-	border: 1px solid #f48fb1;
+	border:       1px solid #F48FB1;
 	margin-right: 10px;
 }

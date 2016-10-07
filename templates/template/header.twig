@@ -1,3 +1,5 @@
+{{ app.noProfilPic }}
+
 <div class="bg_header">
     <div class="container">
         <div class="header">
@@ -14,10 +16,11 @@
                                             data-toggle="dropdown"
                                             aria-haspopup="true" aria-expanded="true">
                                 <span class="glyphicon glyphicon-envelope"></span>
-						</span>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                <span id="unread">{{ app.getCountUnreadNotif }}</span>
+                            </span>
+                            <ul class="dropdown-menu notifUnread" aria-labelledby="dropdownMenu1">
                                 {% for notif in app.getNotification  %}
-                                    <li><a href="{{ notif.href }}"><img width=50 height=50 src="http://{{ baseUrl }}/img/{{ notif.url }}" alt="">{{ notif.nickname }} {{ notif.message }}</a></li>
+                                    <li onmouseover="unread({{ notif.idNotif }})" {% if notif.reading == 0 %}class="unread" {% endif %} data-id="{{ notif.idNotif }}"><a href="{{ notif.href }}"><img width=50 height=50 src="http://{{ baseUrl }}/img/{{ notif.url }}" alt="">{{ notif.nickname }} {{ notif.message }}</a></li>
                                 {% endfor %}
 
                             </ul>

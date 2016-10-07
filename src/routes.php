@@ -33,3 +33,7 @@ $app->post('/updateLocationProfil', 'UsersController:updateLocationProfil')->set
 $app->get('/users/updateLocation/{id}', 'UsersController:updateUsersLocation')->setName('updateUsersLocation');
 $app->post('/like', 'NotificationsController:like')->setName('like');
 $app->get('/getLike', 'NotificationsController:getLike')->setName('like');
+$app->get('/getUnreadNotif', 'NotificationsController:getUnreadNotif')->setName('getUnreadNotif');
+$app->post('/readNotif', 'NotificationsController:readNotif')->setName('getUnreadNotif');
+$app->get('/getCountNotif', 'NotificationsController:getCountNotif')->setName('getCountNotif');
+

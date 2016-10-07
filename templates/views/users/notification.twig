@@ -1,0 +1,3 @@
+{% for notif in app.getNotification  %}
+    <li {% if notif.reading == 0 %}class="unread" {% endif %} data-id="{{ notif.idNotif }}" onmouseover="unread({{ notif.idNotif }})"><a href="{{ notif.href }}" ><img width=50 height=50 src="http://{{ baseUrl }}/img/{{ notif.url }}" alt="">{{ notif.nickname }} {{ notif.message }}</a></li>
+{% endfor %}
