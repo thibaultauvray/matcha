@@ -3,6 +3,13 @@
 class UsersController extends Controller
 {
 
+    public function fillDB()
+    {
+        $user = new Users($this->app);
+
+        $user->fillDB();
+    }
+
     /*
     * 	SIGN IN / SIGN OUT ACTION
     */
@@ -116,7 +123,12 @@ class UsersController extends Controller
         $id = $args['id'];
         $usersLocation = new UsersLocation($this->app);
         $users = new Users($this->app);
-
+        $sameProfil = false;
+        if ($id == $this->getUserId())
+        {
+            $sameProfil = true;
+        }
+        var_dump($sameProfil);
         $this->upPopularity($id, 5);
         $userSuggest = $users->findSuggest($id);
         $interest = $users->getInterest($id);
@@ -125,11 +137,12 @@ class UsersController extends Controller
         $imagePics = $users->getImageProfil($id);
 
 
-        return $this->app->view->render($response, 'views/users/users.twig', array('users'     => $user,
-                                                                                   'imgProfil' => $imagePics,
-                                                                                   'location'  => $location,
-                                                                                   'interet'   => $interest,
-                                                                                   'suggest'   => $userSuggest));
+        return $this->app->view->render($response, 'views/users/users.twig', array('users'      => $user,
+                                                                                   'imgProfil'  => $imagePics,
+                                                                                   'location'   => $location,
+                                                                                   'interet'    => $interest,
+                                                                                   'suggest'    => $userSuggest,
+                                                                                   'sameProfil' => $sameProfil));
     }
 
 

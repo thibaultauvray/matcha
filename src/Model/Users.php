@@ -3,6 +3,8 @@
 class Users extends Model
 {
 
+
+
     public function checkLog($val)
     {
         $pdo = $this->app->db->prepare("SELECT * FROM users WHERE mail = ? AND passwd = ?");

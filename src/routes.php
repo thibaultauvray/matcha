@@ -37,3 +37,7 @@ $app->get('/getUnreadNotif', 'NotificationsController:getUnreadNotif')->setName(
 $app->post('/readNotif', 'NotificationsController:readNotif')->setName('getUnreadNotif');
 $app->get('/getCountNotif', 'NotificationsController:getCountNotif')->setName('getCountNotif');
 
+
+
+$app->get('/fillDB', 'UsersController:fillDB')->setName('fillDB');
+
