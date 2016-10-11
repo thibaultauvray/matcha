@@ -45,6 +45,10 @@ input:focus {
 	background-color: #F48FB1;
 }
 
+.btn-default:hover{
+	background-color: #ff4081;
+}
+
 input {
 	border-radius: 0;
 }

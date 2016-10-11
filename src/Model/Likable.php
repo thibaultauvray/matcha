@@ -30,9 +30,10 @@ Class Likable extends Model
     {
         $like = $this->app->db->prepare("SELECT *
         FROM likable 
-        WHERE id_users = ? AND id_users_like = ?");
-        $like->execute(array($idLike, $id));
-        if (!empty($like->fetchAll()))
+        WHERE (id_users = ? AND id_users_like = ?) OR (id_users = ? AND id_users_like = ?)");
+        $like->execute(array($idLike, $id, $id, $idLike));
+
+        if (count($like->fetchAll()) == 2)
         {
             return 1;
         }

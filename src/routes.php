@@ -37,6 +37,11 @@ $app->get('/getUnreadNotif', 'NotificationsController:getUnreadNotif')->setName(
 $app->post('/readNotif', 'NotificationsController:readNotif')->setName('getUnreadNotif');
 $app->get('/getCountNotif', 'NotificationsController:getCountNotif')->setName('getCountNotif');
 
+// CHat
+
+$app->get('/chat/{id}', 'ChatController:index')->setName('chatIndex');
+$app->post('/postMessage', 'ChatController:postMessage')->setName('postMsg');
+$app->get('/getMessage', 'ChatController:getMessage')->setName('getMsg');
 
 
 $app->get('/fillDB', 'UsersController:fillDB')->setName('fillDB');

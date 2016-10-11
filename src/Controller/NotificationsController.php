@@ -38,12 +38,20 @@ class NotificationsController extends Controller
         }
         else if($likable == -1)
         {
+            $mutual = $like->isMutual($id, $idLike);
+            if ($mutual == 1)
+            {
+                $notif = new Notification($this->app);
+                $notif->sendNotification($id, $idLike, "n\'est plus connecté(e) a vous");
+            }
             $like->deleteLike($id, $idLike);
             $response->withJson(array('error' => "2"));
         }
         return $response;
 
     }
+
+
 
     public function getLike($request, $response, $args)
     {

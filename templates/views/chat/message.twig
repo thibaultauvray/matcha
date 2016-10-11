@@ -1,0 +1,14 @@
+{% for msg in message %}
+    <li class="mar-btm" id="msgLoad" data-id="{{ msg.idChat }}">
+        <div class="{% if msg.idRec == idRec %}media-right{% else %}media-left{% endif %}"><img
+                    alt="Profile Picture" class="img-circle img-sm"
+                    src="/img/{{ msg.url }}">
+        </div>
+        <div class="media-body pad-hor {% if msg.idRec == idRec %}speech-right{% endif %}">
+            <div class="speech"><a class="media-heading" href="#">{{ msg.nickname }}</a>
+                <p>{{ msg.message }}</p>
+                <p class="speech-time"><i class="fa fa-clock-o fa-fw"></i>{{ msg.date }}</p>
+            </div>
+        </div>
+    </li>
+{% endfor %}

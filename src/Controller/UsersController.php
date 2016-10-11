@@ -123,13 +123,14 @@ class UsersController extends Controller
         $id = $args['id'];
         $usersLocation = new UsersLocation($this->app);
         $users = new Users($this->app);
-        $sameProfil = false;
-        if ($id == $this->getUserId())
+        $sameProfil = true;
+        if ($id != $this->getUserId())
         {
-            $sameProfil = true;
+            $this->upPopularity($id, 5);
+            $sameProfil = false;
+            $notif = new Notification($this->app);
+            $notif->sendNotification($this->getUserId(), $id, 'vous a visté(e)', $this->app->router->pathFor('viewProfil', array('id' => $id)));
         }
-        var_dump($sameProfil);
-        $this->upPopularity($id, 5);
         $userSuggest = $users->findSuggest($id);
         $interest = $users->getInterest($id);
         $location = $usersLocation->findOne('id_users', $id);

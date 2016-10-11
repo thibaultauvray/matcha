@@ -1,0 +1,85 @@
+{% extends "template/base.twig" %}
+{% block javascript %}
+    <script type="application/javascript">
+        $(document).ready(function ()
+        {
+            function getMessage()
+            {
+                var lastId = $('li#msgLoad:last').data('id');
+                console.log(lastId);
+                $.get('/getMessage', {lastId: lastId, idRec: {{ idRec }} }, function (data)
+                {
+                    if (data)
+                    {
+                        $("#msgLoad[data-id='" + lastId + "']").after(data);
+                        objDiv.scrollTop = objDiv.scrollHeight;
+                    }
+                }, 'html')
+            }
+
+            var myInter = setInterval(getMessage, 5000);
+            var objDiv = document.getElementById("overflowChat");
+            objDiv.scrollTop = objDiv.scrollHeight;
+            var lastId = {{ lastId }};
+            $('#chat').on('submit', function (e)
+            {
+                clearInterval(myInter);
+                e.preventDefault();
+                var idRec = {{ idRec }};
+                var msg = $('#inputMsg').val();
+                $.post('/postMessage', {id: {{ idRec }}, msg: msg}, function (data)
+                {
+                    $('#inputMsg').val("");
+                    $('#overflowChat').append(data);
+                    objDiv.scrollTop = objDiv.scrollHeight;
+                    var myInter = setInterval(getMessage, 5000);
+                }, 'html');
+            });
+
+
+        });
+
+    </script>
+{% endblock %}
+{% block body %}
+
+    <div class="container">
+        <div class="main-container chat-container">
+            {% if error == 1 %}
+                <div class="alert alert-danger">Vous n'etes pas ou plus connecté a {{ userLike.nickname }}</div>
+            {% else %}
+                <div class="message">
+                    <ul class="list-unstyled media-block" id="overflowChat">
+                        {% for msg in message %}
+                            <li class="mar-btm" id="msgLoad" data-id="{{ msg.idChat }}">
+                                <div class="{% if msg.idRec != idRec %}media-left{% else %}media-right{% endif %}"><img
+                                            alt="Profile Picture" class="img-circle img-sm"
+                                            src="/img/{{ msg.url }}">
+                                </div>
+                                <div class="media-body pad-hor {% if msg.idRec == idRec %}speech-right{% endif %}">
+                                    <div class="speech"><a class="media-heading" href="#">{{ msg.nickname }}</a>
+                                        <p>{{ msg.message }}</p>
+                                        <p class="speech-time"><i class="fa fa-clock-o fa-fw"></i>{{ msg.date }}</p>
+                                    </div>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    <div class="panel-footer">
+                        <div class="row">
+                            <form class="" method="POST" id="chat" action="">
+                                <div class="col-xs-9"><input type="text" id="inputMsg" class="form-control chat-input"
+                                                             placeholder="Entrer votre texte"></div>
+                                <div class="col-xs-3">
+                                    <button type="submit" class="btn btn-primary btn-default btn-block">OK</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock %}

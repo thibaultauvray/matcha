@@ -1,0 +1,3 @@
+<p id="msgLoad" data-id="{{ msg.idChat }}" class="{% if msg.idRec != idRec %} right {% else %}left{% endif %}">
+                           <img width=50 height=50 src="/img/{{ msg.url }}" alt="">{{ msg.nickname }}{{ msg.message }}
+                       </p>
