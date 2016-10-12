@@ -5,24 +5,24 @@
 $app->get('/', 'PagesController:index')->setName('homepage');
 
 // User
-$app->get('/signout', 'UsersController:signout')->setName('signout');
-$app->post('/', 'UsersController:signin')->setName('signin');
-$app->get('/register', 'UsersController:register')->setName('register');
+$app->get('/signout', 'UsersController:signout')->setName('signout')->add(new isConnected($app->getContainer()));
+$app->post('/', 'UsersController:signin')->setName('signin')->add(new isConnected($app->getContainer()));
+$app->get('/register', 'UsersController:register')->setName('register')->add(new isConnected($app->getContainer()));
 $app->post('/register', 'UsersController:postRegister')->setName('postRegister');
 
-$app->get('/users/view/{id}', 'UsersController:viewProfil')->setName('viewProfil');
+$app->get('/users/view/{id}', 'UsersController:viewProfil')->setName('viewProfil')->add(new isConnected($app->getContainer()));
 
+$app->get('/view/history/{id}', 'UsersController:viewHistory')->setName('viewHistory')->add(new isConnected($app->getContainer()));
+$app->get('/edit/{id}', 'UsersController:editProfil')->setName('editProfil')->add(new isConnected($app->getContainer()));
+$app->post('/edit/{id}', 'UsersController:postEditProfil')->setName('postEditProfil')->add(new isConnected($app->getContainer()));
 
-$app->get('/edit/{id}', 'UsersController:editProfil')->setName('editProfil');
-$app->post('/edit/{id}', 'UsersController:postEditProfil')->setName('postEditProfil');
-
-$app->get('/edit/location/{id}', 'UsersController:editLocation')->setName('editLocation');
+$app->get('/edit/location/{id}', 'UsersController:editLocation')->setName('editLocation')->add(new isConnected($app->getContainer()));
 
 // Suggestion recherche
 
-$app->get('/user/view/suggest/{id}', 'UsersController:viewSuggest')->setName('viewSuggest');
+$app->get('/user/view/suggest/{id}', 'UsersController:viewSuggest')->setName('viewSuggest')->add(new isConnected($app->getContainer()));
 $app->post('/user/search', 'UsersController:search')->setName('search');
-$app->get('/user/search', 'UsersController:search')->setName('search');
+$app->get('/user/search', 'UsersController:search')->setName('search')->add(new isConnected($app->getContainer()));
 
 // AJax call 
 $app->post('/updateZipCode', 'UsersController:updateZipCode')->setName('updateZipCode');
@@ -37,11 +37,13 @@ $app->get('/getUnreadNotif', 'NotificationsController:getUnreadNotif')->setName(
 $app->post('/readNotif', 'NotificationsController:readNotif')->setName('getUnreadNotif');
 $app->get('/getCountNotif', 'NotificationsController:getCountNotif')->setName('getCountNotif');
 
+$app->get('/blockedUsers', 'UsersController:blockAction')->setName('blocked');
+
 // CHat
 
-$app->get('/chat/{id}', 'ChatController:index')->setName('chatIndex');
-$app->post('/postMessage', 'ChatController:postMessage')->setName('postMsg');
-$app->get('/getMessage', 'ChatController:getMessage')->setName('getMsg');
+$app->get('/chat/{id}', 'ChatController:index')->setName('chatIndex')->add(new isConnected($app->getContainer()));
+$app->post('/postMessage', 'ChatController:postMessage')->setName('postMsg')->add(new isConnected($app->getContainer()));
+$app->get('/getMessage', 'ChatController:getMessage')->setName('getMsg')->add(new isConnected($app->getContainer()));
 
 
 $app->get('/fillDB', 'UsersController:fillDB')->setName('fillDB');

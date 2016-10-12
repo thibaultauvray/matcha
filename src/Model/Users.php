@@ -2,8 +2,26 @@
 
 class Users extends Model
 {
+    public function __construct($app)
+    {
+        parent::__construct($app);
+        echo $cc;
+    }
 
+    public function updatedLogin($id)
+    {
+        echo $id;
+        $date = date("d/m/Y H:i:s");
+        $us = $this->app->db->prepare("UPDATE users SET last_seen = ?, isConnected = ? WHERE id = ?");
+        $us->execute(array($date, 1, $id));
+    }
 
+    public function setDisconnected($id)
+    {
+        $date = date("d/m/Y H:i:s");
+        $us = $this->app->db->prepare("UPDATE users SET last_seen = ?, isConnected = ? WHERE id = ?");
+        $us->execute(array($date, 0, $id));
+    }
 
     public function checkLog($val)
     {

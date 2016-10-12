@@ -1,5 +1,15 @@
 <?php
 
+/* TODO :
+ * -> Resteindre acces non connecte
+ * -> Historique visites // DONE
+ * -> Popularite
+ * -> bloque
+ * -> connected// OK
+ * -> list chat connecte
+ * -> localisation
+ */
+
 class UsersController extends Controller
 {
 
@@ -16,6 +26,8 @@ class UsersController extends Controller
 
     public function signout($request, $response, $args)
     {
+        $users = new Users($this->app);
+        $users->setDisconnected($this->getUserId());
         session_destroy();
 
         return $response->withStatus(302)->withHeader('Location', $this->app->router->pathFor('homepage'));
@@ -118,6 +130,33 @@ class UsersController extends Controller
 
     }
 
+    public function getFormatConnected($users, $id)
+    {
+        $use = $users->findById($id);
+        $now = new Datetime('now');
+        if (!$use['last_seen'])
+            return 0;
+        $dateConnected = DateTime::createFromFormat('d/m/Y H:i:s', $use['last_seen']);
+        echo $dateConnected->format('Y-m-d H:i:s') . "<br>" . $now->format('Y-m-d H:i:s') . "<br>";
+        $diff = $dateConnected->diff($now);
+        echo $diff->format('%i');
+        if ($diff->format('%i') > 5)
+        {
+            return $dateConnected->format('Y-m-d H:i:s');
+        } else
+        {
+            return 1;
+        }
+    }
+
+    public function blockAction($request, $response, $args)
+    {
+        $idBlock = $_GET['id'];
+        $id = $this->getUserId();
+        $block = new usersBlocked($this->app);
+        $block->block($id, $idBlock);
+    }
+
     public function viewProfil($request, $response, $args)
     {
         $id = $args['id'];
@@ -126,11 +165,15 @@ class UsersController extends Controller
         $sameProfil = true;
         if ($id != $this->getUserId())
         {
+            $history = new History($this->app);
+            $history->insert(array('id_users'         => $id,
+                                   'id_users_visited' => $this->getUserId()));
             $this->upPopularity($id, 5);
             $sameProfil = false;
             $notif = new Notification($this->app);
             $notif->sendNotification($this->getUserId(), $id, 'vous a visté(e)', $this->app->router->pathFor('viewProfil', array('id' => $id)));
         }
+        $connected = $this->getFormatConnected($users, $id);
         $userSuggest = $users->findSuggest($id);
         $interest = $users->getInterest($id);
         $location = $usersLocation->findOne('id_users', $id);
@@ -142,8 +185,20 @@ class UsersController extends Controller
                                                                                    'imgProfil'  => $imagePics,
                                                                                    'location'   => $location,
                                                                                    'interet'    => $interest,
+                                                                                   'connected'  => $connected,
                                                                                    'suggest'    => $userSuggest,
                                                                                    'sameProfil' => $sameProfil));
+    }
+
+    public function viewHistory($request, $response, $args)
+    {
+        $history = new History($this->app);
+        $id = $args['id'];
+        $user = $history->getVisitor($id);
+
+        return $this->app->view->render($response, 'views/users/history.twig', array('args'    => $args,
+                                                                                     'history' => $user));
+
     }
 
 

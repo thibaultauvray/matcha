@@ -26,12 +26,14 @@ class NotificationsController extends Controller
             $like->insert(array('id_users' => $id,
                                     'id_users_like' => $idLike));
             $notif = new Notification($this->app);
+            $this->upPopularity($idLike, 10);
 
             $notif->sendLike($id, $idLike);
             $response->withJson(array('error' => "0"));
             $mutual = $like->isMutual($id, $idLike);
             if ($mutual == 1)
             {
+
                 $notif = new Notification($this->app);
                 $notif->mutualLike($id, $idLike);
             }
@@ -39,6 +41,7 @@ class NotificationsController extends Controller
         else if($likable == -1)
         {
             $mutual = $like->isMutual($id, $idLike);
+            $this->upPopularity($idLike, -10);
             if ($mutual == 1)
             {
                 $notif = new Notification($this->app);

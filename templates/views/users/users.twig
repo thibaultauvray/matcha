@@ -8,6 +8,57 @@
 
         $(document).ready(function (e)
         {
+            var id = $('#idView').text();
+
+            $('#blocked').on('click', function(e)
+            {
+                e.preventDefault();
+                $.getJSON('/blockedUsers',{ id : id },  function(data)
+                {
+
+                });
+            });
+
+
+            // TODO ENLEVER SA CEST MOCHE
+
+            $.getJSON('/getLike', { id : id}, function(data)
+            {
+                console.log(data.error);
+                if (data.error == 0)
+                {
+                    $('#like').html('Like <span class="glyphicon glyphicon-thumbs-up"></span>');
+                }
+                else if (data.error == 2)
+                {
+                    $('#like').html('Unlike <span class="glyphicon glyphicon-thumbs-down"></span>');
+                }
+
+            });
+
+            $('#like').on('click', function()
+            {
+                if($(this).data('pic').length != 0)
+                {
+                    $.post('/like', {id: id}, function (data)
+                    {
+
+
+                        if (data.error == 0)
+                        {
+                            $('#like').html('Unlike <span class="glyphicon glyphicon-thumbs-down"></span>');
+                        }
+                        else if (data.error == 2)
+                        {
+                            $('#like').html('Like <span class="glyphicon glyphicon-thumbs-up"></span>');
+                        }
+                        else if (data.error == -1)
+                        {
+                            $('#like').append('<span class="alert alert-danger">Vous n\'avez pas de photo de profil</span>');
+                        }
+                    }, 'json');
+                }
+            })
             var latlng = new google.maps.LatLng({{ location.latitude }}, {{ location.longitude }});
             var image = '../../img/pin.png';
 
@@ -99,12 +150,23 @@
                 <div class="col-sm-8 encart tablem">
                     <div class="tablecell">
                         <h2>{{ users.nickname }}</h2>
-                    {% if sameProfil == false %}
-                        <button id="like" data-pic="{{ app.noProfilPic }}">Like <span class="glyphicon glyphicon-heart"></span></button>
-                        {% if app.noProfilPic is null %}
-                            <span class="alert alert-danger">Vous ne pouvez pas like sans photo de profil</span>
+                        {{ connected }}
+                        {% if connected == 1 %}
+                            <span class="connected">Connecté</span>
+                        {% elseif connected == 0 %}
+                            <div class="never">Jamais connecté</div>
+                        {% else %}
+                            <div class="disconnected">Derniere connexion le {{ connected }}</div>
                         {% endif %}
-                    {% endif %}
+                        {% if sameProfil == false %}
+                            <button id="like" data-pic="{{ app.noProfilPic }}">Like <span
+                                        class="glyphicon glyphicon-heart"></span></button>
+                            <button id="blocked">Bloqué<span
+                                        class="glyphicon glyphicon-heart"></span></button>
+                            {% if app.noProfilPic is null %}
+                                <span class="alert alert-danger">Vous ne pouvez pas like sans photo de profil</span>
+                            {% endif %}
+                        {% endif %}
 
                     </div>
                     <div class="age-city tablem">
@@ -125,7 +187,7 @@
                         {% endfor %}
                     </p>
                 </div>
-        <span id="idView" class="hidden">{{ users.id }}</span>
+                <span id="idView" class="hidden">{{ users.id }}</span>
             </div>
         </div>
     </div>

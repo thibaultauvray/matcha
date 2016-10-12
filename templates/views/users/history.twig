@@ -1,0 +1,22 @@
+{% extends "template/base.twig" %}
+
+{% block body %}
+
+    <div class="container main-container">
+        <div class="history">
+            <h2 class="detail line"><span>Historique des visites</span></h2>
+            {% for history in history %}
+                <div class="history-single col-sm-12">
+                    <div class="people profile col-sm-2">
+                        <img src="/img/{{ history.url }}">
+                    </div>
+                    <div class="col-sm-10">
+                    <h2 class="nickname">{{ history.nickname }}</h2>
+                        <span class="date">le {{ history.date }}</span>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}

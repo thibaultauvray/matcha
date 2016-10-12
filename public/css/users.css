@@ -22,7 +22,7 @@
 	position:    relative;
 }
 
-.profil-background .profile {
+.profil-background .profile, .history .profile {
 	border:     11px solid rgba(255, 255, 255, 0.7);
 	box-sizing: border-box;
 	content:    "";
@@ -34,7 +34,7 @@
 	z-index:    1;
 }
 
-.profil-background .profile {
+.profil-background .profile, .history .profile {
 	border-radius: 100%;
 	height:        200px;
 	width:         200px;
@@ -48,7 +48,7 @@
 	height: 230px;
 }
 
-.profil-background .profile img {
+.profil-background .profile img, .history img {
 	height:    200px;
 	left:      50%;
 	position:  absolute;
@@ -102,7 +102,6 @@
 	border-bottom:  4px solid #FFE6EC;
 	padding-bottom: 15px;
 	padding-left:   15px;
-	width:          310px;
 	border-right:   1px solid #FFE6EC;
 }
 
@@ -170,36 +169,68 @@
 	width:            250px;
 }
 
-.encart-users a:hover .infos{
-	opacity:1;
+.encart-users a:hover .infos {
+	opacity: 1;
 }
 
-.encart-users span{
-	display: block;
-	font-size: 1.5rem;
-	line-height: 1.4rem;
+.encart-users span {
+	display:       block;
+	font-size:     1.5rem;
+	line-height:   1.4rem;
 	margin-bottom: 7px;
-	text-align: center;
+	text-align:    center;
 }
-.infos-content span.name{
-	font-size: 1.6rem;
-	font-weight:bold;
+
+.infos-content span.name {
+	font-size:      1.6rem;
+	font-weight:    bold;
 	text-transform: uppercase;
 }
 
-.infos-content{
-	display: table-cell !important;
+.infos-content {
+	display:        table-cell !important;
 	vertical-align: middle;
 }
 
 .encart-users .infos {
-	font-size: 1.3rem;
-	line-height: 1.4rem;
-	text-align: center;
+	font-size:      1.3rem;
+	line-height:    1.4rem;
+	text-align:     center;
 	display:        table-cell;
 	vertical-align: middle;
 }
 
 .main-user .map .gmnoprint {
 	display: none;
+}
+
+.history {
+
+}
+
+.history-single {
+	color:            white;
+	background-color: #2C333A;
+	border-radius:    10px;
+	margin-bottom:    10px;
+	padding-top:      10px;
+}
+
+.history .nickname {
+	text-transform: uppercase;
+	color:          white;
+}
+
+.history .profile {
+	border: 2px solid #F48FB1;
+	width:  100px;
+	height: 100px;
+}
+
+.history img {
+	width:  100px;
+	height: 100px;
+}
+
+.history .people {
 }
