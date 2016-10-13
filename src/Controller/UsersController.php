@@ -3,8 +3,8 @@
 /* TODO :
  * -> Resteindre acces non connecte
  * -> Historique visites // DONE
- * -> Popularite
- * -> bloque
+ * -> Popularite // OK
+ * -> bloque // OK
  * -> connected// OK
  * -> list chat connecte
  * -> localisation
@@ -154,7 +154,11 @@ class UsersController extends Controller
         $idBlock = $_GET['id'];
         $id = $this->getUserId();
         $block = new usersBlocked($this->app);
-        $block->block($id, $idBlock);
+        $block = $block->block($id, $idBlock);
+        $response->withHeader('Content-type', 'application/json');
+        $response->withJson(array('resp' => $block));
+
+        return $response;
     }
 
     public function viewProfil($request, $response, $args)
@@ -172,6 +176,8 @@ class UsersController extends Controller
             $sameProfil = false;
             $notif = new Notification($this->app);
             $notif->sendNotification($this->getUserId(), $id, 'vous a visté(e)', $this->app->router->pathFor('viewProfil', array('id' => $id)));
+            $block = new usersBlocked($this->app);
+            $isBlock = $block->isBlock($this->getUserId(), $id);
         }
         $connected = $this->getFormatConnected($users, $id);
         $userSuggest = $users->findSuggest($id);
@@ -183,6 +189,7 @@ class UsersController extends Controller
 
         return $this->app->view->render($response, 'views/users/users.twig', array('users'      => $user,
                                                                                    'imgProfil'  => $imagePics,
+                                                                                   'isBlock'    => $isBlock,
                                                                                    'location'   => $location,
                                                                                    'interet'    => $interest,
                                                                                    'connected'  => $connected,

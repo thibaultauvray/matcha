@@ -22,40 +22,50 @@ Class Notification extends Model
     public function mutualLike($id, $idLike)
     {
         $message = "est connecté a vous !";
-
-        $this->insert(array(
-            'id_users'      => $id,
-            'id_users_send' => $idLike,
-            'message'       => $message,
-            'href'          => 'null'));
-        $notif = $this->insert(array(
-            'id_users'      => $idLike,
-            'id_users_send' => $id,
-            'message'       => $message,
-            'href'          => $this->app->router->pathFor('chatIndex', ['id' => $idLike])
-        ));
+        $isBLock = new usersBlocked($this->app);
+        if (!$isBLock->isBlock($idLike, $id))
+        {
+            $this->insert(array(
+                'id_users'      => $id,
+                'id_users_send' => $idLike,
+                'message'       => $message,
+                'href'          => 'null'));
+            $notif = $this->insert(array(
+                'id_users'      => $idLike,
+                'id_users_send' => $id,
+                'message'       => $message,
+                'href'          => $this->app->router->pathFor('chatIndex', ['id' => $idLike])
+            ));
+        }
     }
 
     public function sendLike($id, $idLike)
     {
         $pdo = $this->app->db;
-
-        $message = "A aimé(e) votre profil";
-        $notif = $this->insert(array(
-            'id_users'      => $id,
-            'id_users_send' => $idLike,
-            'message'       => $message,
-            'href'          => $this->app->router->pathFor('viewProfil', ['id' => $id])
-        ));
+        $isBLock = new usersBlocked($this->app);
+        if (!$isBLock->isBlock($idLike, $id))
+        {
+            $message = "A aimé(e) votre profil";
+            $notif = $this->insert(array(
+                'id_users'      => $id,
+                'id_users_send' => $idLike,
+                'message'       => $message,
+                'href'          => $this->app->router->pathFor('viewProfil', ['id' => $id])
+            ));
+        }
     }
 
     public function sendNotification($id, $idSend, $message, $path = null)
     {
-        $notif = $this->insert(array('id_users'      => $id,
-                                     'id_users_send' => $idSend,
-                                     'message'       => $message,
-                                     'href'          => $path));
+        $isBLock = new usersBlocked($this->app);
+        if (!$isBLock->isBlock($idSend, $id))
+        {
+            $notif = $this->insert(array('id_users'      => $id,
+                                         'id_users_send' => $idSend,
+                                         'message'       => $message,
+                                         'href'          => $path));
 
+        }
     }
 
     public function getCountUnreadNotif($id)

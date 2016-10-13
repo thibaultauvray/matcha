@@ -34,6 +34,39 @@ input:focus {
 	padding: 0;
 }
 
+.icone{
+	display: inline-block;
+	height: 24px;
+	margin-left: 10px;
+	position: absolute;
+	top: 13px;
+	width: 24px;
+}
+
+.icon-men{
+	background-image: url('../img/ressources/icon_male.png');
+}
+
+.icon-woman{
+	background-image: url('../img/ressources/icon_fem.png');
+}
+
+.icon-look{
+	display: inline-block;
+	height: 24px;
+	left: 98px;
+	margin-left: 10px;
+	position: absolute;
+	top: 2px;
+	width: 24px;
+	background-image: url('../img/ressources/look.png');
+}
+
+.orientat{
+	margin-right: 10px;
+	margin-left: 27px;
+}
+
 .btn {
 	background-image: none;
 	border:           0;

@@ -163,13 +163,13 @@ class Users extends Model
     {
         $pdo = $this->app->db;
 
-
+        $block = new usersBlocked($this->app);
+        $block = $block->getListBlock($id);
         $users = $this->getUsers($id);
         $orientation = $users['orientation'];
         $gender = $users['gender'];
         $lat = $users['latitude'];
         $long = $users['longitude'];
-
         $sql = "SELECT u.*, u.id AS id_users, ul.city, img.url, (ABS($ong - ul.longitude) + ABS($lat  - ul.latitude)) AS distance,  COUNT(up.id_interest) as commonInterest
         FROM users u
         LEFT JOIN users_usersInterest ui ON ui.id_users = u.id
@@ -191,8 +191,9 @@ class Users extends Model
                                 END)
                        END)
         AND u.id <> $id
+        AND u.id NOT IN($block)
         GROUP BY u.id, ui.id_users, distance, img.id, ul.city
-        ORDER BY distance ASC, commonInterest DESC";
+        ORDER BY distance ASC, commonInterest DESC, u.popularity DESC";
         $usersL = $pdo->prepare($sql);
         $usersL->execute();
         $listUsers = $usersL->fetchAll();

@@ -10,19 +10,26 @@
         {
             var id = $('#idView').text();
 
-            $('#blocked').on('click', function(e)
+            $('#blocked').on('click', function (e)
             {
                 e.preventDefault();
-                $.getJSON('/blockedUsers',{ id : id },  function(data)
+                $.getJSON('/blockedUsers', {id: id}, function (data)
                 {
-
+                    if (data.resp == false)
+                    {
+                        $('#blocked').html('Bloqué <span class="glyphicon glyphicon-remove"></span>')
+                    }
+                    else
+                    {
+                        $('#blocked').html('Débloqué <span class="glyphicon glyphicon-ok"></span>')
+                    }
                 });
             });
 
 
             // TODO ENLEVER SA CEST MOCHE
 
-            $.getJSON('/getLike', { id : id}, function(data)
+            $.getJSON('/getLike', {id: id}, function (data)
             {
                 console.log(data.error);
                 if (data.error == 0)
@@ -36,9 +43,9 @@
 
             });
 
-            $('#like').on('click', function()
+            $('#like').on('click', function ()
             {
-                if($(this).data('pic').length != 0)
+                if ($(this).data('pic').length != 0)
                 {
                     $.post('/like', {id: id}, function (data)
                     {
@@ -134,7 +141,6 @@
 {% endblock %}
 
 {% block body %}
-
     <div class="profil-background">
         <div class="container">
             <div class="row">
@@ -149,7 +155,8 @@
                 </div>
                 <div class="col-sm-8 encart tablem">
                     <div class="tablecell">
-                        <h2>{{ users.nickname }}</h2>
+
+                        <h2>{{ users.nickname }}<span class="icone {% if users.gender == "m" %}icon-men{% else %}icon-woman{% endif %}"></span></h2>
                         {{ connected }}
                         {% if connected == 1 %}
                             <span class="connected">Connecté</span>
@@ -159,14 +166,18 @@
                             <div class="disconnected">Derniere connexion le {{ connected }}</div>
                         {% endif %}
                         {% if sameProfil == false %}
-                            <button id="like" data-pic="{{ app.noProfilPic }}">Like <span
-                                        class="glyphicon glyphicon-heart"></span></button>
-                            <button id="blocked">Bloqué<span
-                                        class="glyphicon glyphicon-heart"></span></button>
+                            <button id="like" data-pic="{{ app.noProfilPic }}">Bloqué <span
+                                    class="glyphicon glyphicon-remove"></span>
+                            {% if isBlock == true %}
+                                <button id="blocked">Débloqué <span class="glyphicon glyphicon-ok"></span></button>
+                            {% else %}
+                                <button id="blocked">Bloqué <span class="glyphicon glyphicon-remove"></span></button>
+                            {% endif %}
+
                             {% if app.noProfilPic is null %}
                                 <span class="alert alert-danger">Vous ne pouvez pas like sans photo de profil</span>
                             {% endif %}
-                        {% endif %}
+                            {% endif %}
 
                     </div>
                     <div class="age-city tablem">
@@ -177,6 +188,10 @@
                         <div class="city pink floatr">
                             <span class="pink glyphicon glyphicon-map-marker"></span>
                             <span class="city">{{ location.city }}</span>
+                        </div>
+                        <div class="orientat pink floatl">
+                            <span class="pink icone icon-look"></span>
+                            <span class="orientation">{{ users.orientation }}</span>
                         </div>
                     </div>
                 </div>
