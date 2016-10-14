@@ -2,4 +2,4 @@
 // Application middleware
 
 // e.g: $app->add(new \Slim\Csrf\Guard);
-//$app->add(new isConnected($app->getContainer()));
+$app->add(new Authentification($app->getContainer()));

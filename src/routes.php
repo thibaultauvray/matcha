@@ -5,7 +5,7 @@
 $app->get('/', 'PagesController:index')->setName('homepage');
 
 // User
-$app->get('/signout', 'UsersController:signout')->setName('signout')->add(new isConnected($app->getContainer()));
+$app->get('/signout', 'UsersController:signout')->setName('signout');
 $app->post('/', 'UsersController:signin')->setName('signin')->add(new isConnected($app->getContainer()));
 $app->get('/register', 'UsersController:register')->setName('register')->add(new isConnected($app->getContainer()));
 $app->post('/register', 'UsersController:postRegister')->setName('postRegister');
@@ -37,6 +37,7 @@ $app->get('/getUnreadNotif', 'NotificationsController:getUnreadNotif')->setName(
 $app->post('/readNotif', 'NotificationsController:readNotif')->setName('getUnreadNotif');
 $app->get('/getCountNotif', 'NotificationsController:getCountNotif')->setName('getCountNotif');
 
+$app->get('/loca/{id}', 'UsersController:loca')->setName('loca');
 $app->get('/blockedUsers', 'UsersController:blockAction')->setName('blocked');
 
 // CHat

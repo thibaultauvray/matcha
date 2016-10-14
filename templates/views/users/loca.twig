@@ -1,0 +1,13 @@
+{% extends "template/base.twig" %}
+    {% block javascript %}
+        <script src="{{ baseURl }}/js/localisation.js"></script>
+    {% endblock %}
+{% block body %}
+
+<div class="container loca">
+    <p>Acceptez la demande de localisation, sinon appuyez sur continuer</p>
+
+    <button id="continuer" class="btn btn-default">Continuer</button>
+</div>
+
+{% endblock %}

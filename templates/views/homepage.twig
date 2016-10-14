@@ -2,6 +2,12 @@
 
 {% block body %}
     <div class="container main-container">
+        {% if flash.message('fail').0 %}
+            <div class="alert alert-danger">
+                {{ flash.getMessage('fail').0 }}
+            </div>
+        {% endif %}
+
         <div class="toAdopt">
             <h2 class="line"><span>Lorem Lipsum</span></h2>
             <div class="row noPadding">

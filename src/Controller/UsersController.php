@@ -6,6 +6,7 @@
  * -> Popularite // OK
  * -> bloque // OK
  * -> connected// OK
+ * -> PAr defaut bi
  * -> list chat connecte
  * -> localisation
  */
@@ -84,14 +85,28 @@ class UsersController extends Controller
             $_POST['passwd'] = hash('whirlpool', $_POST['passwd']);
             $user = new Users($this->app);
             $_SESSION['login'] = $_POST;
-            $id = $user->insert($_POST);
+            $data = array('passwd'    => hash('whirlpool', $_POST['passwd']),
+                          'nickname'    => $_POST['nickname'],
+                          'mail'        => $_POST['mail'],
+                          'name'        => $_POST['name'],
+                          'lastname'    => $_POST['lastname'],
+                          'gender'      => 'm',
+                          'orientation' => 'bisexuel');
+            $id = $user->insert($data);
             $_SESSION['login']['id'] = $id;
 
-            return $response->withStatus(302)->withHeader('Location', $this->app->router->pathFor('editProfil', array('id' => $id)));
+            return $response->withStatus(302)->withHeader('Location', $this->app->router->pathFor('loca', array('id' => $id)));
         }
 
         return $this->app->view->render($response, 'views/users/register.twig', array('error' => $validator->error,
                                                                                       'form'  => $_POST));
+    }
+
+    public function loca($request, $response, $args)
+    {
+
+        return $this->app->view->render($response, 'views/users/loca.twig', array('args' => $args,
+        ));
     }
 
     /*
@@ -114,6 +129,7 @@ class UsersController extends Controller
                                                                                   'usersImage' => $userImage,
                                                                                   'location'   => $location));
     }
+
 
     public function updateUsersLocation($request, $response, $args)
     {
@@ -311,20 +327,16 @@ class UsersController extends Controller
     public function updateLocation($request, $response, $args)
     {
         $usersLocation = new UsersLocation($this->app);
-
-        $location = $usersLocation->find('id_users', $_GET['id'])[0];
-        $date = DateTime::createFromFormat('d/m/Y H:i:s', $location['updated_at']);
-        $dateNow = new DateTime('now');
-
-        $interval = $dateNow->diff($date);
-        $minInter = $interval->format('%I');
-        if (intval($minInter) > 30)
+        $id = $_GET['id'];
+        $location = $usersLocation->findOne('id_users', $id);
+        if (empty($location))
         {
-            $body = array('updated' => true);
+            $body = array('response' => false);
         } else
         {
-            $body = array('updated' => false);
+            $body = array('response' => true);
         }
+
         $response->withHeader('Content-type', 'application/json');
         $response->withJson($body);
 
