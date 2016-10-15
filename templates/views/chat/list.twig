@@ -1,0 +1,33 @@
+{% extends "template/base.twig" %}
+
+{% block body %}
+
+    <div class="container main-container">
+        <div class="history chatList">
+            <h2 class="detail line"><span>Chat disponible</span></h2>
+            {% for chat in chat %}
+                <div class="history-single col-sm-12">
+                    <a href="{{ path_for('chatIndex', { id : chat.id_users }) }}">
+                    <div class="people profile col-sm-2">
+                        <img src="/img/{{ chat.url }}" alt="">
+                    </div>
+                    <div class="col-sm-10">
+                        <h2>{{ chat.nickname }}</h2>
+                        {% if chat.message is null %}
+                            <p class="msg"><span class="last pink">Aucun message reçu</span></p>
+                        {% else %}
+                            <p class="msg"><span class="last pink">Dernier message reçu : </span> {{ chat.message }}</p>
+                        {% endif %}
+                        {% if chat.created_at is not null %}
+                            <span class="date">le {{ chat.created_at }}</span>
+                        {% endif %}
+                    </div>
+                    </a>
+
+                </div>
+            {% endfor %}
+        </div>
+
+    </div>
+
+{% endblock %}

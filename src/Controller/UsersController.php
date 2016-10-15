@@ -1,14 +1,15 @@
 <?php
 
 /* TODO :
- * -> Resteindre acces non connecte
+ * -> Resteindre acces non connecte // OK
  * -> Historique visites // DONE
  * -> Popularite // OK
  * -> bloque // OK
  * -> connected// OK
- * -> PAr defaut bi
+ * -> PAr defaut bi // OK
  * -> list chat connecte
- * -> localisation
+ * -> localisation // OK
+ * -> html - css
  */
 
 class UsersController extends Controller
@@ -153,9 +154,7 @@ class UsersController extends Controller
         if (!$use['last_seen'])
             return 0;
         $dateConnected = DateTime::createFromFormat('d/m/Y H:i:s', $use['last_seen']);
-        echo $dateConnected->format('Y-m-d H:i:s') . "<br>" . $now->format('Y-m-d H:i:s') . "<br>";
         $diff = $dateConnected->diff($now);
-        echo $diff->format('%i');
         if ($diff->format('%i') > 5)
         {
             return $dateConnected->format('Y-m-d H:i:s');

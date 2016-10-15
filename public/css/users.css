@@ -234,3 +234,15 @@
 
 .history .people {
 }
+
+.chatList a{
+	color: white;
+}
+.chatList .history-single h2{
+	border-bottom: 1px solid white;
+	margin-top: 1px;
+}
+
+.chatList .history-single p{
+	margin-bottom: 3px;
+}

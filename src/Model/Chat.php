@@ -22,6 +22,21 @@ class Chat extends Model
         return $msg->fetchAll();
     }
 
+    public function getUsersChat($id)
+    {
+        $pdo = $this->app->db;
+        echo $id;
+        $users =  $pdo->prepare('SELECT l.id_users, u.nickname, img.url, c.message, c.created_at FROM likable l
+                                 LEFT JOIN chat c ON c.id_auteur = l.id_users
+                                 LEFT JOIN users u ON l.id_users = u.id
+                                 LEFT JOIN usersImage img ON img.id_users = u.id
+                                WHERE l.id_users_like = ? AND l.id_users IN (SELECT id_users_like FROM likable WHERE id_users = ?)
+                                GROUP BY l.id_users
+                                ORDER BY c.created_at DESC');
+        $users->execute(array($id, $id));
+        return $users->fetchAll();
+    }
+
     public function post($id, $idRec, $msg)
     {
         $id = $this->insert(array('id_auteur'   => $id,

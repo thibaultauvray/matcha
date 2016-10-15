@@ -32,6 +32,13 @@ class ChatController extends Controller
         ));
     }
 
+    public function listChat($request, $response, $args)
+    {
+        $chat = new Chat($this->app);
+        $chat = $chat->getUsersChat($args['id']);
+        return $this->app->view->render($response, 'views/chat/list.twig', array('chat' => $chat));
+    }
+
     public function postMessage($request, $response, $args)
     {
         $error = 0;

@@ -46,6 +46,7 @@ $app->get('/chat/{id}', 'ChatController:index')->setName('chatIndex')->add(new i
 $app->post('/postMessage', 'ChatController:postMessage')->setName('postMsg')->add(new isConnected($app->getContainer()));
 $app->get('/getMessage', 'ChatController:getMessage')->setName('getMsg')->add(new isConnected($app->getContainer()));
 
+$app->get('/listChat/{id}', 'ChatController:listChat')->setName('chat');
 
 $app->get('/fillDB', 'UsersController:fillDB')->setName('fillDB');
 
