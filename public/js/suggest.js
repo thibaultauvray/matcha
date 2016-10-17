@@ -138,9 +138,5 @@ $(document).ready(function()
             $(".filter").trigger("input");
         }
     });
-    $( "#popularity" ).val($( "#pop-range" ).slider( "values", 0 ) +
-        " - " + $( "#pop-range" ).slider( "values", 1 ) );
-    $( "#amount" ).val($( "#age-range" ).slider( "values", 0 ) +
-        " - " + $( "#age-range" ).slider( "values", 1 ) );
 });
 

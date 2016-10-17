@@ -1,5 +1,13 @@
+
 $(document).ready(function ()
 {
+
+
+
+
+
+
+
     $("#croi").change(function ()
     {
         $("#tri").trigger("change");
@@ -110,21 +118,21 @@ $(document).ready(function ()
         genderM = $("#m").prop('checked');
         genderF = $("#f").prop('checked');
         homo = $("#homo").prop('checked');
-        console.log(homo);
         hete = $("#hetero").prop('checked');
         bi = $("#bi").prop('checked');
 
-        age1 = $("#amount").val().split('-')[0].trim();
-        age2 = $("#amount").val().split('-')[1].trim();
+        age1 = $("#age-range .ui-slider-handle:eq(0)").attr('data-label-value').trim();
+        age2 = $("#age-range .ui-slider-handle:eq(1)").attr('data-label-value').trim();
 
         loca = $("#filterLoca").val().toLowerCase();
-        pop1 = $("#popularity").val().split('-')[0].trim();
-        pop2 = $("#popularity").val().split('-')[1].trim();
+        pop1 = $("#pop-range .ui-slider-handle:eq(0)").attr('data-label-value').trim()
+        pop2 = $("#pop-range .ui-slider-handle:eq(1)").attr('data-label-value').trim()
         interetUser = $('#filterTags').val().split(',');
         $(".listusers .encart-users").each(function ()
         {
             interet = $(this).data("tag-list").split(',');
             city = $(this).data('city').toLowerCase();
+            console.log(loca + " C ; " + city + " R " + city.indexOf(loca));
             if (($(this).data("age") < age1 || $(this).data("age") > age2) || (city.indexOf(loca) == -1) || isInteret(interet, interetUser) == false || ($(this).data("popularity") < pop1 || $(this).data("popularity") > pop2) || ($(this).data('sex') == "f" && genderF == false)
                 || ($(this).data('sex') == "m" && genderM == false) || ($(this).data('orien') == "homosexuel" && homo == false) || ($(this).data('orien') == "bisexuel" && bi == false) || ($(this).data('orien') == "hetero" && hete == false))
             {
@@ -132,25 +140,41 @@ $(document).ready(function ()
             }
             else
             {
+                console.log("caca");
                 $(this).show('1000');
             }
         });
-    })
+    });
+
+    function hasClass(element, cls) {
+        return (' ' + element.className + ' ').indexOf(' ' + cls + ' ') > -1;
+    }
 
     $("#age-range").slider({
+
         range: true,
-        min: 14,
+        min: 18,
         max: 99,
-        values: [14, 99],
+        values: [18, 99],
         slide: function (event, ui)
         {
-            $("#amount").val(ui.values[0] + " - " + ui.values[1]);
+            if (hasClass(ui.handle, 'first'))
+                ui.handle.setAttribute('data-label-value', ui.values[0]);
+            else
+                ui.handle.setAttribute('data-label-value', ui.values[1]);
         },
         change: function (event, ui)
         {
             $(".filter").trigger("input");
         }
     });
+
+    $('#age-range .ui-slider-handle:eq(0)').addClass('first');
+    $('#age-range .ui-slider-handle:eq(0)').attr('data-label-value', 18);
+    $('#age-range .ui-slider-handle:eq(1)').addClass('last');
+    $('#age-range .ui-slider-handle:eq(1)').attr('data-label-value', 99);
+
+
     $("#pop-range").slider({
         range: true,
         min: 0,
@@ -158,15 +182,19 @@ $(document).ready(function ()
         values: [0, 1000],
         slide: function (event, ui)
         {
-            $("#popularity").val(ui.values[0] + " - " + ui.values[1]);
+            if (hasClass(ui.handle, 'first'))
+                ui.handle.setAttribute('data-label-value', ui.values[0]);
+            else
+                ui.handle.setAttribute('data-label-value', ui.values[1]);
         },
         change: function (event, ui)
         {
             $(".filter").trigger("input");
         }
     });
-    $("#popularity").val($("#pop-range").slider("values", 0) +
-        " - " + $("#pop-range").slider("values", 1));
-    $("#amount").val($("#age-range").slider("values", 0) +
-        " - " + $("#age-range").slider("values", 1));
+
+    $('#pop-range .ui-slider-handle:eq(0)').addClass('first');
+    $('#pop-range .ui-slider-handle:eq(0)').attr('data-label-value', 0);
+    $('#pop-range .ui-slider-handle:eq(1)').addClass('last');
+    $('#pop-range .ui-slider-handle:eq(1)').attr('data-label-value', 1000);
 });

@@ -10,61 +10,97 @@
 {% block body %}
 
     <div class="container main-container">
-        <div class="suggest">
+        <div class="suggest col-sm-12">
+            <h2 class="line">
+                <span>{% if routeName is defined and routeName == "search" %}Recherche{% else %}Suggestions{% endif %}</span>
+            </h2>
             {% if routeName is defined and routeName == "search" %}
-                <div class="search">
+                <div class="search col-sm-offset-2 col-sm-10">
                     <form action="{{ path_for('search') }}" method="POST">
+                        <label for="terms" class="col-sm-3">Pseudonyme</label>
                         <input type="text" id="terms" name="terms" value="{{ data }}">
+                        <input class="btn btn-default" type="submit"></input>
                     </form>
                 </div>
             {% endif %}
             <div class="tri">
-                <label for="tri">Trier par</label>
-                <select name="tri" id="tri">
-                    <option value="default">Defaut</option>
-                    <option value="age">Age</option>
-                    <option value="localisation">Localisation</option>
-                    <option value="popularite">Popularite</option>
-                    <option value="tags">Tags</option>
-                </select>
-                <label for="croi">Croissant</label>
-                <select class="filter" name="croi" id="croi">
-                    <option value="croi">Croissant</option>
-                    <option value="de">Decroissant</option>
-                </select>
-                <label for="filterLoca">Localisation</label>
-                <input class="filter" type="text" id="filterLoca">
-                <label for="filterTags">Centre d'interet</label>
-                <input type="text" class="filter" id="filterTags">
+
+                <div class="form-row col-sm-offset-2 col-sm-10">
+                    <label for="filterLoca" class="col-sm-3">Localisation</label>
+                    <input class="filter col-sm-3" type="text" id="filterLoca">
+                </div>
+                <div class="form-row  col-sm-offset-2 col-sm-10">
+                    <label for="filterTags" class="col-sm-3">Centre d'interet</label>
+                    <input type="text" class="filter col-sm-3" id="filterTags">
+                </div>
                 {% if routeName is defined and routeName == "search" %}
-                    <div class="gender">
-                        <input class="filter" type="checkbox" id="m" name="gender" value="m" checked> <label for="m">Homme</label>
-                        <input class="filter" type="checkbox" id="f" name="gender" value="f" checked> <label for="f">Femme</label>
+                    <div class="form-row col-sm-offset-2 col-sm-10">
+                        <label class="criteria-label col-sm-3" for="">Sexe</label>
+                        <div class="gender">
+                            <span class="check">
+                            <input class="filter" type="checkbox" id="m" name="gender" value="m" checked> <label
+                                        for="m">Homme</label>
+                            </span>
+                            <span class="check">
+                            <input class="filter" type="checkbox" id="f" name="gender" value="f" checked> <label
+                                        for="f">Femme</label>
+                            </span>
+                        </div>
                     </div>
-                    <div class="orien">
-                        <input type="checkbox" class="filter" id="homo" name="orien" value="homo" checked><label for="homo">Homosexuel</label>
-                        <input type="checkbox" class="filter" id="bi" name="orien" value="bi" checked><label for="bi">Bisexuel</label>
-                        <input type="checkbox" class="filter" id="hetero" name="orien" value="hetero" checked><label for="hetero">Heterosexuel</label>
+                    <div class="form-row col-sm-offset-2 col-sm-10">
+                        <label class="criteria-label col-sm-3" for="">Orientation</label>
+                        <div class="orien">
+                            <span class="check">
+                                <input type="checkbox" class="filter" id="homo" name="orien" value="homo" checked><label
+                                        for="homo">Homosexuel</label>
+                            </span>
+                            <span class="check">
+                                <input type="checkbox" class="filter" id="bi" name="orien" value="bi" checked><label
+                                        for="bi">Bisexuel</label>
+                            </span>
+                            <span class="check">
+                                <input type="checkbox" class="filter" id="hetero" name="orien" value="hetero"
+                                       checked><label for="hetero">Heterosexuel</label>
+                            </span>
+                        </div>
                     </div>
                 {% endif %}
-            </div>
-            <div class="filter row">
-                <div class="age col-sm-3">
-                    <p>Age : <input class="filter" type="text" id="amount" readonly
-                                    style="border:0; color:#f6931f; font-weight:bold;"></p>
-                    <div id="age-range"></div>
+                <div class="form-row col-sm-offset-2 col-sm-10 margin-range">
+                    <div class="age">
+                        <p class="labele col-sm-3"><label for=" ">Age</label></p>
+                        <div class="col-sm-4" id="age-range"></div>
+                    </div>
+                </div>
+                <div class="form-row col-sm-offset-2 col-sm-10">
+                    <div class="age">
+                        <p class="labele col-sm-3"><label for="">Popularite</label></p>
+                        <div class="col-sm-4" id="pop-range"></div>
+                    </div>
                 </div>
             </div>
-            <div class="filter row">
-                <div class="age col-sm-3">
-                    <p>Popularite : <input class="filter" type="text" id="popularity" readonly
-                                           style="border:0; color:#f6931f; font-weight:bold;"></p>
-                    <div id="pop-range"></div>
+            <div class="listusers col-sm-12">
+                <div class="tri-select">
+                    <div class="tri-default floatr form-inline">
+                        <label for="tri">Trier par</label>
+                        <select class="filter form-control" name="tri" id="tri">
+                            <option value="default">Defaut</option>
+                            <option value="age">Age</option>
+                            <option value="localisation">Localisation</option>
+                            <option value="popularite">Popularite</option>
+                            <option value="tags">Tags</option>
+                        </select>
+                    </div>
+                    <div class="tri-crois floatr form-inline">
+                        <label for="croi">Croissant</label>
+                        <select class="filter form-control" name="croi" id="croi">
+                            <option value="croi">Croissant</option>
+                            <option value="de">Decroissant</option>
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <div class="listusers">
                 {% for sug in suggest %}
-                    <div class="encart-users clearfix" data-index="{{ loop.index }}" data-orien="{{ sug.orientation }}"
+                    <div class="col-sm-3 nopadding encart-users clearfix" data-index="{{ loop.index }}"
+                         data-orien="{{ sug.orientation }}"
                          data-sex="{{ sug.gender }}" data-tag-list="{{ sug.interestString }}" data-age="{{ sug.age }}"
                          data-city="{{ sug.city }}" data-localisation="{{ sug.distance }}"
                          data-popularity="{{ sug.popularity }}" data-tags="{{ sug.commonInterest }}">
@@ -77,9 +113,9 @@
                                     <span>{{ sug.commonInterest }} passions communes</span>
                                 </span>
                             </span>
-                            <img width="250" height="250"
-                                 src="/img/{% if sug.url is null %}default.jpg{% else %}{{ sug.url }}{% endif %}"
-                                 alt="">
+                            <img
+                                    src="/img/{% if sug.url is null %}default.jpg{% else %}{{ sug.url }}{% endif %}"
+                                    alt="">
                         </a>
                     </div>
                 {% endfor %}
