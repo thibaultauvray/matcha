@@ -4,76 +4,71 @@
     
     <div class="container main-container">
         <div class="toAdopt">
-            <h2><span>Inscription</span></h2>
+            <h2 class="line"><span>Inscription</span></h2>
             <div class="row  form form-register">
-                <form class="form-horizontal" method="post" action="{{ path_for('postRegister') }}" >
-                    <div class="form-group">
-                        <label class="col-sm-2" for="nickname">Pseudo</label>
-                        <div class="col-sm-10">
-                            <input class="form-control" type="text" id="nickname" name="nickname" placeholder="Votre pseudo" value="{{ form.nickname }}">
-                        </div>
+                <form class="form-inline col-xs-12 col-sm-12" method="post" action="{{ path_for('postRegister') }}" >
+                    <div class="form-group form-row col-sm-offset-2 col-sm-8">
+                        <label class="col-xs-3 col-sm-3" for="nickname">Pseudo</label>
+                        <input class="col-xs-9 col-sm-9" type="text" id="nickname" name="nickname" placeholder="Votre pseudo" value="{{ form.nickname }}">
+                        {% if error.nickname %}
+                            <div class="col-xs-12 alert alert-danger">
+                                {% for errors in error.nickname %}
+                                    {{ errors }} <br>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
 
                     </div>
-                    {% if error.nickname %}
-                        <div class="alert alert-danger">
-                            {% for errors in error.nickname %}
-                                {{ errors }} <br>
-                            {% endfor %}
-                        </div>
-                     {% endif %}
-                    <div class="form-group">
-                        <label class="col-sm-2" for="mail">Mail</label>
-                        <div class="col-sm-10">
-                            <input class="form-control" type="mail" id="mail" name="mail" placeholder="Votre adresse email" value="{{ form.mail }}">
-                        </div>
-                    </div>
+
+                    <div class="form-group col-xs-12 col-sm-offset-2 col-sm-8">
+                        <label class="col-xs-3 col-sm-3" for="mail">Mail</label>
+                        <input class="col-xs-9 col-sm-9" type="mail" id="mail" name="mail" placeholder="Votre adresse email" value="{{ form.mail }}">
+
                     {% if error.mail %}
-                        <div class="alert alert-danger">
+                        <div class="col-xs-12 alert alert-danger">
                             {% for errors in error.mail %}
                                 {{ errors }} <br>
                             {% endfor %}
                         </div>
                      {% endif %}
-                    <div class="form-group">
-                        <label class="col-sm-2" for="name">Nom</label>
-                        <div class="col-sm-10">
-                         <input class="form-control" type="text" id="name" name="name" placeholder="Votre nom" value="{{ form.name }}">
-                        </div>
                     </div>
+                    <div class="form-group col-xs-12 col-sm-offset-2 col-sm-8">
+                        <label class="col-xs-3 col-sm-3" for="name">Nom</label>
+                         <input class="col-xs-9 col-sm-9" type="text" id="name" name="name" placeholder="Votre nom" value="{{ form.name }}">
                     {% if error.name %}
-                        <div class="alert alert-danger">
+                        <div class="col-xs-12 alert alert-danger">
                             {% for errors in error.name %}
                                 {{ errors }} <br>
                             {% endfor %}
                         </div>
                      {% endif %}
-                    <div class="form-group">
-                        <label class="col-sm-2" for="lastname">Prénom</label>
-                        <div class="col-sm-10">
-                            <input class="form-control" type="text" id="lastname" name="lastname" placeholder="Votre prénom" value="{{ form.lastname }}">
                         </div>
-                    </div>
+
+                        <div class="form-group col-xs-12 col-sm-offset-2 col-sm-8">
+                        <label class="col-xs-3 col-sm-3" for="lastname">Prénom</label>
+                            <input class="col-xs-9 col-sm-9" type="text" id="lastname" name="lastname" placeholder="Votre prénom" value="{{ form.lastname }}">
                     {% if error.lastname %}
-                        <div class="alert alert-danger">
+                        <div class="col-xs-12 alert alert-danger">
                             {% for message in error.lastname %}
                                 {{ message }} <br>
                             {% endfor %}
                         </div>
                      {% endif %}
-                    <div class="form-group">
-                        <label class="col-sm-2" for="passwd">Mot de passe</label>
-                        <div class="col-sm-10">
-                            <input class="form-control" type="password" id="passwd" name="passwd" placeholder="Votre mot de passe(+ de 6 caractere)">
-                        </div>
                     </div>
+
+                    <div class="form-group col-xs-12 col-sm-offset-2 col-sm-8">
+                        <label class="col-xs-3 col-sm-3" for="passwd">Mot de passe</label>
+                        <input class="col-xs-9 col-sm-9" type="password" id="passwd" name="passwd" placeholder="Votre mot de passe(+ de 6 caractere)">
                     {% if error.passwd %}
-                        <div class="alert alert-danger">
+                        <div class="col-xs-12 alert alert-danger">
                             {% for message in error.passwd %}
                                 {{ message }} <br>
                             {% endfor %}
                         </div>
                      {% endif %}
-                     <button type="submit" class="btn btn-default">Submit</button>
+                    </div>
+
+                    <button type="submit" class="col-xs-12 col-sm-offset-4 col-sm-4 btn btn-default">Envoyer</button>
                 </form>
             </div>
         </div>

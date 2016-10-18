@@ -7,6 +7,19 @@ class Users extends Model
         parent::__construct($app);
     }
 
+    public function getHome()
+    {
+        $us = $this->app->db->prepare("SELECT u.*, u.id AS id_users, ul.city, img.url
+                    FROM users u
+                    LEFT JOIN usersLocation ul ON u.id = ul.id_users
+                    LEFT JOIN usersImage img ON img.id_users = u.id AND img.isprofil = 1
+                   WHERE u.gender = 'f'
+                    ORDER BY u.popularity DESC
+                    LIMIT 8");
+        $us->execute();
+        return $us->fetchAll();
+    }
+
     public function updatedLogin($id)
     {
         $date = date("d/m/Y H:i:s");

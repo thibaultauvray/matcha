@@ -93,6 +93,11 @@ header .title a:hover {
 	float: right;
 }
 
+.encart-homepage{
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
 .connex .form-con button {
 	height:      27px;
 	padding-top: 4px;
@@ -104,13 +109,13 @@ header .title a:hover {
 	color:        white;
 	float:        right;
 	font-style:   italic;
-	margin-right: 55px;
+	/*margin-right: 55px;*/
 	padding-top:  5px;
 	font-size:    12px;
 }
 
 .connex .forget:last-child {
-	margin-right: 33px;
+	/*margin-right: 33px;*/
 }
 
 .title {
@@ -194,4 +199,63 @@ header .title a:hover {
 .notif-list img {
 	border:       1px solid #F48FB1;
 	margin-right: 10px;
+}
+
+/* REGISTER*/
+
+.form-register{
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+.form-register label{
+	color: #686F77;
+
+}
+
+.form-register button{
+	color: white;
+	font-size: 14px;
+	margin-bottom: 20px;
+	text-shadow: none;
+	text-transform: uppercase;
+
+}
+
+.form-register input {
+	border:        1px solid #DFE2E5;
+	border-radius: 0;
+	box-shadow: none;
+	font-size: 11px;
+	height: 100%;
+	transition-duration: 0.5s;
+	background-color: #fff;
+	background-image: none;
+	color: #555;
+	padding: 6px 12px;
+	margin:        0 0 20px;
+}
+
+@media screen and (max-width: 750px)
+{
+
+	.isConnected{
+		width: 100%;
+	}
+	.title{
+		text-align: center;
+	}
+	
+	.connex .forget{
+		float: none;
+		text-align: left;
+	}
+
+	.connex .submitinput{
+		padding: 0;
+	}
+
+	.connex .form-con .form-group input{
+		width: 100%;
+	}
 }

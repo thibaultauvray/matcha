@@ -9,20 +9,35 @@
         {% endif %}
 
         <div class="toAdopt">
-            <h2 class="line"><span>Lorem Lipsum</span></h2>
-            <div class="row noPadding">
-                <ul class="col-md-12">
-                    <li class="col-lg-3 col-md-4 col-sm-4 col-xs-12"><img src="http://img.over-blog-kiwi.com/1/51/43/16/20150612/ob_abac60_830015749.jpg" alt="" class="img-thumbnail"></li>
-                    <li class="col-lg-3 col-md-4 col-sm-4 col-xs-12"><img src="http://img.over-blog-kiwi.com/1/51/43/16/20150612/ob_abac60_830015749.jpg" alt="" class="img-thumbnail"></li>
-                    <li class="col-lg-3 col-md-4 col-sm-4 col-xs-12"><img src="http://img.over-blog-kiwi.com/1/51/43/16/20150612/ob_abac60_830015749.jpg" alt="" class="img-thumbnail"></li>
-                    <li class="col-lg-3 col-md-4 col-sm-4 col-xs-12"><img src="http://img.over-blog-kiwi.com/1/51/43/16/20150612/ob_abac60_830015749.jpg" alt="" class="img-thumbnail"></li>
-                    <li class="col-lg-3 col-md-4 col-sm-4 col-xs-12"><img src="http://img.over-blog-kiwi.com/1/51/43/16/20150612/ob_abac60_830015749.jpg" alt="" class="img-thumbnail"></li>
-                    <li class="col-lg-3 col-md-4 col-sm-4 col-xs-12"><img src="http://img.over-blog-kiwi.com/1/51/43/16/20150612/ob_abac60_830015749.jpg" alt="" class="img-thumbnail"></li>
-                    <li class="col-lg-3 col-md-4 col-sm-4 col-xs-12"><img src="http://img.over-blog-kiwi.com/1/51/43/16/20150612/ob_abac60_830015749.jpg" alt="" class="img-thumbnail"></li>
-                    <li class="col-lg-3 col-md-4 col-sm-4 col-xs-12"><img src="http://img.over-blog-kiwi.com/1/51/43/16/20150612/ob_abac60_830015749.jpg" alt="" class="img-thumbnail"></li>
-                </ul>
-                
+            <h2 class="line"><span>A la une</span></h2>
+            <div class="row encart-homepage">
+
+                    {% for sug in suggest %}
+                        <div class="col-lg-3 col-md-4 col-sm-4 col-xs-6 nopadding encart-users clearfix" data-index="{{ loop.index }}"
+                             data-orien="{{ sug.orientation }}"
+                             data-sex="{{ sug.gender }}" data-tag-list="{{ sug.interestString }}" data-age="{{ sug.age }}"
+                             data-city="{{ sug.city }}" data-localisation="{{ sug.distance }}"
+                             data-popularity="{{ sug.popularity }}" data-tags="{{ sug.commonInterest }}">
+                            <a href="{{ path_for('viewProfil', { 'id' : sug.id }) }}">
+                            <span class="infos">
+                                <span class="infos-content">
+                                    <span class="name">{{ sug.nickname }}</span>
+                                    <span> {{ sug.age }} ans</span>
+                                    <span>{{ sug.city }}</span>
+                                    <span>{{ sug.commonInterest }} passions communes</span>
+                                </span>
+                            </span>
+                                <img
+                                        src="/img/{% if sug.url is null %}default.jpg{% else %}{{ sug.url }}{% endif %}"
+                                        alt="">
+                            </a>
+                        </div>
+                    {% endfor %}
+
             </div>
+            <h2 class="line"><span>Lorem Lipsum</span></h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium aperiam beatae dolorem eveniet fugit, ipsa labore rerum unde veritatis voluptas. Cupiditate dolorum facere fugit nobis optio perspiciatis quisquam, repellendus voluptatum?
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab ad amet asperiores, aspernatur aut culpa dolor dolore error facilis ipsa nobis officia officiis possimus quae repudiandae tempora veniam vero voluptate.</p>
         </div>
     </div>
 {% endblock %}
