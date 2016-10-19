@@ -131,6 +131,20 @@ class UsersController extends Controller
                                                                                   'location'   => $location));
     }
 
+    public function setAsDefault($request, $response, $args)
+    {
+        $id = $_GET['id'];
+        $img = new UsersImage($this->app);
+        $img->setAsDefault($id, $this->getUserId());
+    }
+
+    public function deleteImage($request, $response, $args)
+    {
+        $id = $_GET['id'];
+        $img = new UsersImage($this->app);
+        $img->deleteImage($id, $this->getUserId());
+    }
+
 
     public function updateUsersLocation($request, $response, $args)
     {

@@ -222,7 +222,7 @@ header .title a:hover {
 
 }
 
-.form-register input {
+.form-register input, .form-register select {
 	border:        1px solid #DFE2E5;
 	border-radius: 0;
 	box-shadow: none;

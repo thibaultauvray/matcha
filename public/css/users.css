@@ -369,6 +369,50 @@
 	width:               100%;
 }
 
+.form-register .changeLoca {
+	margin-bottom: 20px;
+	color: white;
+	margin-top: 20px;
+	text-shadow: none;
+}
+
+.form-register .galeryImage .avatar{
+	border: 3px solid #F48FB1;
+}
+
+.form-register img{
+	width: 100%;
+	height: 200px;
+}
+
+.form-register .galeryImage .glyphicon-ok{
+	position: absolute;
+	background-color: #F48FB1;
+	font-size: 26px;
+	left: 0;
+	padding: 10px;
+	cursor: pointer;
+	position: absolute;
+	top: 0;
+}
+
+.form-register .galeryImage .glyphicon-remove{
+	position: absolute;
+	background-color: #ba0028;
+	font-size: 26px;
+	cursor: pointer;
+
+	right: 0;
+	padding: 10px;
+	position: absolute;
+	top: 0;
+}
+
+
+.form-register .galeryImage .imgEdit{
+	position: relative;
+}
+
 .suggest .ui-slider.ui-slider-horizontal.ui-widget-content {
 	background:  #AFB6BD none repeat scroll 0 0;
 	border:      medium none;

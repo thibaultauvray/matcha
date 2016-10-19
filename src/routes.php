@@ -36,6 +36,8 @@ $app->get('/getLike', 'NotificationsController:getLike')->setName('like');
 $app->get('/getUnreadNotif', 'NotificationsController:getUnreadNotif')->setName('getUnreadNotif');
 $app->post('/readNotif', 'NotificationsController:readNotif')->setName('getUnreadNotif');
 $app->get('/getCountNotif', 'NotificationsController:getCountNotif')->setName('getCountNotif');
+$app->get('/setAsDefault', 'UsersController:setAsDefault')->setName('default');
+$app->get('/deleteImage', 'UsersController:deleteImage')->setName('delete');
 
 $app->get('/loca/{id}', 'UsersController:loca')->setName('loca');
 $app->get('/blockedUsers', 'UsersController:blockAction')->setName('blocked');
@@ -45,7 +47,6 @@ $app->get('/blockedUsers', 'UsersController:blockAction')->setName('blocked');
 $app->get('/chat/{id}', 'ChatController:index')->setName('chatIndex')->add(new isConnected($app->getContainer()));
 $app->post('/postMessage', 'ChatController:postMessage')->setName('postMsg')->add(new isConnected($app->getContainer()));
 $app->get('/getMessage', 'ChatController:getMessage')->setName('getMsg')->add(new isConnected($app->getContainer()));
-
 $app->get('/listChat/{id}', 'ChatController:listChat')->setName('chat');
 
 $app->get('/fillDB', 'UsersController:fillDB')->setName('fillDB');

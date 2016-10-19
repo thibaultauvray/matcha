@@ -1,82 +1,119 @@
 {% extends "template/base.twig" %}
 
+{% block javascript %}
+    <script>
+        $(document).ready(function ()
+                {
+                    $("#setAsDefault").on('click', function ()
+                    {
+                        var id = $(this).data('id');
+                        console.log(id);
+                        $.get('/setAsDefault', {id: id}, function ()
+                        {
+                            location.reload();
+                        });
+
+                    });
+                    $("#delete").on('click', function ()
+                    {
+                        var id = $(this).data('id');
+                        $.get('/deleteImage', {id: id}, function ()
+                        {
+                            location.reload();
+                        });
+
+                    });
+                }
+        );
+    </script>
+{% endblock %}
+
 {% block body %}
-<div class="container">
+    <div class="container main-container">
 
-	<h2 class="line"><span>Completer votre profil</span></h2>
-	<div class="row  form form-register">
-        <form id="editForm" class="form-horizontal" method="post" action="{{ path_for('postEditProfil', { 'id': args.id  }) }}" enctype="multipart/form-data">
-            <div class="form-group">
-                <label class="col-sm-2" for="age">Votre age</label>
-                <div class="col-sm-10">
-                    <input class="form-control" type="number" id="age" name="age" placeholder="Votre age" value="{{ user.age }}">
+        <h2 class="line"><span>Completer votre profil</span></h2>
+        <div class="row  form form-register">
+            <form id="editForm" class="form-inline" method="post"
+                  action="{{ path_for('postEditProfil', { 'id': args.id  }) }}" enctype="multipart/form-data">
+                <div class="form-group form-row col-sm-offset-2 col-sm-8">
+                    <label class="col-xs-3 col-sm-3" for="age">Votre age</label>
+                    <input class="col-xs-9 col-sm-9" type="number" id="age" name="age" placeholder="Votre age"
+                           value="{{ user.age }}">
+
+                </div>
+                {% if error.age %}
+                    <div class="alert alert-danger">
+                        {% for errors in error.age %}
+                            {{ errors }} <br>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <div class="form-group form-row col-sm-offset-2 col-sm-8">
+                    <label class="col-xs-3 col-sm-3" for="sexe">Sexe</label>
+                    <select class="col-xs-9 col-sm-9" name="sexe">
+                        <option value="m" {% if user.gender == 'm' %}selected{% endif %}>Masculin</option>
+                        <option value="f" {% if user.gender == 'f' %}selected{% endif %}>Feminin</option>
+                    </select>
+                </div>
+                {% if error.sexe %}
+                    <div class="alert alert-danger">
+                        {% for errors in error.sexe %}
+                            {{ errors }} <br>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <div class="form-group form-row col-sm-offset-2 col-sm-8">
+                    <label class="col-xs-3 col-sm-3" for="orientation">Orientation</label>
+                    <select class="col-xs-9 col-sm-9" name="orientation">
+                        <option value="hetero" {% if user.orientation == 'hetero' %}selected{% endif %}>Heterosexuel
+                        </option>
+                        <option value="homosexuel" {% if user.orientation == 'homosexuel' %}selected{% endif %}>
+                            Homosexuel
+                        </option>
+                        <option value="bisexuel"
+                                {% if user.orientation == 'bisexuel' or user.orientation is null %}selected{% endif %}>
+                            Bisexuel
+                        </option>
+                    </select>
                 </div>
 
-            </div>
-            {% if error.age %}
-                <div class="alert alert-danger">
-                    {% for errors in error.age %}
-                        {{ errors }} <br>
+                <div class="form-group form-row col-sm-offset-2 col-sm-8">
+                    <label class="col-xs-3 col-sm-3" for="interet">Centre d'interet</label>
+                    <input class="col-xs-9 col-sm-9" type="text" id="interet" name="interet"
+                           placeholder="Separe par des virgules(par exemple: tracteur, brouette...)"
+                           value="{{ interest }}">
+                </div>
+                <div class="galeryImage col-sm-offset-2 col-sm-8">
+                    {% for image in usersImage %}
+                        <div class="imgEdit col-xs-4 nopadding">
+                            <img class=" {% if image.isprofil == 1 %}avatar{% endif %}" src="{{ "/img/" ~ image.url }}"
+                                 alt=""/>
+                            {% if image.isprofil != 1 %} <span class="glyphicon glyphicon-ok" id="setAsDefault"
+                                                               data-id="{{ image.id }}"></span> {% endif %}
+                            <span class="glyphicon glyphicon-remove" id="delete" data-id="{{ image.id }}"></span>
+
+                        </div>
                     {% endfor %}
                 </div>
-             {% endif %}
-            <div class="form-group">
-                <label class="col-sm-2" for="sexe">Sexe</label>
-                <div class="col-sm-10">
-                    <select name="sexe">
-						  <option value="m" {% if user.gender == 'm' %}selected{% endif %}>Masculin</option> 
-						  <option value="f" {% if user.gender == 'f' %}selected{% endif %}>Feminin</option>
-					</select>
+                <div class="form-group form-row col-sm-offset-2 col-sm-8">
+                    <label class="col-xs-3 col-sm-3" for="image">Images</label>
+                    <input id='image' name="image[]" type="file" multiple="multiple"/><span
+                            class="col-xs-12 col-sm-offset-3 nopadding col-sm-9">5 images (jpg, png, bmp) max. La premiere image sera votre image de profil (Vous pourrez le modifier plus tard)</span>
                 </div>
-            </div>
-            {% if error.sexe %}
-                <div class="alert alert-danger">
-                    {% for errors in error.sexe %}
-                        {{ errors }} <br>
+                <a class="col-xs-12 col-sm-offset-2 col-sm-8 btn btn-default changeLoca"
+                   href="{{ path_for('updateUsersLocation', { 'id' : session.login.id }) }}">Changer sa location</a>
+                {% if flash.getMessage('error') %}
+                    {% for error in flash.getMessage('error') %}
+                        <div class="alert alert-danger">
+                            {{ error }}
+                        </div>
                     {% endfor %}
-                </div>
-             {% endif %}
-            <div class="form-group">
-                <label class="col-sm-2" for="orientation">Orientation</label>
-                <div class="col-sm-10">
-                 <select name="orientation">
-						  <option value="hetero" {% if user.orientation == 'hetero' %}selected{% endif %}>Heterosexuel</option> 
-						  <option value="homosexuel" {% if user.orientation == 'homosexuel' %}selected{% endif %}>Homosexuel</option>
-						  <option value="bisexuel" {% if user.orientation == 'bisexuel' or user.orientation is null %}selected{% endif %}>Bisexuel</option>
-					</select>
-                </div>
-            </div>
+                {% endif %}
 
-            <div class="form-group">
-                <label class="col-sm-2" for="interet">Centre d'interet</label>
-                <div class="col-sm-10">
-                    <input class="form-control" type="text" id="interet" name="interet" placeholder="Separe par des virgules(par exemple: tracteur, brouette...)" value="{{ interest }}">
-                </div>
-            </div>
-            <div class="galeryImage">
-                {% for image in usersImage %}
-                    <img src="{{ "/img/" ~ image.url }}" alt="" width="500" height="150" />
-                {% endfor %}
-            </div>
-            <div class="form-group">
-            	<label class="col-sm-2" for="image">Images</label>
-            	<div class="col-sm-10">
-            		<input id='image' name="image[]" type="file" multiple="multiple" /><span>5 images (jpg, png, bmp) max. La premiere image sera votre image de profil (Vous pourrez le modifier plus tard)</span>
-            	</div>
-            </div>
-            <a href="{{ path_for('updateUsersLocation', { 'id' : session.login.id }) }}">Changer sa location</a>
-            {% if flash.getMessage('error') %}
-            	{% for error in flash.getMessage('error') %}
-					    <div class="alert alert-danger">
-					        {{ error }}
-					    </div>
-			    {% endfor %}
-			{% endif %}
-            
-           
-             <button type="submit" class="btn btn-default">Submit</button>
-        </form>
+
+                <button type="submit" class="col-xs-12 col-sm-offset-4 col-sm-4 btn btn-default">Submit</button>
+            </form>
+        </div>
+
     </div>
-
-</div>
 {% endblock %}

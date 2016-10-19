@@ -80,6 +80,8 @@ class Users extends Model
         return implode(',', $arr);
     }
 
+
+
     public function getCountImage($id)
     {
         $pdo = $this->app->db->prepare("SELECT ui.url FROM users u 
@@ -92,7 +94,7 @@ class Users extends Model
 
     public function getImage($id)
     {
-        $pdo = $this->app->db->prepare("SELECT ui.url FROM users u 
+        $pdo = $this->app->db->prepare("SELECT ui.id, ui.url, ui.isprofil FROM users u 
 										INNER JOIN usersImage ui ON u.id = ui.id_users
 										WHERE u.id = ? ");
         $pdo->execute(array($id));
