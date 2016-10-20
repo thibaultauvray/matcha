@@ -133,16 +133,18 @@ class UsersController extends Controller
 
     public function setAsDefault($request, $response, $args)
     {
-        $id = $_GET['id'];
+        $id = $args['id'];
         $img = new UsersImage($this->app);
         $img->setAsDefault($id, $this->getUserId());
+        return $response->withStatus(302)->withHeader('Location', $this->app->router->pathFor('editProfil', array('id' => $this->getUserId())));
     }
 
     public function deleteImage($request, $response, $args)
     {
-        $id = $_GET['id'];
+        $id = $args['id'];
         $img = new UsersImage($this->app);
         $img->deleteImage($id, $this->getUserId());
+        return $response->withStatus(302)->withHeader('Location', $this->app->router->pathFor('editProfil', array('id' => $this->getUserId())));
     }
 
 

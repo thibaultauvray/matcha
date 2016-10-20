@@ -322,6 +322,17 @@
 	font-weight: normal;
 }
 
+#editForm{
+	margin-top: 10px;
+}
+
+#editForm #prev{
+	margin-top: 10px;
+	color: #FFFFFF;
+	margin-bottom: 10px;
+}
+
+
 .ui-slider .ui-slider-handle::before {
 	bottom:      18px;
 	color:       #FC8BB1;

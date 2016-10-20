@@ -26,7 +26,7 @@ Class UsersImage extends Model
     public function isProfil($id)
     {
         $img = $this->findOne('id', $id);
-        if ($img['isprofil'] == 1)
+        if ($img['isprofil'] == '1')
             return true;
 
         return false;
@@ -43,9 +43,9 @@ Class UsersImage extends Model
             $us = $this->findOne('id_users', $idUsers);
             if (!empty($us))
             {
-                echo $us['id'];
-//            $us = $this->app->db->prepare("UPDATE usersImage SET isprofil = 1 WHERE id = ? ");
-//            $us->execute(array($us['id']));
+                $ide = $us['id'];
+                $us = $this->app->db->prepare("UPDATE usersImage SET isprofil = 1 WHERE id = ? ");
+                $us->execute(array($ide));
             }
         }
 

@@ -60,7 +60,7 @@ $(document).ready(function()
                                     success: function (data) {
                                         $('#city').val(city);
                                         $('.alert').remove();
-                                        $('#city').after('<div class="alert alert-success">Localisation modifié</div>');
+                                        $('#city').after('<div class="col-xs-12 alert alert-success">Localisation modifié</div>');
                                         console.log(data)
                                     },
                                 });

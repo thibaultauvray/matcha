@@ -5,39 +5,59 @@
                 <h1 class="title"><a href="{{ path_for('homepage') }}">Matcha</a></h1>
             </div>
             {% if app.isLogged %}
-            <div class="col-sm-2">
-                <ul class="icon-menu notif">
-                    <li><a href="{{ path_for('viewSuggest', {'id' :  session.login.id }) }}"><span
-                                    class="glyphicon glyphicon-map-marker"></span></a></li>
-                    <li><div class="dropdown notif-list">
+            <nav class="navbar">
+                <div class="navbar-header">
+                    <button type="button" id="navabar-def" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <span class="navbar-brand"  href="#">Menu</span>
+                </div>
+                <div class="navbar-content">
+                <div class="col-xs-12 nopadding col-sm-2">
+                    <ul class="icon-menu notif">
+                        <li><a  href="{{ path_for('viewSuggest', {'id' :  session.login.id }) }}"><span
+                                        class="glyphicon glyphicon-map-marker" data-line="Suggestions"></span></a></li>
+                        <li>
+                            <div class="dropdown notif-list">
                             <span class="pink dropdown-toggle" type="button" id="dropdownMenu1"
-                                            data-toggle="dropdown"
-                                            aria-haspopup="true" aria-expanded="true">
-                                <span class="glyphicon glyphicon-envelope"></span>
+                                  data-toggle="dropdown"
+                                  aria-haspopup="true" aria-expanded="true">
+                                <span data-line="<a href=''>coucou</a>" class="glyphicon glyphicon-envelope"></span>
 
                                 <span id="unread">{{ app.getCountUnreadNotif }}</span>
                             </span>
-                            <ul class="dropdown-menu notifUnread" aria-labelledby="dropdownMenu1">
-                                {% for notif in app.getNotification  %}
-                                    <li onmouseover="unread({{ notif.idNotif }})" {% if notif.reading == 0 %}class="unread" {% endif %} data-id="{{ notif.idNotif }}"><a href="{{ notif.href }}"><img width=50 height=50 src="http://{{ baseUrl }}/img/{{ notif.url }}" alt="">{{ notif.nickname }} {{ notif.message }}</a></li>
-                                {% endfor %}
+                                <ul class="dropdown-menu notifUnread" aria-labelledby="dropdownMenu1">
+                                    {% for notif in app.getNotification %}
+                                        <li onmouseover="unread({{ notif.idNotif }})"
+                                            {% if notif.reading == 0 %}class="unread" {% endif %}
+                                            data-id="{{ notif.idNotif }}"><a href="{{ notif.href }}"><img width=50
+                                                                                                          height=50
+                                                                                                          src="http://{{ baseUrl }}/img/{{ notif.url }}"
+                                                                                                          alt="">{{ notif.nickname }} {{ notif.message }}
+                                            </a></li>
+                                    {% endfor %}
 
-                            </ul>
-                        </div>
-                    </li>
-                    <li>  <a href="{{ path_for('chat', { id : session.login.id }) }}"><span class="glyphicon glyphicon-comment"></span></a></li>
-                </ul>
-            </div>
-            <div class="col-sm-5">
-                <form action="{{ path_for('search') }}" method="POST" class="form-search">
-                    <input type="text" id="terms" name="terms">
-                    <button type="submit" class="glyphicon glyphicon-search submit-search"></button>
-                </form>
-            </div>
-            {% endif %}
-            <div class="connex {% if app.isLogged %}col-sm-3{% else %}col-sm-6{% endif %}">
-                <div class="isConnected">
-                    {% if app.isLogged %}
+                                </ul>
+                            </div>
+                            <a class="linkNotif" href="{{ path_for('viewHistory', { id : session.login.id }) }}"><span>Notifications (<span id="unread">{{ app.getCountUnreadNotif }}</span>)</span></a>
+                        </li>
+                        <li><a  href="{{ path_for('chat', { id : session.login.id }) }}"><span
+                                        class="glyphicon glyphicon-comment" data-line="Chat"></span></a></li>
+                    </ul>
+                </div>
+                <div class="searbarMenu col-xs-12 col-sm-5">
+                    <form action="{{ path_for('search') }}" method="POST" class="form-search">
+                        <input type="text" class="" id="terms" name="terms">
+                        <button type="submit" class="glyphicon glyphicon-search submit-search"></button>
+                    </form>
+                </div>
+                {% endif %}
+                <div class="connex {% if app.isLogged %}col-sm-3{% else %}col-sm-6{% endif %}">
+                    <div class="isConnected">
+                        {% if app.isLogged %}
                         <div class="dropdown">
                             Bienvenue <span class="pink dropdown-toggle" type="button" id="dropdownMenu1"
                                             data-toggle="dropdown"
@@ -53,37 +73,38 @@
                                 <li><a href="{{ path_for('signout') }}">Se deconnecter</a></li>
                             </ul>
                         </div>
-
-                    {% else %}
-                        <div class="form-con col-xs-12">
-                            <form class="form-inline" method="POST" action="{{ path_for('signin') }}">
-                                <div class="col-xs-12 col-sm-5 nopadding form-group">
-                                    <label class="sr-only" for="exampleInputEmail3">Email address</label>
-                                    <input type="mail" name="mail" class="col-xs-12 form-control" id="exampleInputEmail3"
-                                           placeholder="Email">
-                                </div>
-                                <div class="col-xs-12 col-sm-5 nopadding form-group passwordInput">
-                                    <label class="sr-only" for="exampleInputPassword3">Password</label>
-                                    <input type="password" name="passwd" class="col-xs-12 form-control" id="exampleInputPassword3"
-                                           placeholder="Password">
-                                </div>
-                                <div class="col-xs-12 col-sm-2 submitinput form-group">
-                                    <button type="submit" class="col-xs-12 btn btn-default">OK</button>
-                                </div>
-                                {% if flash.getMessage('error').0 %}
-                                    <div class="alert alert-success">
-                                        {{ flash.getMessage('error').0 }}
-                                    </div>
-                                {% endif %}
-                            </form>
-                            <p class="col-xs-12 col-sm-5 forget"><a href="">mot de passe oublié ?</a></p>
-                            <p class="col-xs-12 col-sm-5 forget"><a href="{{ path_for('register') }}">Inscription ?</a></p>
+                    </div>
+            </nav>
+            {% else %}
+            <div class="form-con col-xs-12">
+                <form class="form-inline" method="POST" action="{{ path_for('signin') }}">
+                    <div class="col-xs-12 col-sm-5 nopadding form-group">
+                        <label class="sr-only" for="exampleInputEmail3">Email address</label>
+                        <input type="mail" name="mail" class="col-xs-12 form-control" id="exampleInputEmail3"
+                               placeholder="Email">
+                    </div>
+                    <div class="col-xs-12 col-sm-5 nopadding form-group passwordInput">
+                        <label class="sr-only" for="exampleInputPassword3">Password</label>
+                        <input type="password" name="passwd" class="col-xs-12 form-control" id="exampleInputPassword3"
+                               placeholder="Password">
+                    </div>
+                    <div class="col-xs-12 col-sm-2 submitinput form-group">
+                        <button type="submit" class="col-xs-12 btn btn-default">OK</button>
+                    </div>
+                    {% if flash.getMessage('error').0 %}
+                        <div class="alert alert-success">
+                            {{ flash.getMessage('error').0 }}
                         </div>
                     {% endif %}
-                </div>
+                </form>
+                <p class="col-xs-12 col-sm-5 forget"><a href="">mot de passe oublié ?</a></p>
+                <p class="col-xs-12 col-sm-5 forget"><a href="{{ path_for('register') }}">Inscription ?</a></p>
             </div>
+            {% endif %}
         </div>
     </div>
+</div>
+</div>
 </div>
 <div class="subheader">
     <div class="container">

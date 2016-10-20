@@ -36,8 +36,8 @@ $app->get('/getLike', 'NotificationsController:getLike')->setName('like');
 $app->get('/getUnreadNotif', 'NotificationsController:getUnreadNotif')->setName('getUnreadNotif');
 $app->post('/readNotif', 'NotificationsController:readNotif')->setName('getUnreadNotif');
 $app->get('/getCountNotif', 'NotificationsController:getCountNotif')->setName('getCountNotif');
-$app->get('/setAsDefault', 'UsersController:setAsDefault')->setName('default');
-$app->get('/deleteImage', 'UsersController:deleteImage')->setName('delete');
+$app->get('/setAsDefault/{id}', 'UsersController:setAsDefault')->setName('default');
+$app->get('/deleteImage/{id}', 'UsersController:deleteImage')->setName('delete');
 
 $app->get('/loca/{id}', 'UsersController:loca')->setName('loca');
 $app->get('/blockedUsers', 'UsersController:blockAction')->setName('blocked');
