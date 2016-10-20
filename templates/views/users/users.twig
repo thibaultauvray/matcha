@@ -156,17 +156,19 @@
                 <div class="col-sm-8 encart tablem">
                     <div class="tablecell">
 
-                        <h2>{{ users.nickname }}<span class="icone {% if users.gender == "m" %}icon-men{% else %}icon-woman{% endif %}"></span></h2>
-                        {{ connected }}
-                        {% if connected == 1 %}
-                            <span class="connected">Connecté</span>
-                        {% elseif connected == 0 %}
-                            <div class="never">Jamais connecté</div>
-                        {% else %}
-                            <div class="disconnected">Derniere connexion le {{ connected }}</div>
-                        {% endif %}
+                        <h2>{{ users.nickname }}<span
+                                    class="icone {% if users.gender == "m" %}icon-men{% else %}icon-woman{% endif %}"></span>
+
+                            {% if connected == 1 %}
+                                <span class="round round-green connected">Connecté</span>
+                            {% elseif connected == 0 %}
+                                <span class="round round-red never">Jamais connecté</span>
+                            {% else %}
+                                <span class="round round-red disconnected">Derniere connexion le {{ connected }}</span>
+                            {% endif %}
+                        </h2>
                         {% if sameProfil == false %}
-                            <button id="like" data-pic="{{ app.noProfilPic }}">Bloqué <span
+                        <button id="like" data-pic="{{ app.noProfilPic }}">Bloqué <span
                                     class="glyphicon glyphicon-remove"></span>
                             {% if isBlock == true %}
                                 <button id="blocked">Débloqué <span class="glyphicon glyphicon-ok"></span></button>
@@ -215,64 +217,28 @@
             </div>
             <div class="fullDetails">
                 <div class="details-encart">
-                    <h2 class="detail line"><span>Details</span></h2>
-                    <div class="border">
-                        <div class="col-sm-4">
-                            <div class="det">
-                                <div class="det">
-                                    <h3>Orientation</h3>
-                                    <p>Marron</p>
-                                </div>
-                                <h3>Yeux</h3>
-                                <p>Marron</p>
+                    <h2 class="detail line"><span>Photo</span></h2>
+                    <div class="border listImage">
+                        {% for image in image %}
+                            <div class="col-xs-12 col-sm-4">
+                                <img src="/img/{{ image.url }}"
+                                        alt="">
                             </div>
-                            <div class="det">
-                                <h3>Style</h3>
-                                <p>Marron</p>
-                            </div>
-                        </div>
-                        <div class="col-sm-4 br">
-                            <div class="det">
-                                <div class="det">
-                                    <h3>Orientation</h3>
-                                    <p>Marron</p>
-                                </div>
-                                <h3>Yeux</h3>
-                                <p>Marron</p>
-                            </div>
-                            <div class="det">
-                                <h3>Style</h3>
-                                <p>Marron</p>
-                            </div>
-
-                        </div>
-                        <div class="col-sm-4 br">
-                            <div class="det">
-                                <div class="det">
-                                    <h3>Profession</h3>
-                                    <p>Marron</p>
-                                </div>
-                                <h3>Université</h3>
-                                <p>Marron</p>
-                            </div>
-                            <div class="det">
-                                <h3>Hobbies</h3>
-                                <p>Marron</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="description">
-                        <h2 class="detail line"><span>Description</span></h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci consequuntur cumque
-                            cupiditate, dolorem ea eligendi enim eos eveniet, exercitationem ipsam neque omnis
-                            perferendis
-                            quaerat quidem quisquam similique totam ullam unde.</p>
+                        {% endfor %}
                     </div>
                 </div>
-
+                <div class="description">
+                    <h2 class="detail line"><span>Description</span></h2>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci consequuntur cumque
+                        cupiditate, dolorem ea eligendi enim eos eveniet, exercitationem ipsam neque omnis
+                        perferendis
+                        quaerat quidem quisquam similique totam ullam unde.</p>
+                </div>
             </div>
 
         </div>
+
+    </div>
 
     </div>
 

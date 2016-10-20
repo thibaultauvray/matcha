@@ -86,7 +86,7 @@ class UsersController extends Controller
             $_POST['passwd'] = hash('whirlpool', $_POST['passwd']);
             $user = new Users($this->app);
             $_SESSION['login'] = $_POST;
-            $data = array('passwd'    => hash('whirlpool', $_POST['passwd']),
+            $data = array('passwd'      => hash('whirlpool', $_POST['passwd']),
                           'nickname'    => $_POST['nickname'],
                           'mail'        => $_POST['mail'],
                           'name'        => $_POST['name'],
@@ -136,6 +136,7 @@ class UsersController extends Controller
         $id = $args['id'];
         $img = new UsersImage($this->app);
         $img->setAsDefault($id, $this->getUserId());
+
         return $response->withStatus(302)->withHeader('Location', $this->app->router->pathFor('editProfil', array('id' => $this->getUserId())));
     }
 
@@ -144,6 +145,7 @@ class UsersController extends Controller
         $id = $args['id'];
         $img = new UsersImage($this->app);
         $img->deleteImage($id, $this->getUserId());
+
         return $response->withStatus(302)->withHeader('Location', $this->app->router->pathFor('editProfil', array('id' => $this->getUserId())));
     }
 
@@ -215,11 +217,14 @@ class UsersController extends Controller
         $interest = $users->getInterest($id);
         $location = $usersLocation->findOne('id_users', $id);
         $user = $users->findById($id);
+        $ui = new UsersImage($this->app);
+        $image = $ui->getImages($id);
         $imagePics = $users->getImageProfil($id);
 
 
         return $this->app->view->render($response, 'views/users/users.twig', array('users'      => $user,
                                                                                    'imgProfil'  => $imagePics,
+                                                                                   'image'      => $image,
                                                                                    'isBlock'    => $isBlock,
                                                                                    'location'   => $location,
                                                                                    'interet'    => $interest,

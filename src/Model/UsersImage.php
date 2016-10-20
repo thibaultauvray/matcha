@@ -13,6 +13,12 @@ Class UsersImage extends Model
         return $img['url'];
     }
 
+    public function getImages($id)
+    {
+        $img = $this->app->db->prepare("SELECT * FROM usersImage WHERE id_users = ?");
+        $img->execute(array($id));
+        return $img->fetchAll();
+    }
     public function setAsDefault($id, $idUsers)
     {
         $us = $this->app->db->prepare("UPDATE usersImage SET isprofil = 0 WHERE id_users = ? ");
