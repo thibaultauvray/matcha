@@ -13,6 +13,8 @@ $app->post('/register', 'UsersController:postRegister')->setName('postRegister')
 $app->get('/users/view/{id}', 'UsersController:viewProfil')->setName('viewProfil')->add(new isConnected($app->getContainer()));
 
 $app->get('/view/history/{id}', 'UsersController:viewHistory')->setName('viewHistory')->add(new isConnected($app->getContainer()));
+$app->get('/view/like/{id}', 'UsersController:viewLike')->setName('viewLike')->add(new isConnected($app->getContainer()));
+
 $app->get('/edit/{id}', 'UsersController:editProfil')->setName('editProfil')->add(new isConnected($app->getContainer()));
 $app->post('/edit/{id}', 'UsersController:postEditProfil')->setName('postEditProfil')->add(new isConnected($app->getContainer()));
 

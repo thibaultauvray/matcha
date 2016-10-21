@@ -156,8 +156,9 @@
                 <div class="col-sm-8 encart tablem">
                     <div class="tablecell">
 
-                        <h2>{{ users.nickname }}<span
-                                    class="icone {% if users.gender == "m" %}icon-men{% else %}icon-woman{% endif %}"></span>
+                        <h2>{{ users.nickname }}
+                            <span class="encart-icon">
+                            <span class="icone {% if users.gender == "m" %}icon-men{% else %}icon-woman{% endif %}"></span>
 
                             {% if connected == 1 %}
                                 <span class="round round-green connected">Connecté</span>
@@ -166,6 +167,7 @@
                             {% else %}
                                 <span class="round round-red disconnected">Derniere connexion le {{ connected }}</span>
                             {% endif %}
+                                </span>
                         </h2>
                         {% if sameProfil == false %}
                         <button id="like" data-pic="{{ app.noProfilPic }}">Bloqué <span
@@ -188,11 +190,11 @@
                             <span class="age">{{ users.age }} ans</span>
                         </div>
                         <div class="city pink floatr">
-                            <span class="pink glyphicon glyphicon-map-marker"></span>
+                            <span class="pink glyphicon glyphicon-home"></span>
                             <span class="city">{{ location.city }}</span>
                         </div>
                         <div class="orientat pink floatl">
-                            <span class="pink icone icon-look"></span>
+                            <span class="pink icone glyphicon icon-look"></span>
                             <span class="orientation">{{ users.orientation }}</span>
                         </div>
                     </div>
@@ -209,13 +211,13 @@
         </div>
     </div>
     <div class="container bgwhite nopadding">
-        <div class="main-user">
-            <div class="encart-map floatl">
+        <div class="main-user col-xs-12 nopadding">
+            <div class="col-xs-12 col-sm-3 encart-map">
                 <div id="map" class="map">
 
                 </div>
             </div>
-            <div class="fullDetails">
+            <div class="fullDetails nopadding col-xs-12 col-sm-9">
                 <div class="details-encart">
                     <h2 class="detail line"><span>Photo</span></h2>
                     <div class="border listImage">

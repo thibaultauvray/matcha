@@ -241,7 +241,17 @@ class UsersController extends Controller
 
         return $this->app->view->render($response, 'views/users/history.twig', array('args'    => $args,
                                                                                      'history' => $user));
+    }
 
+    public function viewLike($request, $response, $args)
+    {
+        $history = new Likable($this->app);
+        $id = $args['id'];
+        $user = $history->getLike($id);
+
+        return $this->app->view->render($response, 'views/users/history.twig', array('args'    => $args,
+                                                                                        'like' => true,
+                                                                                     'history' => $user));
     }
 
 

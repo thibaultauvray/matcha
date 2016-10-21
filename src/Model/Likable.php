@@ -26,6 +26,17 @@ Class Likable extends Model
         return 0;
     }
 
+    public function getLike($id)
+    {
+        $like = $this->app->db->prepare("SELECT u.*, ui.url, l.created_at AS date FROM likable l 
+LEFT JOIN users u ON u.id = l.id_users
+ LEFT JOIN usersImage ui ON ui.id_users = u.id  AND ui.isprofil = 1
+ WHERE id_users_like = ? ");
+
+        $like->execute(array($id));
+        return $like->fetchAll();
+    }
+
     public function isMutual($id, $idLike)
     {
         $like = $this->app->db->prepare("SELECT *

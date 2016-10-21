@@ -4,7 +4,7 @@
 
     <div class="container main-container">
         <div class="history">
-            <h2 class="detail line"><span>Historique des visites</span></h2>
+            <h2 class="detail line"><span>Historique des {% if like is defined and like == true %}likes {% else %} visites {% endif %}</span></h2>
             {% for history in history %}
                 <div class="history-single col-sm-12">
                     <div class="people profile col-sm-2">

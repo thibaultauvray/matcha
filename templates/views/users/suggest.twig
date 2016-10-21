@@ -15,27 +15,27 @@
                 <span>{% if routeName is defined and routeName == "search" %}Recherche{% else %}Suggestions{% endif %}</span>
             </h2>
             {% if routeName is defined and routeName == "search" %}
-                <div class="search col-sm-offset-2 col-sm-10">
+                <div class="search col-sm-offset-1 col-sm-10 col-xs-12">
                     <form action="{{ path_for('search') }}" method="POST">
-                        <label for="terms" class="col-sm-3">Pseudonyme</label>
-                        <input type="text" id="terms" name="terms" value="{{ data }}">
-                        <input class="btn btn-default" type="submit"></input>
+                        <label for="terms" class="col-sm-3 col-xs-12">Pseudonyme</label>
+                        <input type="text" id="terms" class="col-sm-5 col-xs-12" name="terms" value="{{ data }}">
+                        <input class="btn btn-default col-xs-12" type="submit"></input>
                     </form>
                 </div>
             {% endif %}
             <div class="tri">
 
-                <div class="form-row col-sm-offset-2 col-sm-10">
-                    <label for="filterLoca" class="col-sm-3">Localisation</label>
-                    <input class="filter col-sm-3" type="text" id="filterLoca">
+                <div class="form-row col-sm-offset-1 col-sm-10 col-xs-12">
+                    <label for="filterLoca" class="col-sm-3 col-xs-12">Localisation</label>
+                    <input class="filter col-sm-5 col-xs-12" type="text" id="filterLoca">
                 </div>
-                <div class="form-row  col-sm-offset-2 col-sm-10">
-                    <label for="filterTags" class="col-sm-3">Centre d'interet</label>
-                    <input type="text" class="filter col-sm-3" id="filterTags">
+                <div class="form-row  col-sm-offset-1 col-sm-10 col-xs-12">
+                    <label for="filterTags" class="col-sm-3 col-xs-12">Centre d'interet</label>
+                    <input type="text" class="filter col-sm-5 col-xs-12" id="filterTags">
                 </div>
                 {% if routeName is defined and routeName == "search" %}
-                    <div class="form-row col-sm-offset-2 col-sm-10">
-                        <label class="criteria-label col-sm-3" for="">Sexe</label>
+                    <div class="form-row col-sm-offset-1 col-sm-10 col-xs-12">
+                        <label class="criteria-label col-sm-3 col-xs-12" for="">Sexe</label>
                         <div class="gender">
                             <span class="check">
                             <input class="filter" type="checkbox" id="m" name="gender" value="m" checked> <label
@@ -47,8 +47,8 @@
                             </span>
                         </div>
                     </div>
-                    <div class="form-row col-sm-offset-2 col-sm-10">
-                        <label class="criteria-label col-sm-3" for="">Orientation</label>
+                    <div class="form-row col-sm-offset-1 col-sm-10 col-xs-12">
+                        <label class="criteria-label col-sm-3 col-xs-12" for="">Orientation</label>
                         <div class="orien">
                             <span class="check">
                                 <input type="checkbox" class="filter" id="homo" name="orien" value="homo" checked><label
@@ -65,16 +65,16 @@
                         </div>
                     </div>
                 {% endif %}
-                <div class="form-row col-sm-offset-2 col-sm-10 margin-range">
+                <div class="form-row col-sm-offset-1 col-sm-10 col-xs-12 margin-range">
                     <div class="age">
-                        <p class="labele col-sm-3"><label for=" ">Age</label></p>
-                        <div class="col-sm-4" id="age-range"></div>
+                        <p class="labele col-sm-3 col-xs-12"><label for=" ">Age</label></p>
+                        <div class="col-sm-4 col-xs-12" id="age-range"></div>
                     </div>
                 </div>
-                <div class="form-row col-sm-offset-2 col-sm-10">
+                <div class="form-row col-sm-offset-1 col-sm-10 col-xs-12">
                     <div class="age">
                         <p class="labele col-sm-3"><label for="">Popularite</label></p>
-                        <div class="col-sm-4" id="pop-range"></div>
+                        <div class="col-sm-4 col-xs-12" id="pop-range"></div>
                     </div>
                 </div>
             </div>
@@ -99,7 +99,7 @@
                     </div>
                 </div>
                 {% for sug in suggest %}
-                    <div class="col-sm-3 nopadding encart-users clearfix" data-index="{{ loop.index }}"
+                    <div class="col-sm-3 col-xs-6 nopadding encart-users clearfix" data-index="{{ loop.index }}"
                          data-orien="{{ sug.orientation }}"
                          data-sex="{{ sug.gender }}" data-tag-list="{{ sug.interestString }}" data-age="{{ sug.age }}"
                          data-city="{{ sug.city }}" data-localisation="{{ sug.distance }}"

@@ -24,7 +24,6 @@ class isConnected
             $users->updatedLogin($idUser);
         }
         $response = $next($request, $response);
-        $response->getBody()->write('AFTER');
 
         return $response;
     }
