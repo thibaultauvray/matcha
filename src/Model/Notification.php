@@ -11,7 +11,8 @@ Class Notification extends Model
          LEFT JOIN users u ON u.id = n.id_users
          LEFT JOIN usersImage im ON im.id_users = n.id_users AND im.isprofil = 1
          WHERE n.id_users_send = $id
-         ORDER BY n.id DESC");
+         ORDER BY n.id DESC
+        ");
 
         $notif->execute();
 

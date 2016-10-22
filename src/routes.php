@@ -40,12 +40,14 @@ $app->post('/readNotif', 'NotificationsController:readNotif')->setName('getUnrea
 $app->get('/getCountNotif', 'NotificationsController:getCountNotif')->setName('getCountNotif');
 $app->get('/setAsDefault/{id}', 'UsersController:setAsDefault')->setName('default');
 $app->get('/deleteImage/{id}', 'UsersController:deleteImage')->setName('delete');
-
+$app->get('/reportedUsers', 'UsersController:reportedUser')->setName('reported');
 $app->get('/loca/{id}', 'UsersController:loca')->setName('loca');
 $app->get('/blockedUsers', 'UsersController:blockAction')->setName('blocked');
 
 // CHat
 
+$app->get('/forgetPassword', 'UsersController:forget')->setName('forget');
+$app->post('/forgetPassword', 'UsersController:postForget')->setName('postForget');
 $app->get('/chat/{id}', 'ChatController:index')->setName('chatIndex')->add(new isConnected($app->getContainer()));
 $app->post('/postMessage', 'ChatController:postMessage')->setName('postMsg')->add(new isConnected($app->getContainer()));
 $app->get('/getMessage', 'ChatController:getMessage')->setName('getMsg')->add(new isConnected($app->getContainer()));

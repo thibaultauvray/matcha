@@ -1,0 +1,32 @@
+{% extends "template/base.twig" %}
+
+{% block body %}
+
+    <div class="container main-container">
+        <div class="row  form form-register">
+    {% if flash.getMessage('success') %}
+        {% for error in flash.getMessage('success') %}
+            <div class="col-xs-12 alert alert-success">
+                {{ error }}
+            </div>
+        {% endfor %}
+        {% endif %}
+        {% if flash.getMessage('errors') %}
+            {% for error in flash.getMessage('errors') %}
+                <div class="col-xs-12 alert alert-danger">
+                    {{ error }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+            <form class="form-inline col-xs-12 col-sm-12" method="post" action="{{ path_for('postForget') }}">
+                <div class="form-group form-row col-sm-offset-2 col-sm-8">
+                    <label class="col-xs-3 col-sm-3" for="mail">Mail</label>
+                    <input class="col-xs-9 col-sm-9" type="text" id="mail" name="mail"
+                           placeholder="Votre pseudo" value="">
+                    <button type="submit" class="col-xs-12 col-sm-offset-4 col-sm-4 btn btn-default">Envoyer</button>
+                </div>
+        </div>
+    </div>
+
+{% endblock %}

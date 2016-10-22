@@ -102,6 +102,30 @@ class Users extends Model
         return $pdo->fetchAll();
     }
 
+    public function getStatuts($id, $idUser)
+    {
+        if ($id == $idUser)
+            return -1;
+        $like = $this->app->db->prepare("SELECT *
+        FROM likable 
+        WHERE (id_users = ? AND id_users_like = ?) OR (id_users = ? AND id_users_like = ?)");
+        $like->execute(array($idUser, $id, $id, $idUser));
+        if (count($like->fetchAll()) == 2)
+        {
+            return 2;
+        }
+        $like = $this->app->db->prepare("SELECT *
+        FROM likable 
+        WHERE id_users = ? AND id_users_like = ?");
+        $like->execute(array($id, $idUser));
+        if (count($like->fetchAll()) == 1)
+        {
+            return 1;
+        }
+        return 0;
+
+    }
+
     public function getImageProfil($id)
     {
         $pdo = $this->app->db->prepare("SELECT ui.url FROM users u 

@@ -33,35 +33,110 @@
 
         <h2 class="line"><span>Completer votre profil</span></h2>
         <div class="row  form form-register">
+                {% if flash.getMessage('success') %}
+                    {% for error in flash.getMessage('success') %}
+                <div class="col-xs-12 alert alert-success">
+                    {{ error }}
+                </div>
+                {% endfor %}
+                {% endif %}
             <form id="editForm" class="form-inline" method="post"
                   action="{{ path_for('postEditProfil', { 'id': args.id  }) }}" enctype="multipart/form-data">
                 <div class="form-group form-row col-sm-offset-2 col-sm-8">
                     <label class="col-xs-12 col-sm-3" for="age">Votre age</label>
                     <input class="col-xs-12 col-sm-9" type="number" id="age" name="age" placeholder="Votre age"
                            value="{{ user.age }}">
+                    {% if error.age %}
+                        <div class="alert alert-danger col-xs-12">
+                            {% for errors in error.age %}
+                                {{ errors }} <br>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
 
                 </div>
-                {% if error.age %}
-                    <div class="alert alert-danger">
-                        {% for errors in error.age %}
-                            {{ errors }} <br>
-                        {% endfor %}
-                    </div>
-                {% endif %}
+
                 <div class="form-group form-row col-sm-offset-2 col-sm-8">
                     <label class="col-xs-12 col-sm-3" for="sexe">Sexe</label>
                     <select class="col-xs-12 col-sm-9" name="sexe">
                         <option value="m" {% if user.gender == 'm' %}selected{% endif %}>Masculin</option>
                         <option value="f" {% if user.gender == 'f' %}selected{% endif %}>Feminin</option>
                     </select>
+                    {% if error.sexe %}
+                        <div class="alert alert-danger col-xs-12">
+                            {% for errors in error.sexe %}
+                                {{ errors }} <br>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
                 </div>
-                {% if error.sexe %}
-                    <div class="alert alert-danger">
-                        {% for errors in error.sexe %}
-                            {{ errors }} <br>
-                        {% endfor %}
-                    </div>
-                {% endif %}
+
+                <div class="form-group form-row col-sm-offset-2 col-sm-8">
+                    <label class="col-xs-12 col-sm-3" for="lastname">Nom</label>
+                    <input class="col-xs-12 col-sm-9" type="text" id="lastname" name="lastname" placeholder="Votre nom"
+                           value="{{ user.lastname }}">
+                    {% if error.lastname %}
+                        <div class="alert alert-danger col-xs-12">
+                            {% for errors in error.lastname %}
+                                {{ errors }} <br>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group form-row col-sm-offset-2 col-sm-8">
+                    <label class="col-xs-12 col-sm-3" for="name">Prénom</label>
+                    <input class="col-xs-12 col-sm-9" type="text" id="name" name="name" placeholder="Votre Prénom"
+                           value="{{ user.name }}">
+                    {% if error.name %}
+                        <div class="alert alert-danger col-xs-12">
+                            {% for errors in error.name %}
+                                {{ errors }} <br>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group form-row col-sm-offset-2 col-sm-8">
+                    <label class="col-xs-12 col-sm-3" for="nickname">Pseudo</label>
+                    <input class="col-xs-12 col-sm-9" type="text" id="nickname" name="nickname" placeholder="Votre Prénom"
+                           value="{{ user.nickname }}">
+                    {% if error.nickname %}
+                        <div class="alert alert-danger col-xs-12">
+                            {% for errors in error.nickname %}
+                                {{ errors }} <br>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group form-row col-sm-offset-2 col-sm-8">
+                    <label class="col-xs-12 col-sm-3" for="mail">Mail</label>
+                    <input class="col-xs-12 col-sm-9" type="text" id="mail" name="mail" placeholder="Votre mail"
+                           value="{{ user.mail }}">
+                    {% if error.mail %}
+                        <div class="alert alert-danger col-xs-12">
+                            {% for errors in error.mail %}
+                                {{ errors }} <br>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group form-row col-sm-offset-2 col-sm-8">
+                    <label class="col-xs-12 col-sm-3" for="passwd">Mot de passe</label>
+                    <input class="col-xs-12 col-sm-9" type="password" id="passwd" name="passwd" placeholder="Votre mot de passe"
+                           value="">
+                    {% if error.passwd %}
+                        <div class="alert alert-danger col-xs-12">
+                            {% for errors in error.passwd %}
+                                {{ errors }} <br>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+
+
                 <div class="form-group form-row col-sm-offset-2 col-sm-8">
                     <label class="col-xs-12 col-sm-3" for="orientation">Orientation</label>
                     <select class="col-xs-12 col-sm-9" name="orientation">

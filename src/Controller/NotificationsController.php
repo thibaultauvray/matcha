@@ -33,7 +33,7 @@ class NotificationsController extends Controller
             $mutual = $like->isMutual($id, $idLike);
             if ($mutual == 1)
             {
-
+                $response->withJson(array('error' => "3"));
                 $notif = new Notification($this->app);
                 $notif->mutualLike($id, $idLike);
             }
@@ -42,13 +42,15 @@ class NotificationsController extends Controller
         {
             $mutual = $like->isMutual($id, $idLike);
             $this->upPopularity($idLike, -10);
+            $response->withJson(array('error' => "2"));
             if ($mutual == 1)
             {
+                $response->withJson(array('error' => "4"));
                 $notif = new Notification($this->app);
                 $notif->sendNotification($id, $idLike, "n\'est plus connecté(e) a vous");
             }
             $like->deleteLike($id, $idLike);
-            $response->withJson(array('error' => "2"));
+
         }
         return $response;
 

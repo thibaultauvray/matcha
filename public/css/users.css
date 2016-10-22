@@ -16,10 +16,40 @@
 	margin-left:    30px;
 }
 
+.notifUnread{
+	height: 287px;
+	overflow-y: scroll;
+}
 .profil-background .profile-encart {
 	padding-top: 30px;
 	height:      275px;
 	position:    relative;
+}
+
+
+.profil-background .buttonUser button{
+	background-color: inherit;
+	border: 1px solid white;
+	border-radius: 0;
+	box-shadow: none;
+	color: #F48FB1;
+	font-size: 14px;
+	margin-top: 20px;
+	padding: 5px 15px;
+}
+
+.profil-background .buttonUser{
+	margin-top: -14px;
+}
+
+.name, .lastname{
+	font-size: 18px;
+	text-transform: capitalize;
+}
+
+.profil-background .buttonUser button[disabled]{
+	background: #F48FB1;
+	color: #FFFFFF;
 }
 
 .profil-background .profile, .history .profile {
@@ -358,7 +388,7 @@
 	margin-left: 60px;
 }
 
-.encart-icon{
+.encart-icon {
 	position: relative;
 }
 
@@ -510,7 +540,7 @@
 	margin-bottom: 10px;
 }
 
-.speech p{
+.speech p {
 	word-wrap: break-word;
 }
 
@@ -522,28 +552,28 @@
 
 	.tablecell {
 		display: inline-block;
-		height: auto;
-		width: 100%;
+		height:  auto;
+		width:   100%;
 	}
 
 	.profil-background h2 {
-		color: white;
-		text-align: center;
-		font-size: 3.2rem;
-		font-weight: 600;
-		line-height: 46px;
-		margin-left: 0;
-		margin-top: -1px;
-		position: relative;
+		color:          white;
+		text-align:     center;
+		font-size:      3.2rem;
+		font-weight:    600;
+		line-height:    46px;
+		margin-left:    0;
+		margin-top:     -1px;
+		position:       relative;
 		text-transform: uppercase;
-		top: 0;
-		width: 100%;
+		top:            0;
+		width:          100%;
 	}
 
-	.profil-background .interet{
-		left: 0;
+	.profil-background .interet {
+		left:       0;
 		text-align: center;
-		width: 100%;
+		width:      100%;
 	}
 
 	.encart-icon {
@@ -558,32 +588,32 @@
 		height: auto;
 	}
 
-	.profil-background .age-city{
-		width: 100%;
+	.profil-background .age-city {
+		width:    100%;
 		position: relative;
-		left: 0;
-		top: 0;
+		left:     0;
+		top:      0;
 	}
 
-	.profil-background .age-city > div{
+	.profil-background .age-city > div {
 		margin-left: 33%;
-		width: 66%;
+		width:       66%;
 	}
 
-	.profil-background .age-city .pink .glyphicon{
+	.profil-background .age-city .pink .glyphicon {
 		width: 30px;
 	}
 
 	.icon-look {
-		background-image: url("../img/ressources/look.png");
+		background-image:  url("../img/ressources/look.png");
 		background-repeat: no-repeat;
-		display: inline-block;
-		height: 24px;
-		left: 0;
-		margin-left: 0;
-		position: relative;
-		top: 2px;
-		width: 24px;
+		display:           inline-block;
+		height:            24px;
+		left:              0;
+		margin-left:       0;
+		position:          relative;
+		top:               2px;
+		width:             24px;
 	}
 
 	.orientat {
@@ -595,58 +625,65 @@
 	.profil-background .profile, .history .profile {
 		border-radius: 100%;
 		/*height: 200px;*/
-		margin: 0 auto;
-		overflow: hidden;
-		position: relative;
+		margin:        0 auto;
+		overflow:      hidden;
+		position:      relative;
 		/*width: 200px;*/
-		z-index: 1;
+		z-index:       1;
 	}
 
 	.encart {
 		width: 100%;
 	}
 
-	.pop{
+	.pop {
 		margin-left: 0 !important;
-		text-align: center;
-		width: 100%;
+		text-align:  center;
+		width:       100%;
 	}
 
 	.profil-background .encart {
 		height: auto;
 	}
 
-	.suggest #age-range, .suggest #pop-range{
+	.suggest #age-range, .suggest #pop-range {
 		width: 100%;
 	}
 
-	.search input[type=submit]{
+	.search input[type=submit] {
 		margin: 0 0 10px;
 	}
 
 	.tri-select {
-		display: inline-block;
+		display:       inline-block;
 		margin-bottom: 25px;
-		margin-top: 25px;
-		width: 100%;
+		margin-top:    25px;
+		width:         100%;
+	}
+
+	.buttonUser{
+		margin: 0 auto !important;
+		text-align: center;
+		width: 100% !important;
 	}
 
 	.tri-select .tri-default {
-		border-left: 1px solid #f48fb1;
-		margin-left: 20px;
+		border-left:  1px solid #F48FB1;
+		margin-left:  20px;
 		padding-left: 20px;
-		width: 50%;
+		width:        50%;
 	}
 
-	.encart-users img{
+	.encart-users img {
 		height: 150px;
 	}
 
-    .suggest label {
-	    padding-left: 0;
-    }
-    .speech {
-	    width: 100% !important;
-    }
+	.suggest label {
+		padding-left: 0;
+	}
+
+	.speech {
+		width: 100% !important;
+	}
 
 }

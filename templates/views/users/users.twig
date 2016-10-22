@@ -26,6 +26,22 @@
                 });
             });
 
+            $('#reported').on('click', function (e)
+            {
+               e.preventDefault();
+                $.getJSON('/reportedUsers', { id : id }, function(data)
+                        {
+                            if (data.resp == true)
+                            {
+                                $('#reported').prop('disabled', true);
+                            }
+                            else{
+                                alert('Vous avew deja reporté cette personne');
+                            }
+                        }
+
+                )
+            });
 
             // TODO ENLEVER SA CEST MOCHE
 
@@ -58,6 +74,17 @@
                         else if (data.error == 2)
                         {
                             $('#like').html('Like <span class="glyphicon glyphicon-thumbs-up"></span>');
+                            $('.statut').html('Aucun lien');
+                        }
+                        else if (data.error == 4)
+                        {
+                            $('#like').html('Like <span class="glyphicon glyphicon-thumbs-up"></span>');
+                            $('.statut').html('Vous like');
+                        }
+                        else if (data.error == 3)
+                        {
+                            $('#like').html('Unlike <span class="glyphicon glyphicon-thumbs-down"></span>');
+                            $('.statut').html('Vous etes connecté');
                         }
                         else if (data.error == -1)
                         {
@@ -156,7 +183,7 @@
                 <div class="col-sm-8 encart tablem">
                     <div class="tablecell">
 
-                        <h2>{{ users.nickname }}
+                        <h2>{{ users.nickname }} - <span class="lastname">{{ users.lastname }}</span> <span class="name"> {{ users.name }}</span>
                             <span class="encart-icon">
                             <span class="icone {% if users.gender == "m" %}icon-men{% else %}icon-woman{% endif %}"></span>
 
@@ -169,21 +196,9 @@
                             {% endif %}
                                 </span>
                         </h2>
-                        {% if sameProfil == false %}
-                        <button id="like" data-pic="{{ app.noProfilPic }}">Bloqué <span
-                                    class="glyphicon glyphicon-remove"></span>
-                            {% if isBlock == true %}
-                                <button id="blocked">Débloqué <span class="glyphicon glyphicon-ok"></span></button>
-                            {% else %}
-                                <button id="blocked">Bloqué <span class="glyphicon glyphicon-remove"></span></button>
-                            {% endif %}
-
-                            {% if app.noProfilPic is null %}
-                                <span class="alert alert-danger">Vous ne pouvez pas like sans photo de profil</span>
-                            {% endif %}
-                            {% endif %}
 
                     </div>
+
                     <div class="age-city tablem">
                         <div class="age pink floatl">
                             <span class="glyphicon glyphicon-calendar"></span>
@@ -197,8 +212,35 @@
                             <span class="pink icone glyphicon icon-look"></span>
                             <span class="orientation">{{ users.orientation }}</span>
                         </div>
+                        {% if sameProfil == false %}
+
+                        {% if stats != -1 %}
+                        <div class="status pink">
+                            <span class="pink glyphicon glyphicon-heart-empty"></span>
+                            <span class="statut">{% if stats == 1 %}Elle vous like !{% elseif stats == 2 %}Vous etes connecté {% else %}Aucun lien{% endif %}</span>
+                        </div>
+                        {% endif %}
+                        <div class="buttonUser">
+                            <button id="like" data-pic="{{ app.noProfilPic }}">Like <span
+                                        class="glyphicon glyphicon-remove"></span>
+
+                                {% if isBlock == true %}
+                                    <button id="blocked">Débloqué <span class="glyphicon glyphicon-ok"></span></button>
+                                {% else %}
+                                    <button id="blocked">Bloqué <span class="glyphicon glyphicon-remove"></span></button>
+                                {% endif %}
+
+                                {% if app.noProfilPic is null %}
+                                    <span class="alert alert-danger">Vous ne pouvez pas like sans photo de profil</span>
+                                {% endif %}
+                                <button {%  if report == false %}disabled {% endif %} id="reported" data-id="{{ id }}"> <span class="glyphicon glyphicon-flag"></span>Reportez</button>
+                                {% endif %}
+
+                        </div>
                     </div>
+
                 </div>
+
                 <div class="interet white dtable">
                     <p>
                         {% for interest in interet %}
