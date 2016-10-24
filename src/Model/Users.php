@@ -27,6 +27,24 @@ class Users extends Model
         $us->execute(array($date, 1, $id));
     }
 
+    public function setSaltForget($id)
+    {
+        $salt = uniqid();
+        $this->update($id, array('salt' => $salt));
+
+        return $salt;
+    }
+
+    public function isGoodSalt($mail, $salt)
+    {
+        $sal = $this->app->db->prepare("SELECT * FROM users WHERE salt = :salt AND mail = :mail");
+        $sal->execute(array('salt' => $salt, 'mail' => $mail));
+
+        if(empty($sal->fetch()))
+            return false;
+        return true;
+    }
+
     public function setDisconnected($id)
     {
         $date = date("d/m/Y H:i:s");

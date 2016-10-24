@@ -1,0 +1,26 @@
+{% extends "template/base.twig" %}
+
+{% block body %}
+
+    <div class="container main-container">
+        <div class="row  form form-register">
+            <h2 class="line"><span>Changez votre mot de passe {{ mail }}</span></h2>
+            <form class="form-inline col-xs-12 col-sm-12" method="post" action="{{ path_for('postInitPass') }}">
+                <div class="form-group form-row col-sm-offset-2 col-sm-8">
+                    <label class="col-xs-3 col-sm-3" for="passwd">Nouveaux mot de passe</label>
+                    <input class="col-xs-9 col-sm-9" type="text" id="passwd" name="passwd" placeholder="Votre mot de passe" value="">
+                    {% if error.passwd %}
+                        <div class="col-xs-12 alert alert-danger">
+                            {% for errors in error.passwd %}
+                                {{ errors }} <br>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    <button type="submit" class="col-xs-12 col-sm-offset-4 col-sm-4 btn btn-default">Envoyer</button>
+
+                </div>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}

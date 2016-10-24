@@ -20,6 +20,7 @@ $app->post('/edit/{id}', 'UsersController:postEditProfil')->setName('postEditPro
 
 $app->get('/edit/location/{id}', 'UsersController:editLocation')->setName('editLocation')->add(new isConnected($app->getContainer()));
 
+
 // Suggestion recherche
 
 $app->get('/user/view/suggest/{id}', 'UsersController:viewSuggest')->setName('viewSuggest')->add(new isConnected($app->getContainer()));
@@ -48,6 +49,9 @@ $app->get('/blockedUsers', 'UsersController:blockAction')->setName('blocked');
 
 $app->get('/forgetPassword', 'UsersController:forget')->setName('forget');
 $app->post('/forgetPassword', 'UsersController:postForget')->setName('postForget');
+$app->get('/initPassword/{salt}/{mail}', 'UsersController:initPass')->setName('initPass');
+$app->post('/initPassword', 'UsersController:postInitPass')->setName('postInitPass');
+
 $app->get('/chat/{id}', 'ChatController:index')->setName('chatIndex')->add(new isConnected($app->getContainer()));
 $app->post('/postMessage', 'ChatController:postMessage')->setName('postMsg')->add(new isConnected($app->getContainer()));
 $app->get('/getMessage', 'ChatController:getMessage')->setName('getMsg')->add(new isConnected($app->getContainer()));

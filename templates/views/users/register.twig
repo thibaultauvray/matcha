@@ -1,5 +1,41 @@
 {% extends "template/base.twig" %}
+{% block javascript %}
+        <script type="text/javascript">
 
+          $(document).ready(function (e)
+         {
+             var monthNames = [
+                 "01", "02", "03",
+                 "04", "05", "06", "07",
+                 "08", "09", "10",
+                 "11", "12"
+             ];
+             var d = new Date();
+             d.setFullYear(d.getFullYear() - 18);
+             var day = d.getDate();
+             var monthIndex = d.getMonth();
+             var year = d.getFullYear();
+             var d = day + "/" + monthNames[monthIndex] + "/" + year;
+             $('#date').val(d);
+             $( "#date" ).datepicker({
+                 altField: "#datepicker",
+                 selectOtherMonths: true,
+                 closeText: 'Fermer',
+                 prevText: 'Précédent',
+                 nextText: 'Suivant',
+                 currentText: 'Aujourd\'hui',
+                 monthNames: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
+                 monthNamesShort: ['Janv.', 'Févr.', 'Mars', 'Avril', 'Mai', 'Juin', 'Juil.', 'Août', 'Sept.', 'Oct.', 'Nov.', 'Déc.'],
+                 dayNames: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
+                 dayNamesShort: ['Dim.', 'Lun.', 'Mar.', 'Mer.', 'Jeu.', 'Ven.', 'Sam.'],
+                 dayNamesMin: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
+                 weekHeader: 'Sem.',
+                 defaultDate: d,
+                 dateFormat: 'dd/mm/yy'
+             });
+         });
+    </script>
+{% endblock %}
 {% block body %}
     
     <div class="container main-container">
@@ -54,6 +90,18 @@
                             {% endfor %}
                         </div>
                      {% endif %}
+                    </div>
+
+                    <div class="form-group col-xs-12 col-sm-offset-2 col-sm-8">
+                        <label class="col-xs-3 col-sm-3" for="date">Date de naissance</label>
+                        <input class="col-xs-9 col-sm-9" type="text" id="date" name="date" placeholder="Votre date de naissance" value="">
+                        {% if error.date %}
+                            <div class="col-xs-12 alert alert-danger">
+                                {% for message in error.date %}
+                                    {{ message }} <br>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
                     </div>
 
                     <div class="form-group col-xs-12 col-sm-offset-2 col-sm-8">

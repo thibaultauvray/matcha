@@ -17,7 +17,7 @@ class Authentification
 
     public function __invoke($request, $response, $next)
     {
-        $authorized = ['signin', 'signout', 'homepage', 'register', 'postRegister', 'forget', 'postForget'];
+        $authorized = ['signin', 'signout', 'homepage', 'register', 'postRegister', 'forget', 'postForget', 'initPass'];
         $route = $request->getAttribute('route');
         $name = $route->getName();
         if ((isset($_SESSION['login']) && !empty($_SESSION['login'])) || (in_array($name, $authorized)))

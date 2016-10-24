@@ -1,4 +1,5 @@
 <?php
+use \Mailjet\Resources;
 
 /* TODO :
  * -> Resteindre acces non connecte // OK
@@ -73,16 +74,23 @@ class UsersController extends Controller
                                                                                      'data'      => $_POST['terms']));
     }
 
+
     public function postRegister($request, $response, $args)
     {
+
         $validator = $this->app->validator;
         $validator->check('nickname', array('required'));
         $validator->check('mail', array('required', 'isMail', 'isUnique'));
         $validator->check('passwd', array('required', 'isPasswd'));
         $validator->check('lastname', array('required', 'visible'));
         $validator->check('name', array('required', 'visible'));
+        $validator->check('date', array('required', 'visible', 'date'));
+
         if (empty($validator->error))
         {
+            $date = new \DateTime('now');
+            $dateBirth = DateTime::createFromFormat('d/m/Y', $_POST['date']);
+            $diff = $dateBirth->diff($date);
             $_POST['passwd'] = hash('whirlpool', $_POST['passwd']);
             $user = new Users($this->app);
             $_SESSION['login'] = $_POST;
@@ -90,6 +98,7 @@ class UsersController extends Controller
                           'nickname'    => $_POST['nickname'],
                           'mail'        => $_POST['mail'],
                           'name'        => $_POST['name'],
+                          'age'         => $diff->y,
                           'lastname'    => $_POST['lastname'],
                           'gender'      => 'm',
                           'orientation' => 'bisexuel');
@@ -338,20 +347,68 @@ class UsersController extends Controller
                                                                                   'location'   => $location));
     }
 
+
     public function forget($request, $response, $args)
     {
         return $this->app->view->render($response, 'views/users/forget.twig');
     }
-    // TODO 
-    public function postForget($request, $response, $args){
+
+    // TODO
+    public function postForget($request, $response, $args)
+    {
         $users = new Users($this->app);
-        $user = $users->find('mail', $_POST['mail']);
+        $user = $users->findOne('mail', $_POST['mail']);
+
         if (empty($user))
         {
             $this->app->flash->addMessage('errors', 'Mail non trouvé');
-        }
-        return $response->withStatus(302)->withHeader('Location', $this->app->router->pathFor('forget'));
 
+            return $response->withStatus(302)->withHeader('Location', $this->app->router->pathFor('forget'));
+        } else
+        {
+            $apikey = '54fd0879fd426ef9eadcafdb1de6c0ea';
+            $apisecret = 'd8f6da6801a000e5623930b917e8e3f7';
+            $mj = new \Mailjet\Client($apikey, $apisecret);
+            $salt = $users->setSaltForget($user['id']);
+            $mail = $user['mail'];
+            $name = $user['name'];
+            $url = "http://localhost:8081"
+                . $this->app->router->pathFor('initPass', array('mail' => $mail, 'salt' => $salt));
+            $arg = ['name' => $name, 'confirmation_link' => $url];
+        $body = [
+            'FromEmail'           => "tauvray@student.42.fr",
+            'FromName'            => "Matcha",
+            'Subject'             => "Réinitialisation du mot de passe",
+            'MJ-TemplateID'       => "62868",
+            'MJ-TemplateLanguage' => true,
+            'Recipients'          => [['Email' => "thibault.auvray@gmail.com"]],
+            "Vars"                => $arg
+        ];
+
+
+        $res = $mj->post(Resources::$Email, ['body' => $body]);
+            if ($res->success())
+            {
+                echo "Success";
+            }
+            else
+            {
+            }
+        }
+
+    }
+
+    public function initPass($request, $response, $args)
+    {
+        $salt = $args['salt'];
+        $mail = $args['mail'];
+        $users = new Users($this->app);
+        if(!$users->isGoodSalt($mail, $salt))
+        {
+            $this->app->flash->addMessage('errors', 'Une erreur a été trouvée');
+            return $response->withStatus(302)->withHeader('Location', $this->app->router->pathFor('homepage'));
+        }
+        return $this->app->view->render($response, 'views/users/initPass.twig', array('mail' => $args['mail']));
     }
 
     public function postEditProfil($request, $response, $args)
