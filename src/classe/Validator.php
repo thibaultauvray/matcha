@@ -17,6 +17,8 @@ class Validator
 
     public function testpassword($mdp)
     {
+        if(strlen($mdp) == 0)
+            return 0;
         $longueur = strlen($mdp);
 
         for ($i = 0; $i < $longueur; $i++)

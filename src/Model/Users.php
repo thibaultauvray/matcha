@@ -17,6 +17,7 @@ class Users extends Model
                     ORDER BY u.popularity DESC
                     LIMIT 8");
         $us->execute();
+
         return $us->fetchAll();
     }
 
@@ -35,13 +36,46 @@ class Users extends Model
         return $salt;
     }
 
+    public function getAllUser()
+    {
+        $pdo = $this->app->db->prepare("SELECT u.*, ui.url, ul.city, ul.longitude, ul.latitude FROM users u INNER JOIN usersImage ui ON ui.id_users = u.id AND ui.isprofil = 1 INNER JOIN usersLocation ul ON ul.id_users = u.id");
+        $pdo->execute();
+        return $pdo->fetchAll();
+    }
+
+    public function checkPass($id, $old, $pass1, $pass2)
+    {
+        $user = $this->getUsers($id);
+
+        if(hash('whirlpool', $old) != $user['passwd'])
+            return -1;
+        else if ($pass1 != $pass2)
+            return -2;
+        else
+            $this->update($id, array('passwd' => hash('whirlpool', $pass1)));
+        return 1;
+    }
+
+    public function changePass($id, $salt, $pass)
+    {
+        $user = $this->getUsers($id);
+        if ($user['salt'] == $salt)
+        {
+            $this->update($id, array('passwd' => hash('whirlpool', $pass),
+                                     'salt'   => uniqid()));
+            return true;
+        }
+        return false;
+    }
+
     public function isGoodSalt($mail, $salt)
     {
         $sal = $this->app->db->prepare("SELECT * FROM users WHERE salt = :salt AND mail = :mail");
         $sal->execute(array('salt' => $salt, 'mail' => $mail));
 
-        if(empty($sal->fetch()))
+        if (empty($sal->fetch()))
             return false;
+
         return true;
     }
 
@@ -99,7 +133,6 @@ class Users extends Model
     }
 
 
-
     public function getCountImage($id)
     {
         $pdo = $this->app->db->prepare("SELECT ui.url FROM users u 
@@ -140,6 +173,7 @@ class Users extends Model
         {
             return 1;
         }
+
         return 0;
 
     }
@@ -172,24 +206,23 @@ class Users extends Model
 
     public function isCompatible($user, $user2)
     {
-        if($user['orientation'] == "hetero")
+        if ($user['orientation'] == "hetero")
         {
             if (($user['gender'] == $user2['gender']) || ($user['gender'] != $user2['gender'] && $user2['orientation'] == "homosexuel"))
                 return false;
 
-        }
-        else if($user['orientation'] == "homosexuel")
+        } else if ($user['orientation'] == "homosexuel")
         {
             if ($user['gender'] != $user2['gender'] || ($user['gender'] == $user2['gender'] && $user2['orientation'] == "hetero"))
                 return false;
-        }
-        else if($user['orientation'] == "bisexuel")
+        } else if ($user['orientation'] == "bisexuel")
         {
             if ($user['gender'] == $user2['gender'] && $user2['orientation'] == "hetero")
                 return false;
             if ($user['gender'] != $user2['gender'] && $user2['orientation'] == "homosexuel")
                 return false;
         }
+
         return true;
     }
 
@@ -202,15 +235,17 @@ class Users extends Model
                 unset($listUsers[$key]);
             }
         }
+
         return $listUsers;
     }
 
     public function addInteretList($listUser)
     {
-        foreach ( $listUser as $key => $value)
+        foreach ($listUser as $key => $value)
         {
             $listUser[$key]['interestString'] = $this->getStringInterest($value['id_users']);
         }
+
         return $listUser;
     }
 
@@ -254,9 +289,9 @@ class Users extends Model
         $listUsers = $usersL->fetchAll();
         $listUsers = $this->removeOrientation($listUsers, $users);
         $listUsers = $this->addInteretList($listUsers);
+
         return $listUsers;
     }
-
 
 
     public function findSearch($string, $id)
@@ -271,7 +306,7 @@ class Users extends Model
         WHERE (u.nickname LIKE :terms OR u.name LIKE :terms OR u.lastname LIKE :terms)
         AND u.id != $id
         GROUP BY u.id, ui.id_users,img.id, ul.city");
-        $usersL->execute(array('terms' => '%'.$string.'%'));
+        $usersL->execute(array('terms' => '%' . $string . '%'));
         $usersL = $usersL->fetchAll();
         $usersL = $this->addInteretList($usersL);
 

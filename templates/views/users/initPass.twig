@@ -3,12 +3,23 @@
 {% block body %}
 
     <div class="container main-container">
+        {% if flash.message('fail').0 %}
+            <div class="alert alert-danger">
+                {{ flash.getMessage('fail').0 }}
+            </div>
+        {% endif %}
+
+        {% if flash.message('success').0 %}
+            <div class="alert alert-success">
+                {{ flash.getMessage('success').0 }}
+            </div>
+        {% endif %}
         <div class="row  form form-register">
             <h2 class="line"><span>Changez votre mot de passe {{ mail }}</span></h2>
-            <form class="form-inline col-xs-12 col-sm-12" method="post" action="{{ path_for('postInitPass') }}">
+            <form class="form-inline col-xs-12 col-sm-12" method="post" action="{{ path_for('postInitPass', {'mail' :  mail, 'salt' : salt }) }}">
                 <div class="form-group form-row col-sm-offset-2 col-sm-8">
                     <label class="col-xs-3 col-sm-3" for="passwd">Nouveaux mot de passe</label>
-                    <input class="col-xs-9 col-sm-9" type="text" id="passwd" name="passwd" placeholder="Votre mot de passe" value="">
+                    <input class="col-xs-9 col-sm-9" type="password" id="passwd" name="passwd" placeholder="Votre mot de passe" value="">
                     {% if error.passwd %}
                         <div class="col-xs-12 alert alert-danger">
                             {% for errors in error.passwd %}
@@ -16,6 +27,9 @@
                             {% endfor %}
                         </div>
                     {% endif %}
+                    <input type="hidden" name="id" value="{{ id }}">
+                    <input type="hidden" name="salt" value="{{ salt }}">
+
                     <button type="submit" class="col-xs-12 col-sm-offset-4 col-sm-4 btn btn-default">Envoyer</button>
 
                 </div>

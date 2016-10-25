@@ -91,7 +91,6 @@ class UsersController extends Controller
             $date = new \DateTime('now');
             $dateBirth = DateTime::createFromFormat('d/m/Y', $_POST['date']);
             $diff = $dateBirth->diff($date);
-            $_POST['passwd'] = hash('whirlpool', $_POST['passwd']);
             $user = new Users($this->app);
             $_SESSION['login'] = $_POST;
             $data = array('passwd'      => hash('whirlpool', $_POST['passwd']),
@@ -375,24 +374,29 @@ class UsersController extends Controller
             $url = "http://localhost:8081"
                 . $this->app->router->pathFor('initPass', array('mail' => $mail, 'salt' => $salt));
             $arg = ['name' => $name, 'confirmation_link' => $url];
-        $body = [
-            'FromEmail'           => "tauvray@student.42.fr",
-            'FromName'            => "Matcha",
-            'Subject'             => "Réinitialisation du mot de passe",
-            'MJ-TemplateID'       => "62868",
-            'MJ-TemplateLanguage' => true,
-            'Recipients'          => [['Email' => "thibault.auvray@gmail.com"]],
-            "Vars"                => $arg
-        ];
+            $body = [
+                'FromEmail'           => "tauvray@student.42.fr",
+                'FromName'            => "Matcha",
+                'Subject'             => "Réinitialisation du mot de passe",
+                'MJ-TemplateID'       => "62868",
+                'MJ-TemplateLanguage' => true,
+                'Recipients'          => [['Email' => $mail]],
+                "Vars"                => $arg
+            ];
 
 
-        $res = $mj->post(Resources::$Email, ['body' => $body]);
+            $res = $mj->post(Resources::$Email, ['body' => $body]);
             if ($res->success())
             {
-                echo "Success";
-            }
-            else
+                $this->app->flash->addMessage('success', 'Un mail vous a ete envoyé');
+
+                return $response->withStatus(200)->withHeader('Location', $this->app->router->pathFor('forget'));
+            } else
             {
+                $this->app->flash->addMessage('fail', 'Une erreur inconnu a été trouvée');
+
+                return $response->withStatus(200)->withHeader('Location', $this->app->router->pathFor('forget'));
+
             }
         }
 
@@ -403,12 +407,47 @@ class UsersController extends Controller
         $salt = $args['salt'];
         $mail = $args['mail'];
         $users = new Users($this->app);
-        if(!$users->isGoodSalt($mail, $salt))
+
+        if (!$users->isGoodSalt($mail, $salt))
         {
-            $this->app->flash->addMessage('errors', 'Une erreur a été trouvée');
+            $this->app->flash->addMessage('fail', 'Une erreur a été trouvée');
+
             return $response->withStatus(302)->withHeader('Location', $this->app->router->pathFor('homepage'));
         }
-        return $this->app->view->render($response, 'views/users/initPass.twig', array('mail' => $args['mail']));
+        $id = $users->findOne('mail', $mail)['id'];
+
+        return $this->app->view->render($response, 'views/users/initPass.twig', array('mail' => $args['mail'],
+                                                                                      'id'   => $id,
+                                                                                      'salt' => $salt));
+    }
+
+
+    public function postInitPass($request, $response, $args)
+    {
+        if (isset($_POST['passwd']) && isset($_POST['salt']) && isset($_POST['id']))
+        {
+            $id = $_POST['id'];
+            $salt = $_POST['salt'];
+            $pass = $_POST['passwd'];
+            $validator = $this->app->validator;
+            $validator->check('passwd', array('isPasswd'));
+            if (empty($validator->error))
+            {
+                $users = new Users($this->app);
+                if ($users->changePass($id, $salt, $pass))
+                {
+                    $this->app->flash->addMessage('success', 'Mot de passe modifie avec succes');
+
+                    return $response->withStatus(302)->withHeader('Location', $this->app->router->pathFor('homepage'));
+                }
+            }
+
+            return $this->app->view->render($response, 'views/users/initPass.twig', array('mail'  => $args['mail'],
+                                                                                          'id'    => $id,
+                                                                                          'salt'  => $salt,
+                                                                                          'error' => $validator->error));
+
+        }
     }
 
     public function postEditProfil($request, $response, $args)
@@ -420,8 +459,6 @@ class UsersController extends Controller
         $validator->check('nickname', array('required', 'visible'));
         if ($mail != $_POST['mail'])
             $validator->check('mail', array('required', 'isMail', 'isUnique'));
-        if (!empty($_POST['passwd']))
-            $validator->check('passwd', array('isPasswd'));
         $validator->check('lastname', array('required', 'visible'));
         $validator->check('name', array('required', 'visible'));
         if (empty($validator->error) && $_FILES['image']['size'][0] > 0)
@@ -465,6 +502,60 @@ class UsersController extends Controller
 
         return $response->withStatus(302)->withHeader('Location', $this->app->router->pathFor('editProfil', array('id' => $args['id'])));
 
+    }
+
+    public function changePass($request, $response, $args)
+    {
+        $id = $args['id'];
+        if ($id != $this->getUserId())
+        {
+            $this->app->flash->addMessage('fail', 'Acces non autorisé');
+
+            return $response->withStatus(302)->withHeader('Location', $this->app->router->pathFor('homepage'));
+
+        }
+
+        return $this->app->view->render($response, 'views/users/changePass.twig', array('id' => $id));
+    }
+
+    public function postChangePass($request, $response, $args)
+    {
+        $id = $args['id'];
+
+        $validator = $this->app->validator;
+        $validator->check('pass', array('isPasswd'));
+        if (empty($validator->error))
+        {
+            $users = new Users($this->app);
+            $oldpass = $_POST['password'];
+
+            $pass1 = $_POST['pass'];
+            $pass2 = $_POST['pass2'];
+            $check = $users->checkPass($id, $oldpass, $pass1, $pass2);
+            if ($check == -1)
+            {
+                $error = 'Le mot de passe ne correspond pas';
+            } else if ($check == -2)
+            {
+                $error = 'Les mots de passe ne correspondent pas';
+            } else
+            {
+                $success = 'Mot de passe modifié';
+            }
+        }
+
+        return $this->app->view->render($response, 'views/users/changePass.twig', array('id'      => $id,
+                                                                                        'error'   => $validator->error,
+                                                                                        'errors'  => $error,
+                                                                                        'success' => $success));
+
+    }
+
+    public function usermap($request, $response, $args)
+    {
+        $user = new Users($this->app);
+        $users = $user->getAllUser();
+        return $this->app->view->render($response, 'views/users/usermap.twig', array('user' => $users));
     }
 
     /*

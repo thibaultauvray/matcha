@@ -1,0 +1,70 @@
+{% extends "template/base.twig" %}
+
+{% block body %}
+
+    <div class="container main-container">
+        <h2 class="line"><span>Changez votre mot de passe</span></h2>
+        {% if errors is defined and errors is not null %}
+            <div class="alert alert-danger col-xs-12">
+                {{ errors }}
+            </div>
+        {% endif %}
+        {% if success is defined and success is not null %}
+            <div class="alert alert-success col-xs-12">
+                {{ success }}
+            </div>
+        {% endif %}
+
+        <div class="row  form form-register">
+            <form id="editForm" class="form-inline col-xs-12 col-sm-12" method="post"
+                  action="{{ path_for('postChangePass', { 'id': id  }) }}" enctype="multipart/form-data">
+                <div class="form-group form-row col-sm-offset-2 col-sm-8">
+                    <label class="col-xs-12 col-sm-3" for="password">Votre ancien mot de passe</label>
+                    <input class="col-xs-12 col-sm-9" type="password" id="password" name="password"
+                           placeholder="Votre ancien mot de passe"
+                    >
+                    {% if error.password %}
+                        <div class="alert alert-danger col-xs-12">
+                            {% for errors in error.password %}
+                                {{ errors }} <br>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+                </div>
+
+                <div class="form-group form-row col-sm-offset-2 col-sm-8">
+                    <label class="col-xs-12 col-sm-3" for="pass">Votre nouveau mot de passe</label>
+                    <input class="col-xs-12 col-sm-9" type="password" id="pass" name="pass"
+                           placeholder="Votre mot de passe"
+                    >
+                    {% if error.pass %}
+                        <div class="alert alert-danger col-xs-12">
+                            {% for errors in error.pass %}
+                                {{ errors }} <br>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+                </div>
+                <div class="form-group form-row col-sm-offset-2 col-sm-8">
+                    <label class="col-xs-12 col-sm-3" for="pass2">Votre nouveau mot de passe</label>
+                    <input class="col-xs-12 col-sm-9" type="password" id="pass2" name="pass2"
+                           placeholder="Votre mot de passe"
+                    >
+                    {% if error.pass2 %}
+                        <div class="alert alert-danger col-xs-12">
+                            {% for errors in error.pass2 %}
+                                {{ errors }} <br>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+                </div>
+                <button type="submit" class="col-xs-12 col-sm-offset-4 col-sm-4 btn btn-default">Envoyer</button>
+
+            </form>
+        </div>
+    </div>
+
+{% endblock %}

@@ -8,6 +8,13 @@
             </div>
         {% endif %}
 
+        {% if flash.message('success').0 %}
+            <div class="alert alert-success">
+                {{ flash.getMessage('success').0 }}
+            </div>
+        {% endif %}
+
+
         <div class="toAdopt">
             <h2 class="line"><span>A la une</span></h2>
             <div class="row encart-homepage">

@@ -48,9 +48,12 @@ $app->get('/blockedUsers', 'UsersController:blockAction')->setName('blocked');
 // CHat
 
 $app->get('/forgetPassword', 'UsersController:forget')->setName('forget');
+$app->get('/changePass/{id}', 'UsersController:changePass')->setName('changePass');
+$app->post('/changePass/{id}', 'UsersController:postChangePass')->setName('postChangePass');
+
 $app->post('/forgetPassword', 'UsersController:postForget')->setName('postForget');
 $app->get('/initPassword/{salt}/{mail}', 'UsersController:initPass')->setName('initPass');
-$app->post('/initPassword', 'UsersController:postInitPass')->setName('postInitPass');
+$app->post('/initPassword/{salt}/{mail}', 'UsersController:postInitPass')->setName('postInitPass');
 
 $app->get('/chat/{id}', 'ChatController:index')->setName('chatIndex')->add(new isConnected($app->getContainer()));
 $app->post('/postMessage', 'ChatController:postMessage')->setName('postMsg')->add(new isConnected($app->getContainer()));
@@ -59,3 +62,4 @@ $app->get('/listChat/{id}', 'ChatController:listChat')->setName('chat');
 
 $app->get('/fillDB', 'UsersController:fillDB')->setName('fillDB');
 
+$app->get('/mapUser', 'UsersController:usermap')->setName('mapUser');
