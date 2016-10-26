@@ -36,6 +36,13 @@ class Users extends Model
         return $salt;
     }
 
+    public function getLocationById($id)
+    {
+        $loca = $this->app->db->prepare("SELECT * FROM usersLocation WHERE id_users = ?");
+        $loca->execute(array($id));
+        return $loca->fetch();
+    }
+
     public function getAllUser()
     {
         $pdo = $this->app->db->prepare("SELECT u.*, ui.url, ul.city, ul.longitude, ul.latitude FROM users u INNER JOIN usersImage ui ON ui.id_users = u.id AND ui.isprofil = 1 INNER JOIN usersLocation ul ON ul.id_users = u.id");

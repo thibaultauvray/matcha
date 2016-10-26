@@ -16,11 +16,12 @@ use \Mailjet\Resources;
 class UsersController extends Controller
 {
 
-    public function fillDB()
+    public function fillDB($request, $response, $args)
     {
         $user = new Users($this->app);
+        if (empty($user->find('mail', 'perceval@gmail.fr')))
+            $user->fillDB();
 
-        $user->fillDB();
         return $response->withStatus(200)->withHeader('Location', $this->app->router->pathFor('homepage'));
 
 
@@ -214,24 +215,26 @@ class UsersController extends Controller
         $interest = $users->getInterest($id);
         $location = $usersLocation->findOne('id_users', $id);
         $user = $users->findById($id);
+        $userLocation = $users->getLocationById($this->getUserId());
         $ui = new UsersImage($this->app);
         $image = $ui->getImages($id);
         $imagePics = $users->getImageProfil($id);
         $report = new Reported($this->app);
         $isReported = $report->isReported($id, $this->getUserId());
 
-        return $this->app->view->render($response, 'views/users/users.twig', array('users'      => $user,
-                                                                                   'imgProfil'  => $imagePics,
-                                                                                   'image'      => $image,
-                                                                                   'isBlock'    => $isBlock,
-                                                                                   'id'         => $id,
-                                                                                   'report'     => $isReported,
-                                                                                   'location'   => $location,
-                                                                                   'interet'    => $interest,
-                                                                                   'connected'  => $connected,
-                                                                                   'stats'      => $us,
-                                                                                   'suggest'    => $userSuggest,
-                                                                                   'sameProfil' => $sameProfil));
+        return $this->app->view->render($response, 'views/users/users.twig', array('users'        => $user,
+                                                                                   'userLocation' => $userLocation,
+                                                                                   'imgProfil'    => $imagePics,
+                                                                                   'image'        => $image,
+                                                                                   'isBlock'      => $isBlock,
+                                                                                   'id'           => $id,
+                                                                                   'report'       => $isReported,
+                                                                                   'location'     => $location,
+                                                                                   'interet'      => $interest,
+                                                                                   'connected'    => $connected,
+                                                                                   'stats'        => $us,
+                                                                                   'suggest'      => $userSuggest,
+                                                                                   'sameProfil'   => $sameProfil));
     }
 
     public function reportedUser($request, $response, $args)
@@ -558,6 +561,7 @@ class UsersController extends Controller
     {
         $user = new Users($this->app);
         $users = $user->getAllUser();
+
         return $this->app->view->render($response, 'views/users/usermap.twig', array('user' => $users));
     }
 

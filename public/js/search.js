@@ -132,7 +132,6 @@ $(document).ready(function ()
         {
             interet = $(this).data("tag-list").split(',');
             city = $(this).data('city').toLowerCase();
-            console.log(loca + " C ; " + city + " R " + city.indexOf(loca));
             if (($(this).data("age") < age1 || $(this).data("age") > age2) || (city.indexOf(loca) == -1) || isInteret(interet, interetUser) == false || ($(this).data("popularity") < pop1 || $(this).data("popularity") > pop2) || ($(this).data('sex') == "f" && genderF == false)
                 || ($(this).data('sex') == "m" && genderM == false) || ($(this).data('orien') == "homosexuel" && homo == false) || ($(this).data('orien') == "bisexuel" && bi == false) || ($(this).data('orien') == "hetero" && hete == false))
             {
@@ -140,7 +139,6 @@ $(document).ready(function ()
             }
             else
             {
-                console.log("caca");
                 $(this).show('1000');
             }
         });

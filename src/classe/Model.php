@@ -16,16 +16,14 @@ class Model
     {
         $pdo = $this->app->db;
         $orientation = ['bisexuel', 'hetero', 'homosexuel'];
-        $interest = array_unique(['running', 'voilier', 'catamaran', 'planche à voile', 'svelte', 'proust', 'almodovar', 'madmen', 'catamaran', 'blonde', 'brune', 'lelivresansnom', 'donniedarko' ,'theitcrowd', 'cancan', 'blonde', 'howtomakeitinamerica', 'paris15', 'yeuxbleus', 'piercing', 'cuisine', 'timbaland', 'prettylittleliars',
+        $interest = ['running', 'voilier', 'catamaran', 'planche à voile', 'svelte', 'proust', 'almodovar', 'madmen', 'catamaran', 'blonde', 'brune', 'lelivresansnom', 'donniedarko' ,'theitcrowd', 'cancan', 'blonde', 'howtomakeitinamerica', 'paris15', 'yeuxbleus', 'piercing', 'cuisine', 'timbaland', 'prettylittleliars',
             'blonde', 'cuisine', 'bcbg' ,'sciences' ,'unettes', 'danse', 'lunettes', 'etudianteinfirmiere', 'concerts', 'harrypotter', 'drhouse', 'piercing', 'cuisine' ,'instabouffe', 'bierpong', 'chiens', 'chic',  'jazz' ,'heat' ,'prisonbreak' ,'zook', 'infirmiere' ,'hautbois' ,'batondepluie', 'flute', 'pandas',
             'lolita', 'tatouée', 'cheveuxcourts', 'juriste' ,'hippiechic', 'nicolasjaar', 'reservoirdog',  'zola' ,'gameofthrones', 'flute' ,'cheveuxlongs' ,'guitare', 'svelte', 'voyages' ,'yodelice' ,'ecumedesjours', 'lavieestbelle', 'chats', 'bonbon', 'tatouée', 'chats' ,'bonbon' ,'tatouée',
             'cuisine', 'nonfumeuse', 'menageastiquer', 'lunettes',  'cordeasauter', 'piercing',  'athletisme', 'yeuxbleus' ,'vtt', 'piscine' , 'globetrotter', 'orgueiletprejuges', 'ncis' , 'comiccon',  'arrow' ,'histoire', 'hipster',  'chopin',  'saw', 'blues', 'walkingdead', 'lecture', 'metal',
             'cheveuxcourts', 'bowling',  'hippiechic', 'dessin', 'rousse',  'badminton', 'martinscorsese', 'californication', 'paris18', 'karate', 'basket', 'judo', 'tennis', 'tennisdetable', 'furet', 'cheval', 'vegan', 'femen'
 
-        ]);
-            var_dump(count($interest));
-        $ch = curl_init();
-        $wikipediaURL = 'https://randomuser.me/api/?nat=fr&results=5';
+        ];
+        $wikipediaURL = 'https://randomuser.me/api/?nat=fr&results=200';
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $wikipediaURL);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -39,9 +37,8 @@ class Model
                 $gender = "m";
             $name = $v->name->first;
             $lastname = $v->name->last;
-            echo $name . "<br>";
             $nickname = substr(ucfirst($v->login->username), 0, strlen($v->login->username) - 3);
-            $mail = $v->email;
+            $mail = $v->email . uniqid();
             $password = hash('whirlpool', 'QwertY81');
             $orien = $orientation[mt_rand(0, 2)];
             $ch = curl_init();
@@ -69,11 +66,11 @@ class Model
             $int = array();
             for ($i = 0;$i <= $nbInteret; $i++)
             {
-                $int[] = $interest[mt_rand(0, 94)];
+                $rand = mt_rand(0, 112);
+                $int[] = $interest[$rand];
             }
             $age = mt_rand(18, 60);
             $path = substr($path, 4, strlen($path));
-
             $int = array_unique($int);
             $id = $this->insertFillDB('users', array("nickname"     => $nickname,
                                                      "name"        => $name,
@@ -193,7 +190,7 @@ class Model
                                                        'id_users'  => $id));
             $interet = explode(',', $interet);
             foreach ($interet as $int)
-            {.
+            {
                 $int = trim($int);
                 echo "\"SELECT id FROM usersInterest WHERE interest = $int\"";
                 $id_interest = $pdo->prepare("SELECT id FROM usersInterest WHERE interest = '$int'");

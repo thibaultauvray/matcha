@@ -146,6 +146,23 @@
 
 
             };
+            var users = new google.maps.LatLng({{ userLocation.latitude }}, {{ userLocation.longitude}});
+
+            var usersLocation = new google.maps.LatLng({{ location.latitude }}, {{ location.longitude }});
+
+            var flightPlanCoordinates = [
+                {lat: {{ userLocation.latitude }}, lng: {{ userLocation.longitude}} },
+                {lat: {{ location.latitude }}, lng: {{ location.longitude }} }
+                ];
+            var flightPath = new google.maps.Polyline({
+                path: flightPlanCoordinates,
+                geodesic: true,
+                strokeColor: '#FF0000',
+                strokeOpacity: 1.0,
+                strokeWeight: 2
+            });
+
+
 
 
             //constructeur de la carte qui prend en paramêtre le conteneur HTML
@@ -155,12 +172,27 @@
             var carte = new google.maps.Map(document.getElementById("map"), options);
             var marqueur = new google.maps.Marker({
 
-                position: new google.maps.LatLng({{ location.latitude }}, {{ location.longitude }}),
+                position: usersLocation,
                 icon: image,
 
                 map: carte
 
             });
+            var marqueur2 = new google.maps.Marker({
+
+                position: users,
+                icon: image,
+
+                map: carte
+
+            });
+            var bounds = new google.maps.LatLngBounds();
+            bounds.extend(users);
+            bounds.extend(usersLocation);
+            carte.fitBounds(bounds);
+
+            flightPath.setMap(carte);
+
         });
 
 
