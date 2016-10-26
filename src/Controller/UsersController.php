@@ -21,6 +21,9 @@ class UsersController extends Controller
         $user = new Users($this->app);
 
         $user->fillDB();
+        return $response->withStatus(200)->withHeader('Location', $this->app->router->pathFor('homepage'));
+
+
     }
 
     /*

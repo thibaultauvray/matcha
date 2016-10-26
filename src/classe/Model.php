@@ -14,6 +14,109 @@ class Model
 
     public function fillDB()
     {
+        $pdo = $this->app->db;
+        $orientation = ['bisexuel', 'hetero', 'homosexuel'];
+        $interest = array_unique(['running', 'voilier', 'catamaran', 'planche à voile', 'svelte', 'proust', 'almodovar', 'madmen', 'catamaran', 'blonde', 'brune', 'lelivresansnom', 'donniedarko' ,'theitcrowd', 'cancan', 'blonde', 'howtomakeitinamerica', 'paris15', 'yeuxbleus', 'piercing', 'cuisine', 'timbaland', 'prettylittleliars',
+            'blonde', 'cuisine', 'bcbg' ,'sciences' ,'unettes', 'danse', 'lunettes', 'etudianteinfirmiere', 'concerts', 'harrypotter', 'drhouse', 'piercing', 'cuisine' ,'instabouffe', 'bierpong', 'chiens', 'chic',  'jazz' ,'heat' ,'prisonbreak' ,'zook', 'infirmiere' ,'hautbois' ,'batondepluie', 'flute', 'pandas',
+            'lolita', 'tatouée', 'cheveuxcourts', 'juriste' ,'hippiechic', 'nicolasjaar', 'reservoirdog',  'zola' ,'gameofthrones', 'flute' ,'cheveuxlongs' ,'guitare', 'svelte', 'voyages' ,'yodelice' ,'ecumedesjours', 'lavieestbelle', 'chats', 'bonbon', 'tatouée', 'chats' ,'bonbon' ,'tatouée',
+            'cuisine', 'nonfumeuse', 'menageastiquer', 'lunettes',  'cordeasauter', 'piercing',  'athletisme', 'yeuxbleus' ,'vtt', 'piscine' , 'globetrotter', 'orgueiletprejuges', 'ncis' , 'comiccon',  'arrow' ,'histoire', 'hipster',  'chopin',  'saw', 'blues', 'walkingdead', 'lecture', 'metal',
+            'cheveuxcourts', 'bowling',  'hippiechic', 'dessin', 'rousse',  'badminton', 'martinscorsese', 'californication', 'paris18', 'karate', 'basket', 'judo', 'tennis', 'tennisdetable', 'furet', 'cheval', 'vegan', 'femen'
+
+        ]);
+            var_dump(count($interest));
+        $ch = curl_init();
+        $wikipediaURL = 'https://randomuser.me/api/?nat=fr&results=5';
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $wikipediaURL);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $resultat = json_decode(curl_exec ($ch));
+        curl_close($ch);
+        foreach ($resultat->results as $key => $v)
+        {
+            if ($v->gender == "female")
+                $gender = "f";
+            else
+                $gender = "m";
+            $name = $v->name->first;
+            $lastname = $v->name->last;
+            echo $name . "<br>";
+            $nickname = substr(ucfirst($v->login->username), 0, strlen($v->login->username) - 3);
+            $mail = $v->email;
+            $password = hash('whirlpool', 'QwertY81');
+            $orien = $orientation[mt_rand(0, 2)];
+            $ch = curl_init();
+            $city = $v->location->city;
+            $Url = 'http://maps.googleapis.com/maps/api/geocode/json?address='.urlencode($v->location->city).'&sensor=false';
+            curl_setopt($ch, CURLOPT_URL, $Url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $output = curl_exec($ch);
+            $search_data = json_decode($output);
+            $latitude = $search_data->results[0]->geometry->location->lat;
+            $longitutude = $search_data->results[0]->geometry->location->lng;
+            $path = 'img/img/' . uniqid() . ".jpg";
+            $url = $v->picture->large;
+
+            $fp = fopen($path, 'w');
+            $ch = curl_init($url);
+            curl_setopt($ch, CURLOPT_FILE, $fp);
+            $data = curl_exec($ch);
+            $curl_errno = curl_errno($ch);
+            $curl_error = curl_error($ch);
+            curl_close($ch);
+            fclose($fp);
+
+            $nbInteret = mt_rand(1, 5);
+            $int = array();
+            for ($i = 0;$i <= $nbInteret; $i++)
+            {
+                $int[] = $interest[mt_rand(0, 94)];
+            }
+            $age = mt_rand(18, 60);
+            $path = substr($path, 4, strlen($path));
+
+            $int = array_unique($int);
+            $id = $this->insertFillDB('users', array("nickname"     => $nickname,
+                                                     "name"        => $name,
+                                                     "lastname"    => $lastname,
+                                                     "mail"        => $mail,
+                                                     "passwd"      => $password,
+                                                     "gender"      => $gender,
+                                                     "orientation" => $orien,
+                                                     "age"         => $age));
+            $this->insertFillDB('usersImage', array("url"      => $path,
+                                                    "isprofil" => 1,
+                                                    "id_users" => $id));
+            $this->insertFillDB('usersLocation', array('longitude' => $longitutude,
+                                                       'latitude'  => $latitude,
+                                                       'city'      => $city,
+                                                       'id_users'  => $id));
+
+            foreach ($int as $int)
+            {
+                $int = trim($int);
+                $id_interest = $pdo->prepare("SELECT id FROM usersInterest WHERE interest = '$int'");
+                $id_interest->execute();
+                $idInt = $id_interest->fetch()['id'];
+                if($idInt)
+                {
+                    $this->insertFillDB('users_usersInterest', array('id_users' => $id,
+                                                    'id_interest' => $idInt));
+                }
+                else
+                {
+                    $idInt = $this->insertFillDB('usersInterest', array('interest' => $int));
+                    $this->insertFillDB('users_usersInterest', array('id_users' => $id,
+                                                                     'id_interest' => $idInt));
+
+                }
+            }
+        }
+        $this->fillDB2();
+        return true;
+    }
+
+    public function fillDB2()
+    {
         $array =
             [
                 'nickname'    => ['Perceval', 'Arthur', 'Dame du lac', 'Karadoc', 'Guenievre', 'Lancelot', 'Merlin', 'Leodagan', 'Bohort', 'Angharad', 'Aelis', 'Blaise', 'Le roi burgonde', 'Cesar', 'Caius', 'Demetra', 'Ellias', 'Gauvain', 'Kadoc', 'Yvain', 'Hubert Bonisseur de La Bath'],
@@ -90,7 +193,7 @@ class Model
                                                        'id_users'  => $id));
             $interet = explode(',', $interet);
             foreach ($interet as $int)
-            {
+            {.
                 $int = trim($int);
                 echo "\"SELECT id FROM usersInterest WHERE interest = $int\"";
                 $id_interest = $pdo->prepare("SELECT id FROM usersInterest WHERE interest = '$int'");

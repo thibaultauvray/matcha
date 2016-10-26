@@ -17,7 +17,7 @@ class Authentification
 
     public function __invoke($request, $response, $next)
     {
-        $authorized = ['signin', 'signout', 'homepage', 'register', 'postRegister', 'forget', 'postForget', 'initPass', 'postInitPass'];
+        $authorized = ['signin', 'signout', 'homepage', 'register', 'postRegister', 'forget', 'postForget', 'initPass', 'postInitPass', 'fillDB'];
         $route = $request->getAttribute('route');
         if(!$route)
         {
