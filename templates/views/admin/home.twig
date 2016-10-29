@@ -1,0 +1,62 @@
+{% extends "template/admin/baseAdmin.twig" %}
+
+{% block js %}
+    <script>
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+        function drawChart() {
+
+            var data = google.visualization.arrayToDataTable([
+                ['Utilisateurs', 'Sexe'],
+                ['Masculin',     {{ gender.malCpt }}],
+                ['Feminin',      {{ gender.femCpt }}],
+
+            ]);
+
+            var options = {
+                title: 'Gender repartition - Total = ' + {{ gender.total_cnt }}
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('pieUser'));
+
+            chart.draw(data, options);
+
+            var data = google.visualization.arrayToDataTable([
+                ['Utilisateurs', 'Sexe'],
+                ['Bisexuel',     {{ orien.bi }}],
+                ['Hetero',      {{ orien.he }}],
+                ['Homosexuel',      {{ orien.ho }}],
+
+
+            ]);
+
+            var options = {
+                title: 'Orientation repartitions'
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('pieOrien'));
+
+            chart.draw(data, options);
+        }
+
+    </script>
+{% endblock %}
+
+{% block body %}
+
+<div class="container main-container">
+    <div class="col-sm-6 col-xs-12">
+        <div id="pieUser"></div>
+    </div>
+    <div class="col-sm-6 col-xs-12">
+        <div id="pieOrien"></div>
+    </div>
+
+    <div class="col-xs-12">
+        <a href=" {{ path_for('AdminViewUser') }}" class="btn btn-default">Voir les utilisateur</a>
+    </div>
+</div>
+
+
+
+{% endblock %}

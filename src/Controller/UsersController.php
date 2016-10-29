@@ -560,7 +560,7 @@ class UsersController extends Controller
     public function usermap($request, $response, $args)
     {
         $user = new Users($this->app);
-        $users = $user->getAllUser();
+        $users = $user->findSuggest($this->getUserId());
 
         return $this->app->view->render($response, 'views/users/usermap.twig', array('user' => $users));
     }
@@ -664,6 +664,28 @@ class UsersController extends Controller
         $response->withJson($body);
 
         return $response;
+    }
+
+    /* ADMIN VIEW */
+
+    public function adminHome($request, $response, $args)
+    {
+        $users = new Users($this->app);
+
+        $tabGender = $users->getUsersByGender();
+        $orien = $users->getUsersByOrien();
+
+        return $this->app->view->render($response, 'views/admin/home.twig', array('gender' => $tabGender,
+                                                                                  'orien'  => $orien));
+    }
+
+    public function adminListUser($request, $response, $args)
+    {
+        $users = new Users($this->app);
+
+        $all = $users->findAll();
+
+        return $this->app->view->render($response, 'views/admin/listUsers.twig', array('users' => $all));
     }
 
 }

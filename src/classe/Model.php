@@ -42,7 +42,7 @@ class Model
             $password = hash('whirlpool', 'QwertY81');
             $orien = $orientation[mt_rand(0, 2)];
             $ch = curl_init();
-            $city = $v->location->city;
+            $city = 'orléans';
             $Url = 'http://maps.googleapis.com/maps/api/geocode/json?address='.urlencode($v->location->city).'&sensor=false';
             curl_setopt($ch, CURLOPT_URL, $Url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);

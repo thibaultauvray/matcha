@@ -63,3 +63,6 @@ $app->get('/listChat/{id}', 'ChatController:listChat')->setName('chat');
 $app->get('/fillDB', 'UsersController:fillDB')->setName('fillDB');
 
 $app->get('/mapUser', 'UsersController:usermap')->setName('mapUser');
+
+$app->get('/admin/users', 'UsersController:adminHome')->setName('adminHome');
+$app->get('/admin/listusers', 'UsersController:adminListUser')->setName('AdminViewUser');

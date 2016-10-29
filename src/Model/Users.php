@@ -267,7 +267,7 @@ class Users extends Model
         $gender = $users['gender'];
         $lat = $users['latitude'];
         $long = $users['longitude'];
-        $sql = "SELECT u.*, u.id AS id_users, ul.city, img.url, (ABS($ong - ul.longitude) + ABS($lat  - ul.latitude)) AS distance,  COUNT(up.id_interest) as commonInterest
+        $sql = "SELECT u.*, u.id AS id_users, ul.city, img.url, (ABS($ong - ul.longitude) + ABS($lat  - ul.latitude)) AS distance,ul.latitude, ul.longitude,  COUNT(up.id_interest) as commonInterest
         FROM users u
         LEFT JOIN users_usersInterest ui ON ui.id_users = u.id
         LEFT JOIN (SELECT id_interest FROM `users_usersInterest` WHERE id_users = $id) up on up.id_interest = ui.id_interest
@@ -324,6 +324,20 @@ class Users extends Model
     public function updatedLocation($id)
     {
 
+    }
+
+    public function getUsersByGender()
+    {
+        $pdo = $this->app->db->prepare("select count(case when gender='f' then 1 end) as malCpt, count(case when gender='m' then 1 end) as femCpt, count(*) as total_cnt from users");
+        $pdo->execute();
+        return $pdo->fetch();
+    }
+
+    public function getUsersByOrien()
+    {
+        $pdo = $this->app->db->prepare("SELECT count(CASE WHEN orientation='bisexuel' then 1 end) as bi, count(CASE WHEN orientation='hetero' then 1 end) as he, count(CASE WHEN orientation='homosexuel' then 1 end) as ho FROM users");
+        $pdo->execute();
+        return $pdo->fetch();
     }
 
 }

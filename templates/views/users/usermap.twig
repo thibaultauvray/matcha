@@ -6,15 +6,16 @@
     <script type="text/javascript">
         $(document).ready(function ()
         {
-            function decSize(marker) {
+            function decSize(marker)
+            {
                 var oldIcon = marker.getIcon();
                 var size_x = oldIcon.scaledSize.width;
                 var size_y = oldIcon.scaledSize.height;
-                var newIcon = {url: oldIcon.url, scaledSize: new google.maps.Size(size_x-1,size_y-1)};
+                var newIcon = {url: oldIcon.url, scaledSize: new google.maps.Size(size_x - 1, size_y - 1)};
                 marker.setIcon(newIcon);
             }
 
-            var latlng = new google.maps.LatLng(48.892, 2.31929 );
+            var latlng = new google.maps.LatLng(48.892, 2.31929);
             var options = {
                 center: latlng,
                 zoom: 12,
@@ -63,9 +64,10 @@
             var beachMarker = new Array();
             var infowindow = new Array();
             var map = new google.maps.Map(document.getElementById("map"), options);
-            {%  for user in user %}
-            var contentString = '<div id="content">'+'<div id="siteNotice">'+'</div>'+'<h1 id="firstHeading" class="firstHeading">{{ user.nickname }}</h1>'+'<div id="bodyContent">'+'<p><span class="orien">{{ user.city|trim|escape }} - {{ user.orientation|capitalize }}</span> - <span class="sexe">{{ user.gender|capitalize }}</span> - {{ user.age }} ans<br><a href="/users/view/{{ user.id }}">Voir sa fiche</a> '+
-                    '</div>'+
+            {% for user in user %}
+            {% if user.latitude is not empty and user.longitude is not empty %}
+            var contentString = '<div id="content">' + '<div id="siteNotice">' + '</div>' + '<h1 id="firstHeading" class="firstHeading">{{ user.nickname }}</h1>' + '<div id="bodyContent">' + '<p><span class="orien">{{ user.city|trim|escape }} - {{ user.orientation|capitalize }}</span> - <span class="sexe">{{ user.gender|capitalize }}</span> - {{ user.age }} ans<br><a href="/users/view/{{ user.id }}">Voir sa fiche</a> ' +
+                    '</div>' +
                     '</div>';
 
             infowindow[{{ user.id }}] = new google.maps.InfoWindow({
@@ -73,7 +75,8 @@
             });
             var myIcon = {
                 url: "{{ '../../img/' ~ user.url }}", //url
-                scaledSize: new google.maps.Size(50, 50) };
+                scaledSize: new google.maps.Size(50, 50)
+            };
 
 
             beachMarker[{{ user.id }}] = new google.maps.Marker({
@@ -82,11 +85,13 @@
                 icon: myIcon
             });
 
-            beachMarker[{{ user.id }}].addListener('click', function() {
+            beachMarker[{{ user.id }}].addListener('click', function ()
+            {
                 infowindow[{{ user.id }}].open(map, beachMarker[{{ user.id }}]);
             });
-
+            {% endif %}
             {% endfor %}
+
 
         });
 
@@ -95,7 +100,8 @@
 {% block body %}
 
     <div class="container main-container mapUser">
-        <div class="col-xs-12" >
+        <div class="col-xs-12">
+            <h2 class="line"><span>Carte des utilisateurs</span></h2>
             <div id="map" class="map col-xs-12" style="height: 500px;">
 
             </div>

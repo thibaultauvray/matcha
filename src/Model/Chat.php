@@ -30,10 +30,12 @@ class Chat extends Model
                                  LEFT JOIN chat c ON c.id_auteur = l.id_users
                                  LEFT JOIN users u ON l.id_users = u.id
                                  LEFT JOIN usersImage img ON img.id_users = u.id
+                                 LEFT JOIN usersblocked b ON u.id = l.id_users
                                 WHERE l.id_users_like = ? AND l.id_users IN (SELECT id_users_like FROM likable WHERE id_users = ?)
+                                AND l.id_users NOT IN(SELECT u1.id_users_block FROM usersblocked u1 WHERE u1.id_users = ?)
                                 GROUP BY l.id_users
                                 ORDER BY c.created_at DESC');
-        $users->execute(array($id, $id));
+        $users->execute(array($id, $id, $id));
         return $users->fetchAll();
     }
 
