@@ -2,22 +2,79 @@
 
 {% block body %}
 
-<div class="container">
-    <div class="col-xs-12">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Avatar</th>
+    <div class="container main-container">
+        <div class="col-xs-12">
+
+
+            <table class="table table-striped tablesorter">
+                <thead>
+                <tr class="tablesorter-headerRow">
+                    <th data-filter="false">Avatar</th>
                     <th>Mail</th>
+                    <th>Pseudo</th>
                     <th>Nom</th>
                     <th>Prenom</th>
                     <th>Sexe</th>
-                    <th>Orientation</th>
-                    <th>Inscription</th>
+                    <th >Orientation</th>
+                    <th >Inscription</th>
+                    <td>Report</td>
+                    <td data-filter="false" data-sort="false">Actions</td>
                 </tr>
-            </thead>
-        </table>
+                </thead>
+                <tbody>
+                {% for user in users %}
+                    <tr  role="row">
+                        <td><img src="/img/{{ user.url }}" alt="" width="128" height="128"></td>
+                        <td>{{ user.mail }}</td>
+                        <td>{{ user.nickname }}</td>
+                        <td>{{ user.lastname }}</td>
+                        <td>{{ user.name }}</td>
+                        <td>{{ user.gender }}</td>
+                        <td>{{ user.orientation }}</td>
+                        <td>{{ user.created_at }}</td>
+                        <td>{{ user.cptRe }}</td>
+                        <td><a href="{{ path_for('adminViewProfil', { 'id' : user.id }) }}">Voir</a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <!-- pager -->
+            <div id="pager" class="pager">
+                <form>
+                    <img src="first.png" class="first"/>
+                    <img src="prev.png" class="prev"/>
+                    <span class="pagedisplay"></span> <!-- this can be any element, including an input -->
+                    <img src="next.png" class="next"/>
+                    <img src="last.png" class="last"/>
+                    <select class="pagesize">
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="30">30</option>
+                        <option value="40">40</option>
+                        <option value="all">All Rows</option>
+                    </select>
+                </form>
+            </div>
+        </div>
     </div>
-</div>
 
+{% endblock %}
+
+{% block js %}
+    <script>
+        $(function(){
+
+            $("table")
+                    .tablesorter({
+                        theme: 'metro-dark',
+                        widgets: ['zebra', 'filter']
+                    })
+                    .tablesorterPager({
+                        // target the pager markup - see the HTML block below
+                        container: $(".pager"),
+                        output: '{startRow} to {endRow} ({totalRows})'
+                    });
+
+        });
+    </script>
 {% endblock %}

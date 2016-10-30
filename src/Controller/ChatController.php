@@ -11,7 +11,16 @@ class ChatController extends Controller
     public function index($request, $response, $args)
     {
         $idLike = $args['id'];
+        $users = new Users($this->app);
         $id = $this->getUserId();
+        $user = $users->findById($idLike);
+        if(empty($user))
+        {
+            $uri = $request->getUri()->withPath($this->app->router->pathFor('homepage'));
+            $this->app->flash->addMessage('fail', 'Une erreur s\'est produit, duh');
+
+            return $response = $response->withRedirect($uri, 403);
+        }
         $like = new Likable($this->app);
         $user = new Users($this->app);
         $chat = new Chat($this->app);
@@ -35,7 +44,18 @@ class ChatController extends Controller
     public function listChat($request, $response, $args)
     {
         $chat = new Chat($this->app);
-        $chat = $chat->getUsersChat($args['id']);
+        $users = new Users($this->app);
+        $id = $args['id'];
+        $user = $users->findById($id);
+        if(empty($user) || $id != $this->getUserId())
+        {
+            $uri = $request->getUri()->withPath($this->app->router->pathFor('homepage'));
+            $this->app->flash->addMessage('fail', 'Une erreur s\'est produit, duh');
+
+            return $response = $response->withRedirect($uri, 403);
+        }
+        $chat = $chat->getUsersChat($id);
+
         return $this->app->view->render($response, 'views/chat/list.twig', array('chat' => $chat));
     }
 

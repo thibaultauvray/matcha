@@ -123,6 +123,24 @@ class Users extends Model
         return $pdo->fetch();
     }
 
+    public function getUsersByDate()
+    {
+
+        $date = new DateTime('-7 days');
+        $date = $date->format('d/m/Y');
+
+        $pdo = $this->app->db->prepare("SELECT SUBSTRING(created_at, 1, 10) as date, count(SUBSTRING(created_at, 1, 10)) as cpt FROM `users` WHERE created_at >= ? group by date");
+        $pdo->execute(array($date));
+        return $pdo->fetchAll();
+    }
+
+    public function getAllUsers()
+    {
+        $user = $this->app->db->prepare("SELECT u.*, url, count(r.id_users_reported) as cptRe FROM users u LEFT JOIN usersImage ui ON u.id=ui.id_users AND ui.isprofil = 1 LEFT JOIN reported r ON r.id_users_reported = u.id AND r.id is not NULL GROUP by r.id_users_reported, IF(r.id_users_reported IS NULL, u.id, 0) ");
+            $user->execute();
+
+        return $user->fetchAll();
+    }
 
     public function getStringInterest($id)
     {
@@ -139,7 +157,41 @@ class Users extends Model
         return implode(',', $arr);
     }
 
+    public function deleteInfo($id)
+    {
 
+
+        $pdo = $this->app->db->prepare("DELETE FROM usersImage WHERE id_users = ?");
+        $pdo->execute(array($id));
+
+        $pdo = $this->app->db->prepare("DELETE FROM users_usersInterest WHERE id_users = ?");
+        $pdo->execute(array($id));
+
+        $pdo = $this->app->db->prepare("DELETE FROM usersLocation WHERE id_users = ?");
+        $pdo->execute(array($id));
+
+        $pdo = $this->app->db->prepare("DELETE FROM notification WHERE id_users = ? OR id_users_send = ?");
+        $pdo->execute(array($id, $id));
+
+        $pdo = $this->app->db->prepare("DELETE FROM likable WHERE id_users = ? OR id_users_like = ?");
+        $pdo->execute(array($id, $id));
+
+        $pdo = $this->app->db->prepare("DELETE FROM chat WHERE id_auteur = ? OR id_receiver = ?");
+        $pdo->execute(array($id, $id));
+
+        $pdo = $this->app->db->prepare("DELETE FROM history WHERE id_users = ? OR id_users_visited = ?");
+        $pdo->execute(array($id, $id));
+
+        $pdo = $this->app->db->prepare("DELETE FROM usersblocked WHERE id_users = ? OR id_users_block = ?");
+        $pdo->execute(array($id, $id));
+
+        $pdo = $this->app->db->prepare("DELETE FROM reported WHERE id_users = ? OR id_users_reported = ?");
+        $pdo->execute(array($id, $id));
+
+        $pdo = $this->app->db->prepare("DELETE FROM users WHERE id = ?");
+        $pdo->execute(array($id));
+
+    }
     public function getCountImage($id)
     {
         $pdo = $this->app->db->prepare("SELECT ui.url FROM users u 

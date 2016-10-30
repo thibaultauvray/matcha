@@ -37,6 +37,41 @@
             var chart = new google.visualization.PieChart(document.getElementById('pieOrien'));
 
             chart.draw(data, options);
+
+            var data = new google.visualization.DataTable();
+
+            var chart = new google.visualization.ColumnChart(document.getElementById('regis'));
+            data.addColumn('string', 'Jours');
+            data.addColumn('number', 'Nombre d\'inscription');
+            data.addColumn({type: 'string', role: 'annotation'});
+            data.addRows([
+                {% for date in date %}
+                    ['{{ date.date }}', {{ date.cpt }}, '{{ date.cpt }}'],
+                {% endfor %}
+
+            ]);
+            var view = new google.visualization.DataView(data);
+            view.setColumns([0, 1, 1, 2]);
+
+
+            chart.draw(data, options);
+            chart.draw(view, {
+                series: {
+                    0: {
+                        type: 'bars'
+                    },
+                    1: {
+                        type: 'line',
+                        color: 'grey',
+                        lineWidth: 0,
+                        pointSize: 0,
+                        visibleInLegend: false
+                    }
+                },
+                vAxis: {
+                    maxValue: 100
+                }
+            });
         }
 
     </script>
@@ -50,6 +85,10 @@
     </div>
     <div class="col-sm-6 col-xs-12">
         <div id="pieOrien"></div>
+    </div>
+
+    <div class="col-xs-12">
+        <div id="regis"></div>
     </div>
 
     <div class="col-xs-12">

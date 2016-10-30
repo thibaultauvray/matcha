@@ -1,0 +1,41 @@
+{% extends "template/admin/baseAdmin.twig" %}
+
+{% block body %}
+
+    <div class="container main-container">
+        <div class="col-xs-12">
+            <a class="btn btn-default" href="{{ path_for('adminDelete', { 'id' : user.id }) }}">Supprimer</a>
+            <h2 class="line"><span>Information général</span></h2>
+            <ul>
+                <li><span class="col-xs-2">Mail :</span> {{ user.mail }}</li>
+                <li><span class="col-xs-2">Nickname :</span> {{ user.nickname }}</li>
+                <li><span class="col-xs-2">Name :</span> {{ user.name }}</li>
+                <li><span class="col-xs-2">Lastname :</span> {{ user.lastname }}</li>
+                <li><span class="col-xs-2">Sexe :</span> {{ user.gender }}</li>
+                <li><span class="col-xs-2">Orientation :</span> {{ user.orientation }}</li>
+                <li><span class="col-xs-2">Date du compte :</span> {{ user.created_at }}</li>
+                <li><span class="col-xs-2">Centre d'interet : </span> {{ interest }}</li>
+            </ul>
+            <div class="col-xs-12">
+                <h2 class="line"><span>Images</span></h2>
+                {% for img in images %}
+                    <img src="/img/{{ img.url }}" class="col-xs-3" alt="">
+                {% endfor %}
+            </div>
+            <div class="col-xs-12">
+                <h2 class="line"><span>Report</span></h2>
+                <ul>
+                    {% if report is empty %}
+                        <p>Aucun report d'utilisateur</p>
+                    {% else %}
+                        {% for rep in report %}
+                            <li><a href="{{ path_for('adminViewProfil', { 'id' : rep.id }) }}">{{ rep.nickname }}</a> a reporté cette utilisateur</li>
+                        {% endfor %}
+                    {% endif %}
+                </ul>
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

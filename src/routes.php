@@ -66,3 +66,6 @@ $app->get('/mapUser', 'UsersController:usermap')->setName('mapUser');
 
 $app->get('/admin/users', 'UsersController:adminHome')->setName('adminHome');
 $app->get('/admin/listusers', 'UsersController:adminListUser')->setName('AdminViewUser');
+$app->get('/admin/view/{id}', 'UsersController:adminViewProfil')->setName('adminViewProfil');
+$app->get('/admin/delete/{id}', 'UsersController:adminDelete')->setName('adminDelete');
+

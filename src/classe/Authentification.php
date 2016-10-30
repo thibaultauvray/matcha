@@ -25,6 +25,14 @@ class Authentification
             return $response = $response->withRedirect($request->getUri()->withPath($this->app->router->pathFor('homepage'), 403 ));
         }
         $name = $route->getName();
+        if(strpos($request->getUri(), '/admin/') != false && (isset($_SESSION['login']) && !empty($_SESSION['login'])) && $_SESSION['login']['isAdmin'] != 1 )
+        {
+            $uri = $request->getUri()->withPath($this->app->router->pathFor('homepage'));
+            $this->app->flash->addMessage('fail', 'Vous devez etre connecté pour accéder a cette page');
+
+            return $response = $response->withRedirect($uri, 403);
+        }
+
         if ((isset($_SESSION['login']) && !empty($_SESSION['login'])) || (in_array($name, $authorized)))
         {
             $response = $next($request, $response);

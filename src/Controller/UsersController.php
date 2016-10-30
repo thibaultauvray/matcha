@@ -10,7 +10,8 @@ use \Mailjet\Resources;
  * -> PAr defaut bi // OK
  * -> list chat connecte
  * -> localisation // OK
- * -> html - css
+ * -> html - css // OK
+ * -> Check Droit
  */
 
 class UsersController extends Controller
@@ -117,6 +118,16 @@ class UsersController extends Controller
 
     public function loca($request, $response, $args)
     {
+        $id = $args['id'];
+        $users = new Users($this->app);
+        $user = $users->findById($id);
+        if(empty($user) || $id != $this->getUserId())
+        {
+            $uri = $request->getUri()->withPath($this->app->router->pathFor('homepage'));
+            $this->app->flash->addMessage('fail', 'Une erreur s\'est produit, duh');
+
+            return $response = $response->withRedirect($uri, 403);
+        }
 
         return $this->app->view->render($response, 'views/users/loca.twig', array('args' => $args,
         ));
@@ -148,6 +159,16 @@ class UsersController extends Controller
 
     public function updateUsersLocation($request, $response, $args)
     {
+        $id = $args['id'];
+        $users = new Users($this->app);
+        $user = $users->findById($id);
+        if(empty($user) || $id != $this->getUserId())
+        {
+            $uri = $request->getUri()->withPath($this->app->router->pathFor('homepage'));
+            $this->app->flash->addMessage('fail', 'Une erreur s\'est produit, duh');
+
+            return $response = $response->withRedirect($uri, 403);
+        }
         $usersLocation = new UsersLocation($this->app);
         $location = $usersLocation->findOne('id_users', $args['id']);
         if (!$location)
@@ -195,6 +216,14 @@ class UsersController extends Controller
         $id = $args['id'];
         $usersLocation = new UsersLocation($this->app);
         $users = new Users($this->app);
+        $user = $users->findById($id);
+        if(empty($user))
+        {
+            $uri = $request->getUri()->withPath($this->app->router->pathFor('homepage'));
+            $this->app->flash->addMessage('fail', 'Une erreur s\'est produit, duh');
+
+            return $response = $response->withRedirect($uri, 403);
+        }
         $sameProfil = true;
         if ($id != $this->getUserId())
         {
@@ -214,7 +243,6 @@ class UsersController extends Controller
         $userSuggest = $users->findSuggest($id);
         $interest = $users->getInterest($id);
         $location = $usersLocation->findOne('id_users', $id);
-        $user = $users->findById($id);
         $userLocation = $users->getLocationById($this->getUserId());
         $ui = new UsersImage($this->app);
         $image = $ui->getImages($id);
@@ -339,6 +367,15 @@ class UsersController extends Controller
     public function editProfil($request, $response, $args)
     {
         $users = new Users($this->app);
+        $id = $args['id'];
+        $user = $users->findById($id);
+        if(empty($user) || $id != $this->getUserId())
+        {
+            $uri = $request->getUri()->withPath($this->app->router->pathFor('homepage'));
+            $this->app->flash->addMessage('fail', 'Une erreur s\'est produit, duh');
+
+            return $response = $response->withRedirect($uri, 403);
+        }
         $usersLocation = new UsersLocation($this->app);
         $location = $usersLocation->findOne('id_users', $args['id']);
         $user = $users->findById($args['id']);
@@ -513,6 +550,15 @@ class UsersController extends Controller
     public function changePass($request, $response, $args)
     {
         $id = $args['id'];
+        $users = new Users($this->app);
+        $user = $users->findById($id);
+        if(empty($user) || $id != $this->getUserId())
+        {
+            $uri = $request->getUri()->withPath($this->app->router->pathFor('homepage'));
+            $this->app->flash->addMessage('fail', 'Une erreur s\'est produit, duh');
+
+            return $response = $response->withRedirect($uri, 403);
+        }
         if ($id != $this->getUserId())
         {
             $this->app->flash->addMessage('fail', 'Acces non autorisé');
@@ -527,7 +573,15 @@ class UsersController extends Controller
     public function postChangePass($request, $response, $args)
     {
         $id = $args['id'];
+        $users = new Users($this->app);
+        $user = $users->findById($id);
+        if(empty($user) || $id != $this->getUserId())
+        {
+            $uri = $request->getUri()->withPath($this->app->router->pathFor('homepage'));
+            $this->app->flash->addMessage('fail', 'Une erreur s\'est produit, duh');
 
+            return $response = $response->withRedirect($uri, 403);
+        }
         $validator = $this->app->validator;
         $validator->check('pass', array('isPasswd'));
         if (empty($validator->error))
@@ -611,6 +665,15 @@ class UsersController extends Controller
     {
         $users = new Users($this->app);
         $id = $args['id'];
+        $users = new Users($this->app);
+        $user = $users->findById($id);
+        if(empty($user) || $id != $this->getUserId())
+        {
+            $uri = $request->getUri()->withPath($this->app->router->pathFor('homepage'));
+            $this->app->flash->addMessage('fail', 'Une erreur s\'est produit, duh');
+
+            return $response = $response->withRedirect($uri, 403);
+        }
         $userSuggest = $users->findSuggest($id);
 
 
@@ -668,6 +731,42 @@ class UsersController extends Controller
 
     /* ADMIN VIEW */
 
+
+    public function clearDate($date)
+    {
+        $data = new DateTime('-7 days');
+
+        $i = 0;
+        $array = array_column($date, 'date');
+        while  ($i <= 7)
+        {
+            $format = $data->format('d/m/Y');
+            if (!in_array($format, $array))
+            {
+                $date[] = array('date' => $format, 'cpt' => 0);
+            }
+            $data->add(new DateInterval('P1D'));
+            $i++;
+        }
+        $i = 0;
+        while  ($i <= 7)
+        {
+            $j = 0;
+            while ($date[$j + 1])
+            {
+                if($date[$j] > $date[$j+1])
+                {
+                    $tmp = $date[$j];
+                    $date[$j] = $date[$j+1];
+                    $date[$j+1] = $tmp;
+                }
+                $j++;
+            }
+            $i++;
+        }
+        return $date;
+    }
+
     public function adminHome($request, $response, $args)
     {
         $users = new Users($this->app);
@@ -675,17 +774,46 @@ class UsersController extends Controller
         $tabGender = $users->getUsersByGender();
         $orien = $users->getUsersByOrien();
 
+        $data = $users->getUsersByDate();
+//        var_dump($data);
+
+        $data = $this->clearDate($data);
+        print_r($data);
         return $this->app->view->render($response, 'views/admin/home.twig', array('gender' => $tabGender,
-                                                                                  'orien'  => $orien));
+                                                                                  'orien'  => $orien,
+                                                                                  'date'   => $data));
     }
 
     public function adminListUser($request, $response, $args)
     {
         $users = new Users($this->app);
 
-        $all = $users->findAll();
-
+        $all = $users->getAllUsers();
         return $this->app->view->render($response, 'views/admin/listUsers.twig', array('users' => $all));
+    }
+
+    public function adminViewProfil($request, $response, $args)
+    {
+        $id = $args['id'];
+        $users = new Users($this->app);
+        $ui = new UsersImage($this->app);
+        $report = new Reported($this->app);
+
+        $rep = $report->getReportUser($id);
+        $us = $users->findById($id);
+        $image = $ui->getImages($id);
+        $interest = $users->getStringInterest($id);
+        var_dump($rep);
+        return $this->app->view->render($response, 'views/admin/view.twig', array('user' => $us, 'images' => $image, 'interest' => $interest, 'report' => $rep));
+    }
+
+    public function adminDelete($request, $response, $args)
+    {
+        $id = $args['id'];
+        $users = new Users($this->app);
+        $users->deleteInfo($id);
+
+        return $response->withStatus(302)->withHeader('Location', $this->app->router->pathFor('AdminViewUser'));
     }
 
 }

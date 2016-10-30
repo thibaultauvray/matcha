@@ -36,4 +36,11 @@ class Reported extends Model
             return false;
         }
     }
+
+    public function getReportUser($id)
+    {
+        $rep = $this->app->db->prepare("SELECT u.id, u.nickname FROM `users` u INNER JOIN reported r ON r.id_users_reported = ? AND r.id_users = u.id");
+        $rep->execute(array($id));
+        return $rep->fetchAll();
+    }
 }
