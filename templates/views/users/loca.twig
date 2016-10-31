@@ -2,12 +2,14 @@
     {% block javascript %}
         <script src="{{ baseURl }}/js/localisation.js"></script>
     {% endblock %}
+{% block header %}
+    {% endblock %}
 {% block body %}
 
 <div class="container main-container loca">
-    <p>Acceptez la demande de localisation, sinon appuyez sur continuer</p>
+    <h1 style="color:red;font-size:30px">Acceptez la demande de localisation, sinon appuyez sur continuer</h1>
 
-    <button id="continuer" class="btn btn-default">Continuer</button>
+    <button id="continuer" class="col-xs-12 btn btn-default">Continuer</button>
 </div>
 
 {% endblock %}

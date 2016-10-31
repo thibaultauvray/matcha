@@ -58,7 +58,11 @@ class Validator
 			switch ($value)
 			{
 			    case 'date';
-
+                    if(preg_match("/^[0-9]{2}\/[0-9]{2}\/[0-9]{4}$/", $var) != 1)
+                    {
+                        $this->error[$name][] = "Format invalide";
+                        break;
+                    }
                     $date = new \DateTime('now');
                     $dateBirth = DateTime::createFromFormat('d/m/Y', $var);
                     $diff = $dateBirth->diff($date);

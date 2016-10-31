@@ -229,8 +229,10 @@ class UsersController extends Controller
         {
             $history = new History($this->app);
             $block = new usersBlocked($this->app);
-            $isBlock = $block->isBlock($this->getUserId(), $id);
-            if($isBlock)
+            $isUserBlock = $block->isBlock( $id,$this->getUserId());
+            $isBlock = $block->isBlock($this->getUserId() ,$id);
+
+            if(!$isUserBlock)
             {
                 $history->insert(array('id_users'         => $id,
                                        'id_users_visited' => $this->getUserId()));

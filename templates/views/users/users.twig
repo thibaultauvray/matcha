@@ -28,18 +28,18 @@
 
             $('#reported').on('click', function (e)
             {
-               e.preventDefault();
-                $.getJSON('/reportedUsers', { id : id }, function(data)
+                e.preventDefault();
+                $.getJSON('/reportedUsers', {id: id}, function (data)
                         {
                             if (data.resp == true)
                             {
                                 $('#reported').prop('disabled', true);
                             }
-                            else{
+                            else
+                            {
                                 alert('Vous avew deja reporté cette personne');
                             }
                         }
-
                 )
             });
 
@@ -146,14 +146,14 @@
 
 
             };
-            var users = new google.maps.LatLng({{ userLocation.latitude }}, {{ userLocation.longitude}});
+            var users = new google.maps.LatLng({{ userLocation.latitude }}, {{ userLocation.longitude }});
 
             var usersLocation = new google.maps.LatLng({{ location.latitude }}, {{ location.longitude }});
 
             var flightPlanCoordinates = [
-                {lat: {{ userLocation.latitude }}, lng: {{ userLocation.longitude}} },
+                {lat: {{ userLocation.latitude }}, lng: {{ userLocation.longitude }} },
                 {lat: {{ location.latitude }}, lng: {{ location.longitude }} }
-                ];
+            ];
             var flightPath = new google.maps.Polyline({
                 path: flightPlanCoordinates,
                 geodesic: true,
@@ -161,8 +161,6 @@
                 strokeOpacity: 1.0,
                 strokeWeight: 2
             });
-
-
 
 
             //constructeur de la carte qui prend en paramêtre le conteneur HTML
@@ -206,7 +204,11 @@
                 <div class="col-sm-offset-2 col-sm-2 ">
                     <div class="profile-encart">
                         <div class="profile">
-                            <img src="/img/{{ imgProfil.url }}" alt="">
+                            {% if imgProfil.url is not null %}
+                                <img src="/img/{{ imgProfil.url }}" alt="">
+                            {% else %}
+                                <img src="https://i.ytimg.com/vi/R30vLO2yioY/hqdefault.jpg" alt="">
+                            {% endif %}
                         </div>
                         <p class="pop pink">{{ users.popularity }} PTS <span
                                     class="glyphicon glyphicon-menu-right"></span></p>
@@ -215,17 +217,18 @@
                 <div class="col-sm-8 encart tablem">
                     <div class="tablecell">
 
-                        <h2>{{ users.nickname }} - <span class="lastname">{{ users.lastname }}</span> <span class="name"> {{ users.name }}</span>
+                        <h2>{{ users.nickname }} - <span class="lastname">{{ users.lastname }}</span> <span
+                                    class="name"> {{ users.name }}</span>
                             <span class="encart-icon">
                             <span class="icone {% if users.gender == "m" %}icon-men{% else %}icon-woman{% endif %}"></span>
 
-                            {% if connected == 1 %}
-                                <span class="round round-green connected">Connecté</span>
+                                {% if connected == 1 %}
+                                    <span class="round round-green connected">Connecté</span>
                             {% elseif connected == 0 %}
-                                <span class="round round-red never">Jamais connecté</span>
-                            {% else %}
-                                <span class="round round-red disconnected">Derniere connexion le {{ connected }}</span>
-                            {% endif %}
+                                    <span class="round round-red never">Jamais connecté</span>
+                                {% else %}
+                                    <span class="round round-red disconnected">Derniere connexion le {{ connected }}</span>
+                                {% endif %}
                                 </span>
                         </h2>
 
@@ -247,10 +250,10 @@
                         {% if sameProfil == false %}
 
                         {% if stats != -1 %}
-                        <div class="status pink">
-                            <span class="pink glyphicon glyphicon-heart-empty"></span>
-                            <span class="statut">{% if stats == 1 %}Elle vous like !{% elseif stats == 2 %}Vous etes connecté {% else %}Aucun lien{% endif %}</span>
-                        </div>
+                            <div class="status pink">
+                                <span class="pink glyphicon glyphicon-heart-empty"></span>
+                                <span class="statut">{% if stats == 1 %}Vous like !{% elseif stats == 2 %}Vous etes connecté {% else %}Aucun lien{% endif %}</span>
+                            </div>
                         {% endif %}
                         <div class="buttonUser">
                             <button id="like" data-pic="{{ app.noProfilPic }}">Like <span
@@ -259,13 +262,16 @@
                                 {% if isBlock == true %}
                                     <button id="blocked">Débloqué <span class="glyphicon glyphicon-ok"></span></button>
                                 {% else %}
-                                    <button id="blocked">Bloqué <span class="glyphicon glyphicon-remove"></span></button>
+                                    <button id="blocked">Bloqué <span class="glyphicon glyphicon-remove"></span>
+                                    </button>
                                 {% endif %}
 
                                 {% if app.noProfilPic is null %}
-                                    <span class="alert alert-danger">Vous ne pouvez pas like sans photo de profil</span>
+                                    <span class="alert alert-danger col-xs-12">Vous ne pouvez pas like sans photo de profil</span>
                                 {% endif %}
-                                <button {%  if report == false %}disabled {% endif %} id="reported" data-id="{{ id }}"> <span class="glyphicon glyphicon-flag"></span>Reportez</button>
+                                <button {% if report == false %}disabled {% endif %} id="reported" data-id="{{ id }}">
+                                    <span class="glyphicon glyphicon-flag"></span>Reportez
+                                </button>
                                 {% endif %}
 
                         </div>
@@ -298,7 +304,7 @@
                         {% for image in image %}
                             <div class="col-xs-12 col-sm-4">
                                 <img src="/img/{{ image.url }}"
-                                        alt="">
+                                     alt="">
                             </div>
                         {% endfor %}
                     </div>

@@ -45,7 +45,10 @@ $(document).ready(function()
 						});
 				}, "jsonp");
 			}
+		});
+		$(document).ajaxStop(function () {
 			document.location.href="/edit/"+id;
+
 		});
 	});
 
