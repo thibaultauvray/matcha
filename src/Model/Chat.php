@@ -13,7 +13,7 @@ class Chat extends Model
         $msg = $this->app->db->prepare("SELECT c.id AS idChat, rimg.url as url, message, r.nickname, c.id_receiver as idRec, c.created_at AS date
                                         FROM chat c
                                         INNER JOIN users r ON r.id = c.id_auteur
-                                        INNER JOIN usersImage rimg ON c.id_auteur = rimg.id_users
+                                        INNER JOIN usersImage rimg ON c.id_auteur = rimg.id_users AND rimg.isprofil = 1
                                         WHERE (id_auteur = ? AND id_receiver =?) 
                                         OR (id_auteur = ? AND id_receiver = ?)
                                         ORDER BY c.id");
@@ -29,7 +29,7 @@ class Chat extends Model
         $users =  $pdo->prepare('SELECT l.id_users, u.nickname, img.url, c.message, c.created_at FROM likable l
                                  LEFT JOIN chat c ON c.id_auteur = l.id_users
                                  LEFT JOIN users u ON l.id_users = u.id
-                                 LEFT JOIN usersImage img ON img.id_users = u.id
+                                 LEFT JOIN usersImage img ON img.id_users = u.id AND img.isprofil = 1
                                  LEFT JOIN usersblocked b ON u.id = l.id_users
                                 WHERE l.id_users_like = ? AND l.id_users IN (SELECT id_users_like FROM likable WHERE id_users = ?)
                                 AND l.id_users NOT IN(SELECT u1.id_users_block FROM usersblocked u1 WHERE u1.id_users = ?)
@@ -52,7 +52,7 @@ class Chat extends Model
         $msg = $this->app->db->prepare("SELECT c.id AS idChat, rimg.url as url, message, r.nickname, c.id_receiver as idRec, c.created_at AS date
                                         FROM chat c
                                         INNER JOIN users r ON r.id = c.id_auteur
-                                        INNER JOIN usersImage rimg ON c.id_auteur = rimg.id_users
+                                        INNER JOIN usersImage rimg ON c.id_auteur = rimg.id_users AND rimg.isprofil = 1
                                         WHERE ((id_auteur = ? AND id_receiver =?) 
                                         OR (id_auteur = ? AND id_receiver = ?))
                                         AND c.id > ?

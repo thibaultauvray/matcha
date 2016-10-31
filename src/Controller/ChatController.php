@@ -104,13 +104,22 @@ class ChatController extends Controller
 
         $msg = $chat->getLastMsg($lastId, $id, $idRec);
         $lastId = end($msg)['idChat'];
+        $arr = array('lastID' => $lastId, 'html' => $this->app->view->renderView($response, 'views/chat/message.twig', array('error'    => $error,
+                                                                                                                         'userLike' => $userLike,
+                                                                                                                         'message'  => $msg,
+                                                                                                                         'lastId'   => $lastId,
+                                                                                                                         'idRec'    => $idLike
+        )));
+        $response->withHeader('Content-type', 'application/json');
+        $response->withJson(array($arr));
+        return $response;
 
-        return $this->app->view->render($response, 'views/chat/message.twig', array('error'    => $error,
-                                                                                    'userLike' => $userLike,
-                                                                                    'message'  => $msg,
-                                                                                    'lastId'   => $lastId,
-                                                                                    'idRec'    => $idLike
-        ));
+//        return $this->app->view->render($response, 'views/chat/message.twig', array('error'    => $error,
+//                                                                                    'userLike' => $userLike,
+//                                                                                    'message'  => $msg,
+//                                                                                    'lastId'   => $lastId,
+//                                                                                    'idRec'    => $idLike
+//        ));
 
     }
 }

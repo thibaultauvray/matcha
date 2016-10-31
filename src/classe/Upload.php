@@ -19,7 +19,7 @@ Class Upload{
 	public function upload($count)
 	{
 		foreach ($this->files as $file) {
-			if (in_array($file->getType(), $this->extension) && $file->getSize() < 500000)
+			if (in_array($file->getClientMediaType(), $this->extension) && $file->getSize() < 500000)
 			{
 				$name = uniqid();
 				$uploaddir = __DIR__ . "/../../public/img/";
