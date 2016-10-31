@@ -72,8 +72,12 @@
                     maxValue: 100
                 }
             });
-        }
 
+
+        }
+        $(window).resize(function(){
+            drawChart();
+        });
     </script>
 {% endblock %}
 

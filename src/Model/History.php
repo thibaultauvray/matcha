@@ -16,7 +16,7 @@ class History extends Model
         $user = $pdo->prepare("SELECT h.created_at as date, img.url as url, u.nickname as nickname
                                FROM history h
                                LEFT JOIN users u ON  h.id_users_visited = u.id
-                               LEFT JOIN usersImage img ON img.id_users = h.id_users_visited
+                               LEFT JOIN usersImage img ON img.id_users = h.id_users_visited AND img.isprofil = 1
                                 WHERE h.id_users = :id
                                 ORDER BY date DESC
 ");

@@ -24,13 +24,14 @@ Class Notification extends Model
     {
         $message = "est connecté a vous !";
         $isBLock = new usersBlocked($this->app);
-        if (!$isBLock->isBlock($idLike, $id))
-        {
+
             $this->insert(array(
                 'id_users'      => $id,
                 'id_users_send' => $idLike,
                 'message'       => $message,
-                'href'          => 'null'));
+                'href'          => $this->app->router->pathFor('chatIndex', ['id' => $idLike])));
+        if (!$isBLock->isBlock($id, $idLike))
+        {
             $notif = $this->insert(array(
                 'id_users'      => $idLike,
                 'id_users_send' => $id,
@@ -38,6 +39,7 @@ Class Notification extends Model
                 'href'          => $this->app->router->pathFor('chatIndex', ['id' => $idLike])
             ));
         }
+
     }
 
     public function sendLike($id, $idLike)

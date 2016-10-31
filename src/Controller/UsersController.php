@@ -228,14 +228,18 @@ class UsersController extends Controller
         if ($id != $this->getUserId())
         {
             $history = new History($this->app);
-            $history->insert(array('id_users'         => $id,
-                                   'id_users_visited' => $this->getUserId()));
+            $block = new usersBlocked($this->app);
+            $isBlock = $block->isBlock($this->getUserId(), $id);
+            if($isBlock)
+            {
+                $history->insert(array('id_users'         => $id,
+                                       'id_users_visited' => $this->getUserId()));
+            }
             $this->upPopularity($id, 5);
             $sameProfil = false;
             $notif = new Notification($this->app);
             $notif->sendNotification($this->getUserId(), $id, 'vous a visté(e)', $this->app->router->pathFor('viewProfil', array('id' => $id)));
-            $block = new usersBlocked($this->app);
-            $isBlock = $block->isBlock($this->getUserId(), $id);
+
         }
         $connected = $this->getFormatConnected($users, $id);
         $us = $users->getStatuts($id, $this->getUserId());
@@ -280,6 +284,16 @@ class UsersController extends Controller
     {
         $history = new History($this->app);
         $id = $args['id'];
+        $users = new Users($this->app);
+        $user = $users->findById($id);
+        if(empty($user) || $id != $this->getUserId())
+        {
+            $uri = $request->getUri()->withPath($this->app->router->pathFor('homepage'));
+            $this->app->flash->addMessage('fail', 'Une erreur s\'est produit, duh');
+
+            return $response = $response->withRedirect($uri, 403);
+        }
+
         $user = $history->getVisitor($id);
 
         return $this->app->view->render($response, 'views/users/history.twig', array('args'    => $args,
@@ -288,6 +302,16 @@ class UsersController extends Controller
 
     public function viewLike($request, $response, $args)
     {
+        $id = $args['id'];
+        $users = new Users($this->app);
+        $user = $users->findById($id);
+        if(empty($user) || $id != $this->getUserId())
+        {
+            $uri = $request->getUri()->withPath($this->app->router->pathFor('homepage'));
+            $this->app->flash->addMessage('fail', 'Une erreur s\'est produit, duh');
+
+            return $response = $response->withRedirect($uri, 403);
+        }
         $history = new Likable($this->app);
         $id = $args['id'];
         $user = $history->getLike($id);
@@ -775,7 +799,6 @@ class UsersController extends Controller
         $orien = $users->getUsersByOrien();
 
         $data = $users->getUsersByDate();
-//        var_dump($data);
 
         $data = $this->clearDate($data);
         print_r($data);
@@ -803,7 +826,6 @@ class UsersController extends Controller
         $us = $users->findById($id);
         $image = $ui->getImages($id);
         $interest = $users->getStringInterest($id);
-        var_dump($rep);
         return $this->app->view->render($response, 'views/admin/view.twig', array('user' => $us, 'images' => $image, 'interest' => $interest, 'report' => $rep));
     }
 

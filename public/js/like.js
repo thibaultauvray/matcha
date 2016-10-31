@@ -11,7 +11,7 @@ $(document).ready(function()
 {
 
 
-    // TODO DEBUG NOTIF UNREAD
+    // TODO DEBUG NOTIF UNREAD0
 
     setInterval(function(){
         $.get('/getUnreadNotif', function(data){

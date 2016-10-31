@@ -3,10 +3,8 @@
  */
 
     $(document).ready(function(){
-        console.log('ok');
         $('.navbar-header').on('click', function()
         {
-            console.log($('.navbar-content').css('display'));
             if($('.navbar-content').css('display') == 'none')
                 $('.navbar-content').show(1000);
             else
