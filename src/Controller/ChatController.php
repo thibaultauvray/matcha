@@ -41,6 +41,34 @@ class ChatController extends Controller
         ));
     }
 
+    public function getMessage($request, $response, $args)
+    {
+        $lastId = $_GET['lastId'];
+        $idRec = $_GET['idRec'];
+        $id = $this->getUserId();
+        $chat = new Chat($this->app);
+
+        $msg = $chat->getLastMsg($lastId, $id, $idRec);
+        $lastId = end($msg)['idChat'];
+//        $arr = array('lastID' => $lastId, 'html' => $this->app->view->renderView($response, 'views/chat/message.twig', array('error'    => $error,
+//                                                                                                                         'userLike' => $userLike,
+//                                                                                                                         'message'  => $msg,
+//                                                                                                                         'lastId'   => $lastId,
+//                                                                                                                         'idRec'    => $idLike
+//        )));
+//        $response->withHeader('Content-type', 'application/json');
+//        $response->withJson(array($arr));
+//        return $response;
+
+        return $this->app->view->render($response, 'views/chat/message.twig', array('error'    => $error,
+                                                                                    'userLike' => $userLike,
+                                                                                    'message'  => $msg,
+                                                                                    'lastId'   => $lastId,
+                                                                                    'idRec'    => $idLike
+        ));
+
+    }
+
     public function listChat($request, $response, $args)
     {
         $chat = new Chat($this->app);
@@ -95,31 +123,5 @@ class ChatController extends Controller
 
     }
 
-    public function getMessage($request, $response, $args)
-    {
-        $lastId = $_GET['lastId'];
-        $idRec = $_GET['idRec'];
-        $id = $this->getUserId();
-        $chat = new Chat($this->app);
 
-        $msg = $chat->getLastMsg($lastId, $id, $idRec);
-        $lastId = end($msg)['idChat'];
-        $arr = array('lastID' => $lastId, 'html' => $this->app->view->renderView($response, 'views/chat/message.twig', array('error'    => $error,
-                                                                                                                         'userLike' => $userLike,
-                                                                                                                         'message'  => $msg,
-                                                                                                                         'lastId'   => $lastId,
-                                                                                                                         'idRec'    => $idLike
-        )));
-        $response->withHeader('Content-type', 'application/json');
-        $response->withJson(array($arr));
-        return $response;
-
-//        return $this->app->view->render($response, 'views/chat/message.twig', array('error'    => $error,
-//                                                                                    'userLike' => $userLike,
-//                                                                                    'message'  => $msg,
-//                                                                                    'lastId'   => $lastId,
-//                                                                                    'idRec'    => $idLike
-//        ));
-
-    }
 }

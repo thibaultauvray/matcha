@@ -1,13 +1,6 @@
 
 $(document).ready(function ()
 {
-
-
-
-
-
-
-
     $("#croi").change(function ()
     {
         $("#tri").trigger("change");
@@ -90,8 +83,6 @@ $(document).ready(function ()
     function isInteret(interet, interetUser)
     {
         bool = true;
-        if (typeof image_array !== 'undefined' && image_array.length > 0)
-        {
             $.each(interetUser, function (index, value)
             {
                 if ($.inArray(value.trim(), interet) !== -1)
@@ -104,7 +95,6 @@ $(document).ready(function ()
                     bool = false
                 }
             });
-        }
         return bool;
     }
 
@@ -135,11 +125,11 @@ $(document).ready(function ()
             if (($(this).data("age") < age1 || $(this).data("age") > age2) || (city.indexOf(loca) == -1) || isInteret(interet, interetUser) == false || ($(this).data("popularity") < pop1 || $(this).data("popularity") > pop2) || ($(this).data('sex') == "f" && genderF == false)
                 || ($(this).data('sex') == "m" && genderM == false) || ($(this).data('orien') == "homosexuel" && homo == false) || ($(this).data('orien') == "bisexuel" && bi == false) || ($(this).data('orien') == "hetero" && hete == false))
             {
-                $(this).hide('1000');
+                $(this).hide('100');
             }
             else
             {
-                $(this).show('1000');
+                $(this).show('100');
             }
         });
     });

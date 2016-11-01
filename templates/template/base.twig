@@ -34,9 +34,9 @@
   {% include 'template/footer.twig' %}
 {% endblock %}
 <div class="md-overlay"></div>
-
-
-{% include('template/javascript.twig') %}
+{% block javascripts %}
+    {% include('template/javascript.twig') %}
+{% endblock %}
 {% block javascript %}
 {% endblock %}
 {% endspaceless %}

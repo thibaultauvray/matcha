@@ -25,7 +25,6 @@ class Chat extends Model
     public function getUsersChat($id)
     {
         $pdo = $this->app->db;
-        echo $id;
         $users =  $pdo->prepare('SELECT l.id_users, u.nickname, img.url, c.message, c.created_at FROM likable l
                                  LEFT JOIN chat c ON c.id_auteur = l.id_users
                                  LEFT JOIN users u ON l.id_users = u.id
@@ -53,11 +52,10 @@ class Chat extends Model
                                         FROM chat c
                                         INNER JOIN users r ON r.id = c.id_auteur
                                         INNER JOIN usersImage rimg ON c.id_auteur = rimg.id_users AND rimg.isprofil = 1
-                                        WHERE ((id_auteur = ? AND id_receiver =?) 
-                                        OR (id_auteur = ? AND id_receiver = ?))
-                                        AND c.id > ?
+                                        WHERE id_auteur = ? AND id_receiver =?
+                                       AND c.id > ?
                                         ORDER BY c.id");
-        $msg->execute(array($id, $idRec, $idRec, $id, $lastId));
+        $msg->execute(array($idRec,$id, $lastId));
         return $msg->fetchAll();
     }
 

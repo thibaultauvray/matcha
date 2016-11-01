@@ -45,6 +45,9 @@ $app->get('/reportedUsers', 'UsersController:reportedUser')->setName('reported')
 $app->get('/loca/{id}', 'UsersController:loca')->setName('loca');
 $app->get('/blockedUsers', 'UsersController:blockAction')->setName('blocked');
 
+$app->get('/isNotLoca', 'UsersController:notLoca')->setName('notLoca');
+
+
 // CHat
 
 $app->get('/forgetPassword', 'UsersController:forget')->setName('forget');

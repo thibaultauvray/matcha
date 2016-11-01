@@ -1,27 +1,26 @@
 {% extends "template/base.twig" %}
 {% block javascript %}
+
     <script type="application/javascript">
+        var lastId = {{ lastId }};
         $(document).ready(function ()
         {
-            var lastId = $('li#msgLoad:last').data('id');
+            var myInter = setInterval(getMessage, 5000);
             function getMessage()
             {
+                var lastId = $('li#msgLoad:last').data('id');
+                console.log(lastId);
                 $.get('/getMessage', {lastId: lastId, idRec: {{ idRec }} }, function (data)
                 {
-                    console.log(data);
-                    var lastId = data.lastId;
                     if (data)
                     {
                         $("#msgLoad[data-id='" + lastId + "']").after(data);
                         objDiv.scrollTop = objDiv.scrollHeight;
                     }
-                }, 'json')
+                }, 'html')
             }
-
-            var myInter = setInterval(getMessage, 6000);
             var objDiv = document.getElementById("overflowChat");
             objDiv.scrollTop = objDiv.scrollHeight;
-            var lastId = {{ lastId }};
             $('#chat').on('submit', function (e)
             {
                 clearInterval(myInter);
@@ -33,11 +32,9 @@
                     $('#inputMsg').val("");
                     $('#overflowChat').append(data);
                     objDiv.scrollTop = objDiv.scrollHeight;
-                    var myInter = setInterval(getMessage, 6000);
+                    myInter = setInterval(getMessage, 5000);
                 }, 'html');
             });
-
-
         });
 
     </script>

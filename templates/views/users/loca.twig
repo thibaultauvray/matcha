@@ -2,6 +2,9 @@
     {% block javascript %}
         <script src="{{ baseURl }}/js/localisation.js"></script>
     {% endblock %}
+{% block javascripts %}
+    <span id="idUser" data-id="{{ session.login.id }}"></span>
+{% endblock %}
 {% block header %}
     {% endblock %}
 {% block body %}

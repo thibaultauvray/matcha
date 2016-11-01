@@ -37,7 +37,7 @@
                             }
                             else
                             {
-                                alert('Vous avew deja reporté cette personne');
+                                alert('Vous avez deja reporté cette personne');
                             }
                         }
                 )
@@ -267,7 +267,7 @@
                                 {% endif %}
 
                                 {% if app.noProfilPic is null %}
-                                    <span class="alert alert-danger col-xs-12">Vous ne pouvez pas like sans photo de profil</span>
+                                    <span class="pink col-xs-12">Vous ne pouvez pas like sans photo de profil</span>
                                 {% endif %}
                                 <button {% if report == false %}disabled {% endif %} id="reported" data-id="{{ id }}">
                                     <span class="glyphicon glyphicon-flag"></span>Reportez

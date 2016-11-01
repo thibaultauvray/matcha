@@ -212,6 +212,14 @@ class Users extends Model
         return $pdo->fetchAll();
     }
 
+    public function isNotLoca($id)
+    {
+        $pdo = $this->app->db->prepare("SELECT * FROM usersLocation WHERE id_users = ?");
+        $pdo->execute(array($id));
+
+        return $pdo->fetch();
+    }
+
     public function getStatuts($id, $idUser)
     {
         if ($id == $idUser)

@@ -24,6 +24,7 @@ class Authentification
             $this->app->flash->addMessage('fail', 'Une erreures a ete trouvée');
             return $response = $response->withRedirect($request->getUri()->withPath($this->app->router->pathFor('homepage'), 403 ));
         }
+
         $name = $route->getName();
         if(strpos($request->getUri(), '/admin/') != false && (isset($_SESSION['login']) && !empty($_SESSION['login'])) && $_SESSION['login']['isAdmin'] != 1 )
         {

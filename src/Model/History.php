@@ -12,7 +12,6 @@ class History extends Model
     public function getVisitor($id)
     {
         $pdo = $this->app->db;
-        var_dump($id);
         $user = $pdo->prepare("SELECT h.created_at as date, img.url as url, u.nickname as nickname
                                FROM history h
                                LEFT JOIN users u ON  h.id_users_visited = u.id

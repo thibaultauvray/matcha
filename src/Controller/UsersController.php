@@ -63,6 +63,10 @@ class UsersController extends Controller
 
     public function register($request, $response, $args)
     {
+        if(isset($_SESSION['login']) && !empty($_SESSION['login']))
+        {
+            return $response->withStatus(302)->withHeader('Location', $this->app->router->pathFor('homepage'));
+        }
         return $this->app->view->render($response, 'views/users/register.twig');
     }
 
@@ -82,9 +86,12 @@ class UsersController extends Controller
 
     public function postRegister($request, $response, $args)
     {
-
+        if(isset($_SESSION['login']) && !empty($_SESSION['login']))
+        {
+            return $response->withStatus(302)->withHeader('Location', $this->app->router->pathFor('homepage'));
+        }
         $validator = $this->app->validator;
-        $validator->check('nickname', array('required'));
+        $validator->check('nickname', array('required', 'visible'));
         $validator->check('mail', array('required', 'isMail', 'isUnique'));
         $validator->check('passwd', array('required', 'isPasswd'));
         $validator->check('lastname', array('required', 'visible'));
@@ -114,6 +121,22 @@ class UsersController extends Controller
 
         return $this->app->view->render($response, 'views/users/register.twig', array('error' => $validator->error,
                                                                                       'form'  => $_POST));
+    }
+
+    public function notLoca($request, $response, $args)
+    {
+        $users = new Users($this->app);
+        $response->withHeader('Content-type', 'application/json');
+        $res = 1;
+        $loca = $users->isNotLoca($this->getUserId());
+        if(empty($loca))
+        {
+            $res = 0;
+        }
+        $response->withJson(array('response' => $res));
+
+        return $response;
+
     }
 
     public function loca($request, $response, $args)
@@ -803,7 +826,6 @@ class UsersController extends Controller
         $data = $users->getUsersByDate();
 
         $data = $this->clearDate($data);
-        print_r($data);
         return $this->app->view->render($response, 'views/admin/home.twig', array('gender' => $tabGender,
                                                                                   'orien'  => $orien,
                                                                                   'date'   => $data));

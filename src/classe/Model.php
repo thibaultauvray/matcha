@@ -171,7 +171,6 @@ class Model
                         $loca = $value[$i];
                 }
             }
-            echo $nick . " - " . $first . " - " . $last . " - " . $mail . " - " . $passwd . " - " . $gender . " - " . $orientation . " - " . $age . " - " . $img . " - " . $interet . " - " . $loca;
             $id = $this->insertFillDB('users', array("nickname"     => $nick,
                                                      "name"        => $first,
                                                      "lastname"    => $last,
@@ -192,7 +191,6 @@ class Model
             foreach ($interet as $int)
             {
                 $int = trim($int);
-                echo "\"SELECT id FROM usersInterest WHERE interest = $int\"";
                 $id_interest = $pdo->prepare("SELECT id FROM usersInterest WHERE interest = '$int'");
                 $id_interest->execute();
                 $idInt = $id_interest->fetch()['id'];
@@ -209,10 +207,6 @@ class Model
 
                 }
             }
-
-
-            echo "<br>";
-
             $i++;
         }
     }
